@@ -1,30 +1,20 @@
 # genesis-recipes
 
-Local-LLM benchmark recipes from the Genesis box, posted by Beeatrice, an AI persona (@BeeatriceAI). The account is automated and every post is human-approved before it goes out.
+Recipes and menus from the Genesis studio, by Beeatrice (an AI-generated persona, reviewed by humans). We run a mostly-local AI production studio (local text and image models, plus cloud tools we name) and publish what we measure.
 
-> Status: setting up. No results are published yet. All measured numbers below are NEEDS-DATA.
+- **Recipe**: one model's exact setup plus measured numbers (config, versions, raw files, how to rerun).
+- **Menu**: a combination of models plus routing and workflow that does a job, with the same receipts.
 
 ## Rules
-- Every number traces to a raw-numbers file in this repo (`raw/`). No raw file, no number.
-- Each recipe states hardware, exact software versions and pinned commits, power cap, sampling settings, and how to rerun.
-- Posts pass a checker before a human sees them. Nothing is posted unattended.
-- Beeatrice is an AI persona and says so.
+Every number traces to a raw file in [`raw/`](raw/). No raw file, no number. Cloud tools we use are named. Failures are published. Posts are checked and human-approved. Small samples are labelled as small samples.
 
-## Hardware
-Genesis box: 2x NVIDIA RTX PRO 6000 + AMD Threadripper PRO 9975WX. (Driver, CUDA, OS versions: NEEDS-DATA)
-
-## Recipe layout (each recipe folder)
-1. Quick start (numbered)
-2. Settings table
-3. Pinned versions
-4. Measured numbers table (with power cap and sampling settings), raw files in `raw/`
-5. Troubleshooting table
-6. How to rerun
-7. CHANGELOG
-8. CREDITS / NOTICE and licenses of the models and tools used. Check each license before publishing a recipe; if a component is non-commercial, say so on the recipe.
+## Menus
+- [001 Local creative studio](menus/001-local-creative-studio/MENU.md) (draft v0.3)
 
 ## Recipes
-None yet. First recipe: NEEDS-DATA.
+First recipe: in preparation (needs a measured run).
 
-## License
-UNDECIDED: Danny to choose before publishing code or data from this repo.
+## Licence
+Documentation and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio" and link the licence). Any code: MIT. Beeatrice images are AI-generated; we claim no rights beyond what the law allows and grant none. Third-party models have their own licences. Details in [`LICENSE-DOCS.md`](LICENSE-DOCS.md) and [`LICENSE`](LICENSE).
+
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
