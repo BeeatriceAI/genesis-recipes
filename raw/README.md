@@ -1,0 +1,4 @@
+# raw/ (driver export, 2026-11-07)
+- image-job-timings-20261106.csv: one row per succeeded Genesis image job in the OpenCode image cache (268 jobs): model, size, steps, dtype, resident_worker, load_seconds, generation_seconds, total_seconds, reference supplied (true/false), job_id. No prompts, no images, no hashes of outputs. generation_seconds = the GPU generation step ONLY; total_seconds includes model load unless a worker was already resident.
+- opencode-step-durations-20261106.csv: the last 40 assistant steps of one OpenCode session: seconds from step start to step end and the tool names called in that step (no content). (Superseded by opencode-step-times-split-20261107.csv: that file separates model time from tool time and shows the step time is almost all model time, tool time median 0.0 s.)
+- SHA256SUMS.txt: sha256 of both files. Source: job JSON receipts and the session database on DAD-PC; the cache mixes earlier campaigns with our test waves.
