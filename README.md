@@ -15,6 +15,9 @@ Every number traces to a raw file in [`raw/`](raw/). No raw file, no number. Clo
 ## Recipes
 - [001 Qwen-Image-2512 on the Genesis image card](recipes/001-qwen-image-2512/RECIPE.md) (draft v0.2; MEASURED from our job log: 87 jobs; faceless batch counts added)
 - [002 Qwen-Image-Edit-2511 with approved reference images](recipes/002-qwen-image-edit-2511/RECIPE.md) (draft v0.2; MEASURED from our job log: 43 jobs; quality notes are small samples, one reviewer, and a later sweep disagreed)
+- [003 FLUX.2 klein 4B on the Genesis image card](recipes/003-flux2-klein-4b/RECIPE.md) (draft v0.1; MEASURED from our job log: 46 jobs; faceless batch counts added)
+- [004 Z-Image on the Genesis image card](recipes/004-z-image/RECIPE.md) (draft v0.1; MEASURED from our job log: 36 jobs; faceless batch counts added)
+- [005 MOSS-Image-SFT on the Genesis image card](recipes/005-moss-image-sft/RECIPE.md) (draft v0.1; MEASURED from our job log: 41 jobs; small-sample quality notes only)
 
 A text-model recipe (tokens per second) is in preparation: it needs a measured run, which has not been done.
 
