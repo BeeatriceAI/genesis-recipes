@@ -1,4 +1,7 @@
-# raw/ (driver export, 2026-11-07)
+# raw/ (driver exports, 2026-11-07)
 - image-job-timings-20261106.csv: one row per succeeded Genesis image job in the OpenCode image cache (268 jobs): model, size, steps, dtype, resident_worker, load_seconds, generation_seconds, total_seconds, reference supplied (true/false), job_id. No prompts, no images, no hashes of outputs. generation_seconds = the GPU generation step ONLY; total_seconds includes model load unless a worker was already resident.
 - opencode-step-durations-20261106.csv: the last 40 assistant steps of one OpenCode session: seconds from step start to step end and the tool names called in that step (no content). (Superseded by opencode-step-times-split-20261107.csv: that file separates model time from tool time and shows the step time is almost all model time, tool time median 0.0 s.)
-- SHA256SUMS.txt: sha256 of both files. Source: job JSON receipts and the session database on DAD-PC; the cache mixes earlier campaigns with our test waves.
+- compaction-records-20261107.csv: 54 rows (2026-10-29 to 2026-11-07) from the agent's session database: timestamp_et, session_masked, message_seq, mode (native or deterministic), seconds, summary_chars, status (46 completed, 8 failed). No content, no prompts. Driver export; the database is private.
+- faceless/FACELESS-CLEAN-SET.csv: 26 faceless images (no people) with model, seed, verdict (CLEAN, CLEAN-BEST, CLEAN-OK, REJECT), stray-text note, approval status. One reviewer. faceless/FACELESS-QC-20261107.md: the reviewer's notes. The images are not published.
+- opencode-step-times-split-20261107.csv: see README-split.md.
+- SHA256SUMS.txt: sha256 of every data file in this folder (LF line endings; check with `sha256sum -c SHA256SUMS.txt` from inside raw/). Source: job JSON receipts and the session database on DAD-PC (private); the image cache mixes earlier campaigns with our test waves.
