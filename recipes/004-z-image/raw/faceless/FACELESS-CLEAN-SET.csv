@@ -1,0 +1,27 @@
+file,model,seed,verdict,stray_text_note,approval
+FK01-01-weather-knot-flux2.png,flux2-klein-4b,42,CLEAN,none,PENDING-HUMAN
+FK01-01-weather-knot-qwen.png,qwen-image-2512,42,CLEAN-BEST,none,PENDING-HUMAN
+FK01-01-weather-knot-zimage.png,z-image,42,CLEAN-OK,"flat saturated blue, weaker mood",PENDING-HUMAN
+FK01-07-pool-midnight-flux2.png,flux2-klein-4b,42,REJECT,garbled top letters + small logo bottom-right,PENDING-HUMAN
+FK01-07-pool-midnight-qwen.png,qwen-image-2512,42,CLEAN-BEST,none,PENDING-HUMAN
+FK01-07-pool-midnight-zimage.png,z-image,42,REJECT,garbled title text + cartoon face icon bottom-right; cyan not navy,PENDING-HUMAN
+FK01-08-cathedral-ext-flux2.png,flux2-klein-4b,42,CLEAN,none,PENDING-HUMAN
+FK01-08-cathedral-ext-qwen.png,qwen-image-2512,42,CLEAN-BEST,none,PENDING-HUMAN
+FK01-08-cathedral-ext-zimage.png,z-image,42,REJECT,garbled text across top; flat illustration style,PENDING-HUMAN
+FK01-09-road-weather-flux2.png,flux2-klein-4b,42,REJECT,small text + logo bottom-right,PENDING-HUMAN
+FK01-09-road-weather-qwen.png,qwen-image-2512,42,CLEAN-BEST,none,PENDING-HUMAN
+FK01-09-road-weather-zimage.png,z-image,42,REJECT,large garbled heading + face-like glyph bottom-center,PENDING-HUMAN
+FK01-10-knot-fabric-flux2.png,flux2-klein-4b,42,CLEAN-OK,knot weak,PENDING-HUMAN
+FK01-10-knot-fabric-qwen.png,qwen-image-2512,42,CLEAN-BEST,none,PENDING-HUMAN
+FK01-10-knot-fabric-zimage.png,z-image,42,CLEAN-OK,small window,PENDING-HUMAN
+FK01-11-138-lightning-flux2.png,flux2-klein-4b,42,CLEAN,none,PENDING-HUMAN
+FK02-01-emerald-magenta-flux2.png,flux2-klein-4b,7,CLEAN,none,PENDING-HUMAN
+FK02-01-emerald-magenta-qwen.png,qwen-image-2512,7,CLEAN,none,PENDING-HUMAN
+FK02-02-rain-glass-flux2.png,flux2-klein-4b,7,CLEAN,none,PENDING-HUMAN
+FK02-02-rain-glass-qwen.png,qwen-image-2512,7,CLEAN,none,PENDING-HUMAN
+FK02-03-starfield-flux2.png,flux2-klein-4b,7,CLEAN,none,PENDING-HUMAN
+FK02-03-starfield-qwen.png,qwen-image-2512,7,CLEAN,none,PENDING-HUMAN
+FK02-04-nebula-flux2.png,flux2-klein-4b,7,CLEAN,none,PENDING-HUMAN
+FK02-04-nebula-qwen.png,qwen-image-2512,7,CLEAN,none,PENDING-HUMAN
+FK01-11-138-lightning-qwen.png,qwen-image-2512,42,CLEAN,none (digits read 138; white bolt crosses the 3),PENDING-HUMAN
+FK01-11-138-lightning-zimage.png,z-image,42,CLEAN-OK,none (digits read 138 but small and angular; bolt is separate),PENDING-HUMAN
