@@ -1,0 +1,16 @@
+day_et,model,succeeded,refused,cancelled,other
+2026-11-07,flux2-klein-4b,10,0,0,0
+2026-11-07,flux3-klein-distilled,1,0,0,0
+2026-11-07,qwen-image-2512,125,0,0,0
+2026-11-08,flux3-klein-distilled,6,0,0,0
+2026-11-08,qwen-image-2512,10,0,0,0
+2026-11-09,flux2-klein-4b,6,0,0,0
+2026-11-09,qwen-image-2512,60,0,0,0
+2026-11-10,qwen-image-2512,89,0,0,0
+2026-11-11,flux2-klein-4b,31,0,0,0
+2026-11-12,flux2-klein-4b,61,0,0,0
+2026-11-12,flux3-klein-distilled,61,0,0,0
+2026-11-12,qwen-image-2512,109,0,30,0
+2026-11-13,flux2-klein-4b,230,0,0,0
+2026-11-13,flux3-klein-distilled,192,19,0,10
+2026-11-13,qwen-image-2512,229,0,0,0

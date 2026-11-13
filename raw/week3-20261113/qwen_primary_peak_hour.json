@@ -1,0 +1,7 @@
+{
+ "busiest_full_hour_utc": "2026-11-12T03:00:00+00:00",
+ "busiest_full_hour_et": "2026-11-11 22:00",
+ "generated_tokens_per_wall_second": 34.08,
+ "requests_that_hour": 341,
+ "note": "server throughput = generated tokens / wall seconds over the hour; NOT per-request decode speed"
+}

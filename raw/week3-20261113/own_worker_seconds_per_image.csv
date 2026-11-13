@@ -1,0 +1,4 @@
+model,images,render_seconds_median,render_seconds_p90,load_seconds_median,note
+HiDream-O1-Image,212,47.1,47.9,8.1,pure render time from own-worker result files
+FLUX 3 Klein BASE,257,26.9,41.9,16.2,pure render time from own-worker result files
+Krea-2-Raw,147,83.8,131.7,16.5,pure render time from own-worker result files

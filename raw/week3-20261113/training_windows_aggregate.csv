@@ -1,0 +1,3 @@
+base_model_family,outcome,runs,wall_hours_total,wall_hours_median,peak_gpu_temp_max_c,note
+klein2,completed,8,4.21,0.51,81.0,"run names, characters and sample data withheld by design; 600 steps per run"
+klein3,completed,8,8.76,1.08,82.0,"run names, characters and sample data withheld by design; 600 steps per run"
