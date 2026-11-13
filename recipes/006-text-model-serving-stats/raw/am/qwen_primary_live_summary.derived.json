@@ -1,0 +1,59 @@
+{
+ "source": "live metrics scrape of the text-model server, cumulative since process start; percentiles are bucket-interpolation ESTIMATES",
+ "prompt_tokens_total": 1719744264.0,
+ "generation_tokens_total": 4822685.0,
+ "prompt_tokens_cached_total": 1676977600.0,
+ "cache_hit_rate_prompt_tokens": 0.9751319629928418,
+ "prompt_tokens_by_source": {
+  "local_compute": 42766664.0,
+  "local_cache_hit": 1675720000.0,
+  "external_kv_transfer": 1257600.0
+ },
+ "requests_by_finish_reason": {
+  "stop": 13624.0,
+  "length": 27.0,
+  "abort": 0.0,
+  "error": 0.0,
+  "repetition": 0.0
+ },
+ "ttft_s": {
+  "p50": 2.9905998209489706,
+  "p90": 6.349722222222224,
+  "n": 13652.0
+ },
+ "queue_wait_s": {
+  "p50": 0.15163284952606634,
+  "p90": 0.2729391291469194,
+  "n": 13651.0
+ },
+ "inter_token_s": {
+  "p50": 0.1572845735168076,
+  "p90": 0.25363028960102707,
+  "n": 1700337.0
+ },
+ "time_per_output_token_s": {
+  "p50": 0.05242420165052027,
+  "p90": 0.08206320317670417,
+  "n": 13651.0
+ },
+ "prefill_s": {
+  "p50": 2.7631930825459086,
+  "p90": 6.402857142857142,
+  "n": 13651.0
+ },
+ "decode_s": {
+  "p50": 8.818986463033669,
+  "p90": 39.67172897196261,
+  "n": 13651.0
+ },
+ "e2e_s": {
+  "p50": 12.280684500393392,
+  "p90": 45.55779816513761,
+  "n": 13651.0
+ },
+ "tokens_per_second_per_request_ESTIMATE": {
+  "median": 19.075159344655003,
+  "p90_slowest_decile": 12.185729550999012,
+  "basis": "1 / request_time_per_output_token percentile; per-request decode speed, not server throughput"
+ }
+}

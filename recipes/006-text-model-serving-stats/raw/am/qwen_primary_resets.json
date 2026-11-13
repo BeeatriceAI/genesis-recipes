@@ -1,0 +1,4 @@
+{
+ "counter_resets_seen": [],
+ "note": "a reset (process restart) makes the delta use the new counter value"
+}
