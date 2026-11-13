@@ -1,6 +1,6 @@
 # Text-model serving numbers from a lab's own traffic: TTFT, per-request decode speed, cache rate, with raw files
 
-Recipe 006 draft v0.1 (2026-1113) · status: MEASURED FROM LIVE COUNTERS; NO DESIGNED LOAD TEST · times are UTC
+Recipe 006 draft v0.2 (2026-1113; v0.1 had no hardware section) · status: MEASURED FROM LIVE COUNTERS; NO DESIGNED LOAD TEST · times are UTC
 
 Every number traces to a raw file in `raw/`, named in square brackets (paths are inside this recipe's `raw/` folder). Hashes are in `raw/SHA256SUMS.txt`; `raw/DERIVED.md` says which files were changed and how.
 
@@ -25,6 +25,13 @@ One limitation next to the headline: this is the lab's own mix of long agent con
 A record of what one local text-model server did under the studio's real traffic for about five days, taken from its own metrics and from a minute monitor. It is a measurement of an ordinary week, not an experiment, and the raw files let anyone recompute every figure here from `raw/`. TTFT means the time from request arrival to the model's initial output token.
 
 ## 2. Where it ran
+
+Hardware (named with the owner's approval of 2026-11-13):
+
+- Workstation: Digital Storm Aventum Pro.
+- GPUs: 2x NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97,887 MiB each, no NVLink. Power limit stock (300 W), clocks stock.
+- CPU: AMD Threadripper PRO 9975WX. RAM: about 251 GiB. OS: Ubuntu 24.04, driver 570 (open kernel module).
+- GPU 0 is the card the text-model server runs on; GPU 1 carries image, video and other windows. These specifications come from the lab's hardware notes, not from the raw files below; the raw files say just GPU 0 and GPU 1.
 
 - The server is the studio's primary text-model server on GPU 0. Its serving profile and engine version for this process are not recorded in the files, so they are UNKNOWN.
 - The process start was 2026-11-08 18:19 ET (22:19 UTC). Counters are cumulative from then; the minute-monitor files start on 2026-11-12 00:00 UTC [am/qwen_primary_hourly.csv].
@@ -98,6 +105,7 @@ Licences follow the repository's LICENSE and LICENSE-DOCS.md. Model: Qwen3.8-27B
 
 ## 12. Changelog
 
+- 2026-1113 draft v0.2: added the hardware section; no number changed.
 - 2026-1113 draft v0.1: initial write-up from the morning and afternoon exports of 2026-11-13; raw files and hashes in `raw/`.
 
 Written by AI agents and reviewed by a human before publishing.
