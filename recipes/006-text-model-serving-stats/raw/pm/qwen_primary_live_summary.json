@@ -1,0 +1,57 @@
+{
+ "source": "live /metrics of the Qwen primary, cumulative since process start 2026-11-08 18:19 ET (percentiles = bucket interpolation ESTIMATES)",
+ "read_at_utc": "2026-11-13T22:06:41.332852+00:00",
+ "prompt_tokens_total": 1877608335.0,
+ "generation_tokens_total": 5177704.0,
+ "prompt_tokens_cached_total": 1831595200.0,
+ "cache_hit_rate_prompt_tokens": 0.9754937522686274,
+ "requests_by_finish_reason": {
+  "stop": 14651.0,
+  "length": 28.0,
+  "abort": 0.0,
+  "error": 0.0,
+  "repetition": 0.0
+ },
+ "preemptions_total": 0.0,
+ "ttft_s": {
+  "p50": 3.0557369022360046,
+  "p90": 6.39070351758794,
+  "n": 14680.0
+ },
+ "queue_wait_s": {
+  "p50": 0.15163211900006887,
+  "p90": 0.2729378142001239,
+  "n": 14679.0
+ },
+ "inter_token_s": {
+  "p50": 0.15858938969595615,
+  "p90": 0.25486062683616056,
+  "n": 1825630.0
+ },
+ "time_per_output_token_s": {
+  "p50": 0.0530980120580088,
+  "p90": 0.0824116766467066,
+  "n": 14679.0
+ },
+ "prefill_s": {
+  "p50": 2.8334008097165992,
+  "p90": 6.49626006904488,
+  "n": 14679.0
+ },
+ "decode_s": {
+  "p50": 8.94264943457189,
+  "p90": 39.9485834207765,
+  "n": 14679.0
+ },
+ "e2e_s": {
+  "p50": 12.476337823079724,
+  "p90": 45.949756888168565,
+  "n": 14679.0
+ },
+ "per_request_decode_tokens_per_second_ESTIMATE": {
+  "median": 18.833096781618014,
+  "slowest_decile": 12.134202830102994,
+  "basis": "1/time-per-output-token percentile; per-request decode speed, NOT server throughput"
+ },
+ "server_generated_tokens_per_wall_second_since_start_ESTIMATE": 12.10701927497345
+}
