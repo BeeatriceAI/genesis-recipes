@@ -18,8 +18,7 @@ Every number traces to a raw file in [`raw/`](raw/). No raw file, no number. Clo
 - [003 FLUX.2 klein 4B on the Genesis image card](recipes/003-flux2-klein-4b/RECIPE.md) (draft v0.1; MEASURED from our job log: 46 jobs; faceless batch counts added)
 - [004 Z-Image on the Genesis image card](recipes/004-z-image/RECIPE.md) (draft v0.1; MEASURED from our job log: 36 jobs; faceless batch counts added)
 - [005 MOSS-Image-SFT on the Genesis image card](recipes/005-moss-image-sft/RECIPE.md) (draft v0.1; MEASURED from our job log: 41 jobs; small-sample quality notes only)
-
-A text-model recipe (tokens per second) is in preparation: it needs a measured run, which has not been done.
+- [006 Qwen3.8-27B-FP8 text-model serving statistics on the Genesis text card](recipes/006-text-model-serving-stats/RECIPE.md) (draft v0.1; MEASURED from live counters: 13,651 requests since 2026-11-08 (morning read; read time UNKNOWN), with an afternoon read of 14,679 requests; percentiles are bucket-interpolated ESTIMATES, per-request decode speed is not server throughput, and there was no designed load test)
 
 ## Licence
 Documentation and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio" and link the licence). Any code: MIT. Beeatrice images are AI-generated; we claim no rights beyond what the law allows and grant none. Third-party models have their own licences. Details in [`LICENSE-DOCS.md`](LICENSE-DOCS.md).
