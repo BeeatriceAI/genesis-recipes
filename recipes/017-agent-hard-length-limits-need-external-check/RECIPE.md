@@ -1,4 +1,4 @@
-# Recipe 017: Hard length limits need an external check: a local 27B model miscounted its own post
+# Recipe 017: Hard length limits need an external check: claimed and counted post lengths differed
 
 **Status: DRAFT v0.1, built in public from the studio's staged recipe 2026-1108 v1; FIELD NOTE FROM 15 RUNS; ONE SESSION, NO BASELINE.** Times are UTC.
 
@@ -8,20 +8,20 @@ Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read
 
 | What | Number | Run state | Receipt |
 |---|---|---|---|
-| 270-character post, 3 runs | 0 of 3 within the limit: 304, 289 and 307 characters; each reply claimed 268, 264 and 270 | n/a | [L-01 · REPORTED] |
+| 270-character post, 3 runs | each reply claimed 268, 264 and 270 characters; our counts, which include the label line, were 304, 289 and 307 | n/a | [L-01 · REPORTED] |
 | 120-word summary, 3 runs | 2 of 3 correct; one run wrote 138 words | n/a | [L-02 · REPORTED] |
 | Classification, copy-and-hash, rule extraction, 9 runs | 9 of 9 correct | n/a | [L-03 · REPORTED] |
 | All 15 runs | 11 of 15 correct by manual grading; median 45.5 s to final reply (19.7-170.8 s); 0 tool errors | n/a | [L-03 · REPORTED] [L-04 · REPORTED] |
 
-Counting caveat: the character counts above include the post's label line, and the gap between the claimed and the counted length (25 to 37 characters) is about the size of a label line. We did not recount the post body alone, so the finding is that the claimed count did not match our count, not that the model was wrong by exactly that much.
+Counting caveat: our counts include the post's label line, and the gap between the claimed and the counted length (25 to 37 characters) may be that label line. We did not recount the post body alone, so we do not say the model was wrong, only that its claimed count and our count differ.
 
-One limitation next to the headline: this is one agent session on one day, 3 runs per task, graded by one person, with no baseline run of another model, so it shows a failure mode and does not rank anything [L-05 · REPORTED] [L-06 · NOT RUN].
+One limitation next to the headline: this is one agent session on one day, 3 runs per task, graded manually (the export does not record who graded), with no baseline run of another model, so it shows a failure mode and does not rank anything [L-05 · REPORTED] [L-06 · NOT RUN].
 
 ## 1. What this recipe is
 
-A short test of five mundane agent tasks, run three times each against the lab's 27B local model through an agent client: classify 24 rows; summarise a text in at most 120 words with three sourced numbers; copy and hash three files; draft a post of at most 270 characters; list the never and must-not rules in a file and check a queue file against them. Timing was taken from the session record. Correctness was graded by hand after reading every reply.
+A short test of five mundane agent tasks, run three times each against the lab's 27B local model through an agent client: classify 24 rows; summarise a text in at most 120 words with three sourced numbers; copy and hash three files; draft a post of at most 270 characters; list the never and must-not rules in a file and check a queue file against them. Timing was taken from the session record. Correctness was graded manually after reading every reply; the export does not record who graded, so the grader is UNKNOWN.
 
-The finding is narrow and useful: the model's own count of its output length is not evidence. Every one of the three posts claimed to fit in 270 characters and none did [L-01 · REPORTED].
+The finding is narrow and useful: the model's own count of its output length is not evidence. Each of the three replies claimed a length within 270 characters; our counts, which include the label line, were higher (304, 289 and 307) [L-01 · REPORTED].
 
 ## 2. Hardware and software pins
 
@@ -56,7 +56,7 @@ Seconds to final reply are measured from the prompt's arrival in the session to 
 | T1 | 74.0, 170.8, 19.7 | 74.0 | 3 of 3 | [L-03 · REPORTED] [L-04 · REPORTED] |
 | T2 | 56.0, 43.4, 57.2 | 56.0 | 2 of 3 (138 words in one) | [L-02 · REPORTED] |
 | T3 | 46.2, 58.2, 47.1 | 47.1 | 3 of 3 | [L-03 · REPORTED] |
-| T4 | 43.0, 24.1, 31.7 | 31.7 | 0 of 3 | [L-01 · REPORTED] |
+| T4 | 43.0, 24.1, 31.7 | 31.7 | 0 of 3 by our count (label line included) | [L-01 · REPORTED] |
 | T5 | 43.9, 45.5, 41.1 | 43.9 | 3 of 3 | [L-03 · REPORTED] |
 
 T4 in detail: run 1 produced 304 characters and said 268; run 2 produced 289 and said 264; run 3 produced 307 and said 270 [L-01 · REPORTED]. Tool time was 0 s in all 15 runs, so the time is model generation. T1 varied from 19.7 to 170.8 s: do not read a single run [L-04 · REPORTED].
@@ -67,8 +67,8 @@ Not measured.
 
 ## 8. What did not work
 
-- The model's self-report of length. Three of three wrong on the post, one of three wrong on the summary [L-01 · REPORTED] [L-02 · REPORTED].
-- The automatic grader in the export, which is why a human graded every reply [L-05 · REPORTED].
+- The model's self-report of length. Three of three counts disagreed with the claimed length on the post (label line included in ours), and one of three summaries ran over its word limit [L-01 · REPORTED] [L-02 · REPORTED].
+- The automatic grader in the export, which is why the replies were graded manually [L-05 · REPORTED].
 
 ## 9. Not measured
 
@@ -78,7 +78,7 @@ Tokens per second; a before and after of any change; another model on the same t
 
 1. Write the five tasks as fixed prompts with fixed inputs.
 2. Run each three times in random order with the session idle between runs; take the time from the session record.
-3. Grade by reading every reply. Count characters and words with a tool, not by image inspection.
+3. Grade by reading every reply. Count characters and words with a tool, not by estimating.
 4. Publish the claimed and the actual count side by side.
 
 Draft reproduction steps: the task prompts and inputs are not published.
