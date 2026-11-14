@@ -19,6 +19,7 @@ All days are US Eastern time.
 - `own_worker_seconds_per_image.csv`: the peak memory column is left out.
 - `training_windows_aggregate.csv`: aggregate only. Run names, characters and sample data are withheld by design.
 - `daily_gpu_cpu_maxima_ET.csv`: 2026-11-06 holds 19:00 to 24:00 only (monitor file boundary) and 2026-11-13 is a partial day. The CPU value is a sensor maximum.
+- GPU temperature maxima fall from 89 C on 2026-11-06 and 2026-11-07 to 80 to 82 C from 2026-11-08. We think the synthetic pegging windows of recipe 010 explain the earlier maxima (INFERENCE); the date those windows stopped is not recorded.
 - Queue times for models in the shared image queue include waiting, so they are not render speed and are not in these files.
 - Nobody judged image, video or audio quality for these numbers. They are counts, seconds and temperatures only.
 
