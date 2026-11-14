@@ -15,7 +15,7 @@ Image times below are **generation time only, model load excluded**; the total i
 
 | Role | Model | 1024x1024 median: generation / total with load | Jobs | Notes |
 |---|---|---|---|---|
-| Agent text model | Qwen3.8-27B-FP8 (recipes 006 and 007), served under a gateway alias | per-request decode median 19.1 tokens/s over 2026-11-08 to 2026-11-13, an ESTIMATE from live counters (recipe 006) | | profile of that process UNKNOWN; context 262,144 |
+| Agent text model | Qwen3.8-27B-FP8 (recipes 006 and 007), served by the production endpoint | per-request decode median 19.1 tokens/s over 2026-11-08 to 2026-11-13, an ESTIMATE from live counters (recipe 006) | | profile of that process UNKNOWN; context 262,144 |
 | Reference-image edit | Qwen-Image-Edit-2511 | 97.8 s / 118.0 s (40 steps) | 21 | needs reference images |
 | Text-to-image | Qwen-Image-2512 | 42.2 s / 68.7 s (50 steps) | 19 | |
 | Text-to-image | Z-Image | 39.7 s / 51.8 s (50 steps) | 12 | |
@@ -58,7 +58,7 @@ A small fast text model for routine agent work (planned, nothing installed), aut
 Not yet published. Rerun steps will be added with the first measured run.
 
 ## CHANGELOG
-- v0.4: aligned with recipes 002, 004, 006, 007, 008 and 010 (hardware roles, model name, tattoo and bun counts, text-model speed, thermal pointers); removed guard text and the gateway alias; the human-review wording now says what happened (AI agents wrote and checked; the studio owner approves).
+- v0.4: aligned with recipes 002, 004, 006, 007, 008 and 010 (hardware roles, model name, tattoo and bun counts, text-model speed, thermal pointers); removed internal guard text; the human-review wording now says what happened (AI agents wrote and checked; the studio owner approves).
 - v0.3: step-time numbers now cite the raw files (median 495 s over 40 steps; split file: 484 s model time, 0.0 s tool time over 80 steps; cause unknown), added the split CSV, licence wording fixed.
 - v0.2: driver check applied: generation vs load times, softer wording, REPORTED labels, raw files added, cloud list extended.
 - v0.1: first draft from our studio inventory.
