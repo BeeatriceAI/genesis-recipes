@@ -28,7 +28,7 @@
    "basis": "measured",
    "run_state": "harness-paced",
    "date_utc": "2026-11-05",
-   "caveat": "Five 80-frame continuation segments; pauses are an external pacer at 88 C / resume 84 C, so about 18% of the wall time is cooling. One run, one synthetic still, one 15-second voice-over, ambient as of the day."
+   "caveat": "Five 80-frame continuation segments; pauses are an external pacer at 88 C / resume 84 C, so about 16% of the wall time (111 s of 707.3 s) is cooling. One run, one synthetic still, one 15-second voice-over, ambient as of the day."
   },
   {
    "id": "P-02",
@@ -46,7 +46,7 @@
    "basis": "derived",
    "run_state": "harness-paced",
    "date_utc": "2026-11-05",
-   "caveat": "593 s / 16.52 s generated video; 399 s / 15 s. Paced by cooling at the day's ambient; not a sustained-rate claim. A 60-second piece would be about an hour of one card."
+   "caveat": "593 s / 16.52 s generated video; 404.7 s / 15 s. Paced by cooling at the day's ambient; not a sustained-rate claim. A 60-second piece would be about an hour of one card."
   },
   {
    "id": "P-04",
@@ -60,11 +60,11 @@
   {
    "id": "P-05",
    "claim": "Visual gate on extracted frames",
-   "value": "identity stable across all four segment joins (12 join frames); no visible seam; luma step at nine upscaler joins at most 0.89 against 3.34 between ordinary frames; lip motion plausible on four spot checks",
+   "value": "identity stable across all four segment joins (12 join frames); no visible seam; luma step at nine upscaler joins at most 0.89 against 3.34 between ordinary frames; mouth shapes looked plausible in four still frames; motion was not reviewed",
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "One reviewer, working from stills. Nobody has watched it with sound yet; lip-sync accuracy was not scored. Artifacts seen: a pink cast on the lips in wide-open frames, slightly over-sharpened skin and hair, hands entering at the bottom edge in the last two seconds."
+   "caveat": "One AI reviewer (a Claude Code session), working from stills. Nobody has watched it with sound yet; lip-sync accuracy was not scored. Artifacts seen: a pink cast on the lips in wide-open frames, slightly over-sharpened skin and hair, hands entering at the bottom edge in the last two seconds."
   },
   {
    "id": "P-06",
