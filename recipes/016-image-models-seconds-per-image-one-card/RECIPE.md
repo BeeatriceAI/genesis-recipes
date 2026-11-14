@@ -27,7 +27,7 @@ A table of how long each image model took on the lab's media card, with the mode
 
 ## 3. Models
 
-| Model | Repository | Licence (model card, read 2026-11-10) | Steps | Reference image |
+| Model | Repository | Licence field on the model card (read 2026-11-10; the LICENSE files themselves were not read) | Steps | Reference image |
 |---|---|---|---|---|
 | FLUX.2-klein-4B | black-forest-labs/FLUX.2-klein-4B, revision e7b7dc27f91deacad38e78976d1f2b499d76a294 | Apache-2.0 | 4 | optional |
 | Z-Image | Tongyi-MAI/Z-Image | Apache-2.0 | 50 | unsupported |
