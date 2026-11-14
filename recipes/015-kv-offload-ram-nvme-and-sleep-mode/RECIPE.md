@@ -4,6 +4,8 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
+
 ## Headline
 
 | What | Number | Run state | Receipt |
@@ -20,7 +22,7 @@ One limitation next to the headline: this is a synthetic replay with idealised r
 
 ## 1. What this recipe is
 
-The lab's prompts are long, and a long prompt that comes back is recomputed in full unless its blocks were kept. The in-service prefix-cache hit rate for the period of this recipe is UNKNOWN; recipe 006 measured 97.5% of prompt tokens served from the prefix cache over 2026-11-08 to 2026-11-13. The 20x below comes from a synthetic replay with idealised revisits, with no in-service hit rate behind it. vLLM 0.32 can park finished KV blocks in CPU RAM (`--kv-offloading-size`) and, with its tiering spec, on NVMe behind the RAM. When a long prompt comes back, the blocks are copied in instead of recomputed.
+The lab's prompts are long, and a long prompt that comes back is recomputed in full unless its blocks were kept. The in-service prefix-cache hit rate for the period of this recipe is UNKNOWN; recipe 006 measured 97.5% of prompt tokens served from the prefix cache over 2026-11-08 to 2026-11-13. The 20x below comes from a synthetic replay with idealised revisits, with no in-service hit rate behind it. If most prompt tokens already come from the prefix cache, offload only helps for blocks the cache evicts under memory pressure; whether that happens in service is UNKNOWN. vLLM 0.32 can park finished KV blocks in CPU RAM (`--kv-offloading-size`) and, with its tiering spec, on NVMe behind the RAM. When a long prompt comes back, the blocks are copied in instead of recomputed.
 
 The second half of the recipe is sleep mode: put an engine to sleep (weights to RAM, KV freed) instead of killing it, so a card shared with image jobs can be handed over in under a second and taken back in under a second.
 
