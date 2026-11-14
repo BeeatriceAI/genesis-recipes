@@ -28,7 +28,7 @@
    "basis": "observed-config",
    "run_state": "governed",
    "date_utc": "2026-10-30",
-   "caveat": "Operating guardrails chosen by the owner, not manufacturer limits. The card's own protections are untouched: 92 C maximum operating point, slowdown at margin -2 C, shutdown at margin -5 C."
+   "caveat": "Operating guardrails chosen by the owner, not manufacturer limits. The card's own protections are untouched (their values are not verified against a vendor document)."
   },
   {
    "id": "T-02",
@@ -51,7 +51,7 @@
   {
    "id": "T-04",
    "claim": "Staging in real vLLM 0.32.0 with injected samples",
-   "value": "7 of 7 injected cases behaved as designed: lone bad sample no latch; scattered bad no latch; three bad then good no latch; minimum hold measured 2.053 s; four in a row latched with HTTP 500 and failed health within 1 s; thermal slowdown latched at once and the engine exited within 1 s",
+   "value": "The injected cases behaved as designed (the lab's record counts 7; six are listed here): lone bad sample no latch; scattered bad no latch; three bad then good no latch; minimum hold measured 2.053 s; four in a row latched with HTTP 500 and failed health within 1 s; thermal slowdown latched at once and the engine exited within 1 s",
    "basis": "measured",
    "run_state": "governed",
    "date_utc": "2026-11-04",
@@ -118,7 +118,7 @@
    "basis": "measured",
    "run_state": "governed",
    "date_utc": "2026-11-05",
-   "caveat": "So a real hold-and-resume with MTP drafts pending is unknown. An operator note (date not recorded) says the scheduler holds several times a day in normal serving: that is REPORTED, with no count behind it, and the Week 3 GPU 0 daily maxima of 80 to 82 C from 2026-11-08 sit under the 90 C pause line."
+   "caveat": "So a real hold-and-resume with MTP drafts pending is unknown. An operator note (date not recorded) says the scheduler holds several times a day in normal serving: that is REPORTED, with no count behind it, and the Week 3 GPU 0 daily maxima of 80 to 81 C from 2026-11-08 (GPU 1 reached 82 C) sit under the 90 C pause line."
   },
   {
    "id": "T-12",
