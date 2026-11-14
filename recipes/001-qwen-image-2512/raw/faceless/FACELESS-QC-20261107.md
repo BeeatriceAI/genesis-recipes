@@ -1,7 +1,7 @@
 # Faceless image batch: AI reviewer QC notes (a Claude Code session; public version, 2026-11-07). 26 images from three local models; the reviewer saw the model names, so this is not blind; small sample; nothing certified.
 Source: our gateway job log for this batch. The images themselves are not published here. Size 1024x1024 (the two 16:9 textures 1536x1024). Rule applied: no faces or figures, no stray text or logos (the prompts asked for none).
 
-## FACELESS-01 (cover directions)
+## FACELESS-01 (image sets)
 | image | verdict | note |
 |---|---|---|
 | 01 weather knot flux2 | USE | cloud-knot, one magenta thread, clean |
@@ -24,7 +24,7 @@ Source: our gateway job log for this batch. The images themselves are not publis
 | 11 138 lightning zimage (retry) | CLEAN-OK | digits read 138 but small and angular; no stray text |
 
 ## FACELESS-02 (textures)
-All 8 are clean (no text, logos or figures): emerald/magenta interlace (flux2 fine weave, qwen bold weave), rain on glass (qwen warmer bokeh, flux2 darker), star field 16:9 (qwen richer Milky Way), nebula 16:9 (both good; flux2 magenta/teal fits the Orbit palette). Reviewer preference for the pages: FK02-01 flux2 (tileable-looking), FK02-04 flux2, FK02-03 qwen.
+All 8 are clean (no text, logos or figures): emerald/magenta interlace (flux2 fine weave, qwen bold weave), rain on glass (qwen warmer bokeh, flux2 darker), star field 16:9 (qwen richer Milky Way), nebula 16:9 (both good; flux2 magenta/teal fits the site palette). Reviewer preference for the pages: FK02-01 flux2 (tileable-looking), FK02-04 flux2, FK02-03 qwen.
 
 ## Lessons
 - z-image and flux2 add stray lettering or logos even when told "no text"; qwen-image-2512 did not in 10 of 10 here (a small sample, reviewer judgment, not a ranking; the two "retry" rows replaced earlier attempts that are not counted).
