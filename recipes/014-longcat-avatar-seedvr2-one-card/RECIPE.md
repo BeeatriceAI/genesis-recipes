@@ -77,11 +77,11 @@ Derived: 593 s over 16.52 s of generated video is 35.9 GPU-seconds per video-sec
 
 An upscaler smoke test on a separate 41-frame clip took 91.9 s wall cold (about 40 s of that is loading the 33 GB checkpoint) at 74.9 GB, 80 C [P-07 · REPORTED].
 
-Visual gate, from frames extracted at four times, twelve join frames and mouth crops [P-05 · REPORTED]: identity stable across the four segment joins; no visible seam; the luma step at the upscaler joins at most 0.89 against 3.34 between ordinary frames; lip motion plausible on four spot checks. Artifacts: a pink cast on the lips in wide-open frames, slightly over-sharpened skin and hair, hands entering at the bottom edge in the last two seconds.
+Visual gate, from frames extracted at four times, twelve join frames and mouth crops [P-05 · REPORTED]: identity stable across the four segment joins; no visible seam; the luma step at the upscaler joins at most 0.89 against 3.34 between ordinary frames; mouth shapes looked plausible in four still frames; motion was not reviewed. Artifacts: a pink cast on the lips in wide-open frames, slightly over-sharpened skin and hair, hands entering at the bottom edge in the last two seconds.
 
 ## 7. Thermal behaviour
 
-- Presenter stage: the card entered at 73 C, reached 89 C (margin 3 C) and was paused 53 times for 2-4 s each, 18% of the wall time. The pacer's lines are the lab's own guardrails; the card's hardware protections are untouched [P-01 · REPORTED].
+- Presenter stage: the card entered at 73 C, reached 89 C (margin 3 C) and was paused 53 times for 2-4 s each, 16% of the wall time (111 s of 707.3 s). The pacer's lines are the lab's own guardrails; the card's hardware protections are untouched [P-01 · REPORTED].
 - Upscaler stage: peak 83 C, no pauses [P-02 · REPORTED].
 - A cooling-limited run does not count as a pass. This run finished within the pause budget (600 s) and the stop lines never fired.
 - An earlier smoke test of the same presenter model reported 9.8 s per video-second with 157 s of "pause". That was wrong: the worker had not paused (P-06 above). The corrected pace is about 33 s per video-second at 640x608. If you see the 9.8 figure in an older note, it is retracted [P-06 · REPORTED].
@@ -95,9 +95,9 @@ Visual gate, from frames extracted at four times, twelve join frames and mouth c
 
 ## 9. Not measured
 
-Pieces longer than about 17 s (identity drift across many segments), vertical 9:16 output, the 720p presenter bucket, the INT8 variant, 1080p-class upscaling, a listening test, lip-sync scoring, a pass on a cooler room [P-12 · NOT RUN]. The visual gate is one reviewer looking at stills.
+Pieces longer than about 17 s (identity drift across many segments), vertical 9:16 output, the 720p presenter bucket, the INT8 variant, 1080p-class upscaling, a listening test, lip-sync scoring, a pass on a cooler room [P-12 · NOT RUN]. The visual gate is one AI reviewer (a Claude Code session) looking at stills.
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Create two environments (presenter and upscaler) with torch 2.13.0+cu129 and the pins in each model's requirements; apply the shims in section 5.
 2. Download the three repositories at the revisions above; verify hashes.
@@ -116,7 +116,7 @@ LongCat (Meituan LongCat team, MIT) and SeedVR2 (ByteDance Seed, Apache-2.0) are
 
 - 2026-1105 v1: initial write-up from the 15-second qualification run and the smoke tests behind it.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
