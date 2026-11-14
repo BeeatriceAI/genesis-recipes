@@ -55,7 +55,7 @@
    "basis": "observed-config",
    "run_state": "n/a",
    "date_utc": "2026-11-06",
-   "caveat": "Read from the committed configuration and code diff. The hardware maximum (92 C), slowdown (margin -2 C) and shutdown (margin -5 C) points, the 300 W limit and the clocks are unchanged."
+   "caveat": "Read from the committed configuration and code diff. The card's own hardware protections, the 300 W limit and the clocks are unchanged; the protection values are not verified against a vendor document."
   },
   {
    "id": "G-05",
