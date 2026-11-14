@@ -1,0 +1,161 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Stop recomputing long prompts: KV offload to RAM and NVMe, and sleep mode instead of a kill",
+ "version": "2026-1107",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run",
+  "reported"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "O-01",
+   "claim": "Baseline: second revisit pass over 2.7 M prompt tokens (34 long sessions), no offload, staged engine on the second card",
+   "value": "revisit wall 1,687 s; 1,614 prompt tokens/s; 4% local cache hits; TTFT p50 295.1 s, p95 587.3 s; 185.8 kJ of GPU energy per million tokens; peak 81 C; average 300 W; KV pool 452,794 tokens",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "Synthetic token-id replay with idealised revisits; one run; staging card (cooler than the serving card). The baseline has a single revisit round."
+  },
+  {
+   "id": "O-02",
+   "claim": "Same revisit pass with a 112 GiB RAM tier",
+   "value": "revisit wall 80 s then 77 s; 34,238 / 35,855 prompt tokens/s; tier hit rate 96.3% / 96.0%; TTFT p50 12.6 / 14.9 s; 8.4 / 8.1 kJ per million tokens; peak 80 C",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "One run per round. Engine start took 103-122 s because the buffer is allocated and pinned. The shared-memory filesystem caps a RAM tier near 117 GiB."
+  },
+  {
+   "id": "O-03",
+   "claim": "Same revisit pass with a 48 GiB RAM tier and NVMe behind it, clean start",
+   "value": "revisit wall 78 s then 77 s; 34,792 / 35,624 prompt tokens/s; tier hit rate 96.2% / 96.0%; TTFT p50 12.8 / 16.0 s; 8.4 / 8.2 kJ per million tokens; peak 79 C",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "One run per round, from an empty NVMe directory and a cleaned shared-memory filesystem. Equals the 112 GiB RAM-only result at a smaller RAM footprint."
+  },
+  {
+   "id": "O-04",
+   "claim": "Tiers smaller than the working set",
+   "value": "RAM 64 GiB: revisit 1,314 s then 850 s, hits 26.9% / 43.1%, 144.7 / 92.8 kJ per million tokens; RAM 16 GiB + NVMe: 356 s then 522 s, hits 79.9% / 69.5%, 39.0 / 56.8 kJ per million tokens",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "The working set is about 93 GB of KV. Hit rates depend on least-recently-used eviction under shuffled revisits. One run each."
+  },
+  {
+   "id": "O-05",
+   "claim": "First-touch prefill is unchanged by offload",
+   "value": "about 1,668-1,676 s for 2.7 M tokens at about 1,612-1,620 prompt tokens/s in every configuration; 300 W average; peak 80-81 C; about 185 kJ per million tokens",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "Offload removes recomputation; it does not speed up the initial computation of a prompt."
+  },
+  {
+   "id": "O-06",
+   "claim": "Output identity through the tier",
+   "value": "text hashes of three probe prompts (20k, 60k, 120k tokens; 24 output tokens; temperature 0) identical across the baseline, the 112 GiB run and the tier runs, and identical between the cold pass and the later pass served from the tier; first-token log-probabilities differ by up to about 0.1 between separate engine runs",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "Three prompts, text-only replay; a long-horizon quality evaluation was not run. The log-probability difference is run-to-run jitter, not shown to be caused by offload."
+  },
+  {
+   "id": "O-07",
+   "claim": "NVMe tier survives an engine restart",
+   "value": "a second run reusing the NVMe directory after a restart served the whole 2.7 M-token working set at about 41,252 prompt tokens/s with a 97% hit rate in 66 s, against 1,668 s cold",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "An accidental second run, not a planned one; one run."
+  },
+  {
+   "id": "O-08",
+   "claim": "Engine start time against tier size",
+   "value": "56 s with no tier; 59-71 s for 8-64 GiB; 103-122 s for 112 GiB",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "Warm compile cache; one start each."
+  },
+  {
+   "id": "O-09",
+   "claim": "Transfer rate and KV size per token",
+   "value": "96 GB moved CPU to GPU in about 78 s (about 1.2 GB/s average), under the PCIe link rate and the drive's measured 13.9 GB/s direct read and 8.3 GB/s write; 33-34 KiB per token; a first-touch pass wrote 93 GB",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "Where the limit sits inside the engine is UNKNOWN. The per-token figure is arithmetic from the layer layout plus linear-attention state."
+  },
+  {
+   "id": "O-10",
+   "claim": "Thermal scheduler with the offload connector",
+   "value": "the lab's scheduler refused any external KV connector at the initial offload boot; a staging copy without the refusal ran with the governor forced to pause at 77 C and resume at 74 C: 10 pause and resume cycles while serving through the CPU tier, 0 errors, cold and late outputs identical",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-07",
+   "caveat": "One staging run. The production change (allow the native offload connector alone, refuse every other) has 6 unit tests that pass; it was not exercised in service."
+  },
+  {
+   "id": "O-11",
+   "claim": "Sleep mode on a staged engine with MTP, fp8 KV, vision, graphs and the thermal scheduler",
+   "value": "level 1 sleep 0.67-0.70 s (initial call 7.8-10.8 s); wake 0.74-0.90 s; initial request after wake 0.07 s; card memory 73,939 MiB awake and 27,878 MiB asleep; level 2 sleep 0.14 s and total wake 4.3-4.7 s; text, image and 30k-token answers identical after 3 of 3 level-1 cycles and the level-2 cycle; works with a 32 GiB CPU tier (tier buffer survives sleep); kill-and-boot comparison about 55 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-07",
+   "caveat": "One staged engine, three cycles. The second language model's sleep was not tested."
+  },
+  {
+   "id": "O-12",
+   "claim": "Walls found",
+   "value": "shared-memory filesystem caps the RAM tier (126 GiB, half of RAM): 128 GiB and 180 GiB tiers refused to start, 112 GiB worked; the NVMe tier leaks its RAM buffer after a kill; the NVMe tier has no size limit in vLLM 0.32.0; a quota janitor held a 12 GiB quota at 10.8-11.8 GiB with 0 engine errors",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "The janitor test fitted inside the GPU pool, so no tier loads happened while files were deleted: concurrent delete-during-load is UNKNOWN."
+  },
+  {
+   "id": "O-13",
+   "claim": "Production state of the offload plan",
+   "value": "prepared and dry-run; nothing executed on a serving engine; promotion on HOLD",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "Read from the plan documents and the squad state record of 2026-11-08 (offload held). A promotion would need one restart of the serving engine."
+  },
+  {
+   "id": "O-14",
+   "claim": "Traffic shape the recipe targets",
+   "value": "mean prompt about 72,000 tokens; prefix-cache hit rate in service about 1.3%",
+   "basis": "reported",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "Quoted from the lab's monitor figures as written in the staging document; the raw monitor series was not re-read for this recipe."
+  },
+  {
+   "id": "O-15",
+   "claim": "What this recipe does not show",
+   "value": "real revisit rate and working-set size; repeat runs; LMCache; sleep mode on the second language model; delete-during-load; long-horizon quality; any serving-card measurement",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "Listed so the 20x is not read as a service result."
+  }
+ ]
+}
