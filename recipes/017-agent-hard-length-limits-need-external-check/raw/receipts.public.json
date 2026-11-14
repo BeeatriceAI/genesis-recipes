@@ -24,11 +24,11 @@
   {
    "id": "L-01",
    "claim": "270-character post task, 3 runs",
-   "value": "0 of 3 within the limit: 304, 289 and 307 characters, while the replies claimed 268, 264 and 270",
+   "value": "the replies claimed 268, 264 and 270 characters; our counts, including the label line, were 304, 289 and 307",
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-07",
-   "caveat": "One session, 3 runs, graded by one person who counted the characters of the post including its label line."
+   "caveat": "One session, 3 runs, graded manually (grader not recorded); characters counted including the label line, so the gap may be the label line."
   },
   {
    "id": "L-02",
