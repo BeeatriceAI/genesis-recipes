@@ -1,0 +1,49 @@
+# llama-server log excerpt, GLM-5.3-Flash window (sanitised: paths, address and port removed)
+# Timestamps are T+MM:SS.mmm since the server started (about 20:51 local on 2026-11-13).
+# The requests end with "send_error ... Context size has been exceeded", logged by the SERVER, after the 240k-token request and the 23.7k-token request together passed the 262,144-token shared cache. "srv stop: cancel task" lines follow as the server clears the tasks. The log does not show a client giving up; a client time limit is UNKNOWN.
+# Launch to end = 242.3 s (task 14283), 243.1 s (15047), 243.3 s (15826), computed from the timestamps.
+
+T+00:47.406 I srv    load_model: initializing, n_slots = 2, n_ctx_slot = 262144, kv_unified = 'true'
+T+00:47.428 I srv  server_run_i: model loaded
+T+20:11.630 I slot launch_slot_: id  1 | task 14151 | processing task, is_child = 0
+T+20:23.441 I slot launch_slot_: id  0 | task 14183 | processing task, is_child = 0
+T+20:50.156 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 0, n_batch = 1024, ret = 1
+T+20:51.385 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 1024, n_batch = 1024, ret = 1
+T+20:51.387 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 1024, n_batch = 512, ret = 1
+T+20:52.002 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 1536, n_batch = 1024, ret = 1
+T+20:52.829 E srv    send_error: task id = 14183, error: Context size has been exceeded.
+T+20:52.829 I slot      release: id  0 | task 14183 | stop processing: n_tokens = 23747, truncated = 0
+T+20:52.830 W srv          stop: cancel task, id_task = 14183
+T+20:52.839 E srv    send_error: task id = 14151, error: Context size has been exceeded.
+T+20:52.839 I slot      release: id  1 | task 14151 | stop processing: n_tokens = 238477, truncated = 0
+T+20:52.839 W srv          stop: cancel task, id_task = 14151
+T+20:55.108 I slot launch_slot_: id  0 | task 14283 | processing task, is_child = 0
+T+20:56.199 I slot launch_slot_: id  1 | task 14285 | processing task, is_child = 0
+T+24:57.412 E srv    send_error: task id = 14283, error: Context size has been exceeded.
+T+24:57.412 I slot      release: id  0 | task 14283 | stop processing: n_tokens = 239924, truncated = 0
+T+24:57.412 W srv          stop: cancel task, id_task = 14283
+T+24:57.482 E srv    send_error: task id = 14285, error: Context size has been exceeded.
+T+24:57.482 I slot      release: id  1 | task 14285 | stop processing: n_tokens = 23743, truncated = 0
+T+24:57.482 W srv          stop: cancel task, id_task = 14285
+T+25:01.538 I slot launch_slot_: id  0 | task 15047 | processing task, is_child = 0
+T+25:02.632 I slot launch_slot_: id  1 | task 15051 | processing task, is_child = 0
+T+29:04.600 E srv    send_error: task id = 15047, error: Context size has been exceeded.
+T+29:04.600 I slot      release: id  0 | task 15047 | stop processing: n_tokens = 239953, truncated = 0
+T+29:04.600 W srv          stop: cancel task, id_task = 15047
+T+29:04.671 E srv    send_error: task id = 15051, error: Context size has been exceeded.
+T+29:04.671 I slot      release: id  1 | task 15051 | stop processing: n_tokens = 23743, truncated = 0
+T+29:04.671 W srv          stop: cancel task, id_task = 15051
+T+29:12.931 I slot launch_slot_: id  0 | task 15826 | processing task, is_child = 0
+T+29:14.027 I slot launch_slot_: id  1 | task 15831 | processing task, is_child = 0
+T+33:16.246 E srv    send_error: task id = 15826, error: Context size has been exceeded.
+T+33:16.246 I slot      release: id  0 | task 15826 | stop processing: n_tokens = 239981, truncated = 0
+T+33:16.246 W srv          stop: cancel task, id_task = 15826
+T+33:16.324 E srv    send_error: task id = 15831, error: Context size has been exceeded.
+T+33:16.324 I slot      release: id  1 | task 15831 | stop processing: n_tokens = 23743, truncated = 0
+T+33:16.325 W srv          stop: cancel task, id_task = 15831
+T+33:26.166 I slot launch_slot_: id  0 | task 16611 | processing task, is_child = 0
+T+33:37.434 I slot launch_slot_: id  1 | task 16646 | processing task, is_child = 0
+T+37:28.493 I slot      release: id  0 | task 16611 | stop processing: n_tokens = 240009, truncated = 0
+T+37:28.493 W srv          stop: cancel task, id_task = 16611
+T+37:28.570 I slot      release: id  1 | task 16646 | stop processing: n_tokens = 23743, truncated = 0
+T+37:28.570 W srv          stop: cancel task, id_task = 16646

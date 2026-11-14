@@ -1,0 +1,7 @@
+step,prompt_tokens,generated_tokens,prompt_tokens_per_s,generated_tokens_per_s,note
+01-text,26,79,109.1,52.9,200-token text answer
+02-image,295,50,477.1,52.6,image with text and two shapes; answer matched
+04-needle-30k,29962,26,1605.4,51.2,needle question in a 30k-token document; answer correct
+05-cold-prefill-126k,125739,23,1428.3,48.9,cold 126k-token prompt
+03-tool-call-stream,,,,,streamed tool call parsed=True
+03b-tool-call-alias-as-sent-by-agent-tool,,,,,streamed tool call parsed=True

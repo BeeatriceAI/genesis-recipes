@@ -1,0 +1,8 @@
+task,rating,limit_words,metrics_file_words,wc_words,limit_obeyed_by_metrics_count,limit_obeyed_by_wc,note
+T1 lesson repeats,USEFUL,1200,906,925,yes,yes,
+T2 failure second opinion,PARTLY,700,751,770,no,no,the reply ended with a self-reported word count of about 640; the reviewer counted 770
+T3 workflow gaps pass 1,PARTLY,600,,598,,yes,no timing row: ran through a coding-agent session
+T4 parity overclaims,USEFUL,800,846,865,no,no,
+T5 next two weeks,PARTLY,900,938,957,no,no,
+T6 article claim check,PARTLY,900 (metrics file) / none given (review),601,620,yes,yes,the metrics file lists a limit of 900; the review says none was given
+T7 audio crew workflows,PARTLY,1100,,1100,,yes,no timing row: ran through a coding-agent session

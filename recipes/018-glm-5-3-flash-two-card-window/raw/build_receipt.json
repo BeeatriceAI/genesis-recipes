@@ -1,0 +1,28 @@
+{
+ "upstream": "https://github.com/ggml-org/llama.cpp",
+ "tag": "v1.0.0",
+ "tag_object": "a6d1a74dbebce3a16f4f2ceddbf38c21a08d8674",
+ "commit": "b1b770d90d94cad9e9ea5b993bdbc383a522fb28",
+ "tag_date": "2026-11-13T10:20:13Z",
+ "commits_after_glm5next_merge_649dcb10": 1080,
+ "cmake": "4.4.4 (pip, user space)",
+ "ninja": "1.13.2 (pip, user space)",
+ "cuda": "nvcc 12.8.93",
+ "compiler": "GNU 13.3.0",
+ "configure_flags": "-G Ninja -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=120 -DCMAKE_BUILD_TYPE=Release -DLLAMA_CURL=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_SERVER=ON",
+ "targets": "llama-server llama-cli llama-bench",
+ "jobs": 6,
+ "nice": 19,
+ "cpu_gate": "build process group stopped at CPU temperature >= 81 C, resumed <= 77 C",
+ "build_window": "2026-11-13 22:34-22:44 UTC (about 10 min)",
+ "steps": "347/347 ok",
+ "binaries": {
+  "llama-server": "fd22475b27f8a1595272f41022ecfc004383bf786642a53e1603d560585bec29",
+  "llama-cli": "9d8dd6f2eb4db70c607683d60b506279b8e2963cdd6f5292f98a25484e77f2b5",
+  "llama-bench": "f0ae288aa4dc78d2e3abb673cb44ed8b9146a25c3ee3dcf0c3a71e83d9acf131"
+ },
+ "version_output": "version: 1.0.0-dev (build 1, commit b1b770d); built with GNU 13.3.0 for Linux x86_64",
+ "no_third_party_forks": true,
+ "no_patches": true,
+ "note": "An earlier attempt (22:31-22:34 UTC) was lost when another job deleted the source directory; clean re-clone, rebuilt from scratch."
+}

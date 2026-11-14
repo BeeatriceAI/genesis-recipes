@@ -1,0 +1,8 @@
+01-text wall_s=1.740078549
+02-image wall_s=1.607776283
+03-tool-call-stream wall_s=.839086661
+03b-tool-call-alias-as-sent-by-agent-tool wall_s=.476832176
+tokens/word 1.065, words 28155, measured prompt tokens about 29950
+04-needle-30k wall_s=19.223050512
+tokens/word 1.065, words 118254, measured prompt tokens about 125727
+05-cold-prefill-126k wall_s=88.714238253

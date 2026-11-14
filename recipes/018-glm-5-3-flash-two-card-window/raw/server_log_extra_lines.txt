@@ -1,0 +1,108 @@
+# Extra lines from the same server log, to be read with glm-server-log-excerpt.txt (same T+MM:SS.mmm time stamps, same sanitising).
+# They add, per episode, the last prompt-processing line of each request before the error (tokens processed, seconds, tokens per second), the first KV-space warning, and the error lines of the fifth episode. Lines already in glm-server-log-excerpt.txt are not repeated.
+
+## Episode 1
+# ... 34 KV-space warnings between this line and the error
+T+20:50.143 I slot print_timing: id  0 | task 14183 | prompt processing, n_tokens =  21699, progress = 0.18, t =  26.70 s / 812.63 tokens per second
+T+20:40.046 I slot print_timing: id  1 | task 14151 | prompt processing, n_tokens =  10240, progress = 0.99, t =  11.81 s / 867.15 tokens per second
+T+20:53.028 E srv  update_slots: decode() failed: Context size has been exceeded.
+## Episode 2
+T+24:56.464 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 0, n_batch = 1024, ret = 1
+# ... 41 KV-space warnings between this line and the error
+T+24:36.156 I slot print_timing: id  0 | task 14283 | prompt processing, n_tokens = 239912, progress = 1.00, t = 221.05 s / 1085.34 tokens per second
+T+24:56.460 I slot print_timing: id  1 | task 14285 | prompt processing, n_tokens =  21696, progress = 0.18, t = 210.47 s / 103.08 tokens per second
+T+24:57.491 E srv  update_slots: decode() failed: Context size has been exceeded.
+## Episode 3
+T+29:03.480 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 0, n_batch = 1024, ret = 1
+# ... 36 KV-space warnings between this line and the error
+T+28:45.621 I slot print_timing: id  0 | task 15047 | prompt processing, n_tokens = 239942, progress = 1.00, t = 224.08 s / 1070.78 tokens per second
+T+29:03.477 I slot print_timing: id  1 | task 15051 | prompt processing, n_tokens =  21696, progress = 0.18, t = 211.15 s / 102.75 tokens per second
+T+29:04.681 E srv  update_slots: decode() failed: Context size has been exceeded.
+## Episode 4
+T+33:15.182 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 0, n_batch = 1024, ret = 1
+# ... 39 KV-space warnings between this line and the error
+T+32:59.688 I slot print_timing: id  0 | task 15826 | prompt processing, n_tokens = 239971, progress = 1.00, t = 226.76 s / 1058.27 tokens per second
+T+33:15.179 I slot print_timing: id  1 | task 15831 | prompt processing, n_tokens =  21696, progress = 0.18, t = 211.41 s / 102.63 tokens per second
+T+33:16.333 E srv  update_slots: decode() failed: Context size has been exceeded.
+## Episode 5
+T+37:27.481 W srv        decode: failed to find free space in the KV cache, retrying with smaller batch size, off = 0, n_batch = 1024, ret = 1
+# ... 39 KV-space warnings between this line and the error
+T+37:12.144 I slot print_timing: id  0 | task 16611 | prompt processing, n_tokens = 239999, progress = 1.00, t = 225.98 s / 1062.05 tokens per second
+T+37:27.478 I slot print_timing: id  1 | task 16646 | prompt processing, n_tokens =  21696, progress = 0.18, t = 210.43 s / 103.10 tokens per second
+T+37:28.493 E srv    send_error: task id = 16611, error: Context size has been exceeded.
+T+37:28.570 E srv    send_error: task id = 16646, error: Context size has been exceeded.
+T+37:28.579 E srv  update_slots: decode() failed: Context size has been exceeded.
+
+# Episodes 6 to 14: the error, release and cancel lines of each (nothing else is selected). An episode here is a group of Context-size errors less than 5 s apart; episodes 1 to 5 are above.
+
+## Episode 6
+T+81:56.919 E srv    send_error: task id = 90351, error: Context size has been exceeded.
+T+81:56.919 I slot      release: id  0 | task 90351 | stop processing: n_tokens = 187177, truncated = 0
+T+81:56.919 W srv          stop: cancel task, id_task = 90351
+T+81:57.160 E srv    send_error: task id = 91043, error: Context size has been exceeded.
+T+81:57.160 I slot      release: id  1 | task 91043 | stop processing: n_tokens = 75544, truncated = 0
+T+81:57.160 W srv          stop: cancel task, id_task = 91043
+
+## Episode 7
+T+84:14.938 E srv    send_error: task id = 91329, error: Context size has been exceeded.
+T+84:14.938 I slot      release: id  0 | task 91329 | stop processing: n_tokens = 127357, truncated = 0
+T+84:14.938 W srv          stop: cancel task, id_task = 91329
+T+84:14.977 E srv    send_error: task id = 91331, error: Context size has been exceeded.
+T+84:14.977 I slot      release: id  1 | task 91331 | stop processing: n_tokens = 136704, truncated = 0
+T+84:14.977 W srv          stop: cancel task, id_task = 91331
+
+## Episode 8
+T+88:27.995 E srv    send_error: task id = 91756, error: Context size has been exceeded.
+T+88:27.995 I slot      release: id  0 | task 91756 | stop processing: n_tokens = 186641, truncated = 0
+T+88:27.995 W srv          stop: cancel task, id_task = 91756
+T+88:28.075 E srv    send_error: task id = 91760, error: Context size has been exceeded.
+T+88:28.075 I slot      release: id  1 | task 91760 | stop processing: n_tokens = 75544, truncated = 0
+T+88:28.075 W srv          stop: cancel task, id_task = 91760
+
+## Episode 9
+T+92:44.422 E srv    send_error: task id = 92551, error: Context size has been exceeded.
+T+92:44.422 I slot      release: id  0 | task 92551 | stop processing: n_tokens = 186699, truncated = 0
+T+92:44.422 W srv          stop: cancel task, id_task = 92551
+T+92:44.504 E srv    send_error: task id = 92561, error: Context size has been exceeded.
+T+92:44.504 I slot      release: id  1 | task 92561 | stop processing: n_tokens = 75544, truncated = 0
+T+92:44.504 W srv          stop: cancel task, id_task = 92561
+
+## Episode 10
+T+97:05.302 E srv    send_error: task id = 93362, error: Context size has been exceeded.
+T+97:05.302 I slot      release: id  0 | task 93362 | stop processing: n_tokens = 186757, truncated = 0
+T+97:05.302 W srv          stop: cancel task, id_task = 93362
+T+97:05.384 E srv    send_error: task id = 93384, error: Context size has been exceeded.
+T+97:05.384 I slot      release: id  1 | task 93384 | stop processing: n_tokens = 75544, truncated = 0
+T+97:05.384 W srv          stop: cancel task, id_task = 93384
+
+## Episode 11
+T+107:23.517 E srv    send_error: task id = 107740, error: Context size has been exceeded.
+T+107:23.517 I slot      release: id  0 | task 107740 | stop processing: n_tokens = 113557, truncated = 0
+T+107:23.517 W srv          stop: cancel task, id_task = 107740
+T+107:23.731 E srv    send_error: task id = 107478, error: Context size has been exceeded.
+T+107:23.731 I slot      release: id  1 | task 107478 | stop processing: n_tokens = 149319, truncated = 0
+T+107:23.731 W srv          stop: cancel task, id_task = 107478
+
+## Episode 12
+T+111:40.159 E srv    send_error: task id = 108328, error: Context size has been exceeded.
+T+111:40.159 I slot      release: id  0 | task 108328 | stop processing: n_tokens = 114679, truncated = 0
+T+111:40.159 W srv          stop: cancel task, id_task = 108328
+T+111:40.222 E srv    send_error: task id = 107756, error: Context size has been exceeded.
+T+111:40.222 I slot      release: id  1 | task 107756 | stop processing: n_tokens = 148235, truncated = 0
+T+111:40.222 W srv          stop: cancel task, id_task = 107756
+
+## Episode 13
+T+115:57.187 E srv    send_error: task id = 109251, error: Context size has been exceeded.
+T+115:57.187 I slot      release: id  0 | task 109251 | stop processing: n_tokens = 114799, truncated = 0
+T+115:57.187 W srv          stop: cancel task, id_task = 109251
+T+115:57.259 E srv    send_error: task id = 108570, error: Context size has been exceeded.
+T+115:57.259 I slot      release: id  1 | task 108570 | stop processing: n_tokens = 148235, truncated = 0
+T+115:57.259 W srv          stop: cancel task, id_task = 108570
+
+## Episode 14
+T+120:14.615 E srv    send_error: task id = 109368, error: Context size has been exceeded.
+T+120:14.615 I slot      release: id  0 | task 109368 | stop processing: n_tokens = 114926, truncated = 0
+T+120:14.615 W srv          stop: cancel task, id_task = 109368
+T+120:14.680 E srv    send_error: task id = 109391, error: Context size has been exceeded.
+T+120:14.680 I slot      release: id  1 | task 109391 | stop processing: n_tokens = 148235, truncated = 0
+T+120:14.681 W srv          stop: cancel task, id_task = 109391

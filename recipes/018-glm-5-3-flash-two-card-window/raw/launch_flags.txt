@@ -1,0 +1,3 @@
+# Server launch line for the GLM window, transcribed from the start script. Paths, host and port are replaced by placeholders; every flag and value is as run.
+llama-server -m <UD-IQ4_XS shard 1 of 5> --mmproj <mmproj-BF16.gguf> -ngl 999 --split-mode layer --tensor-split 1,1 -c 262144 --kv-unified -np 2 -b 2048 -ub 512 --jinja --reasoning-format deepseek --chat-template-kwargs '{"reasoning_effort":"low"}' --alias glm-5.3-flash --host <loopback address> --port <port> --metrics
+# Engine: llama.cpp tag v1.0.0, commit b1b770d (see build_receipt.json). KV cache type: the default (f16); no cache-type flag was passed.
