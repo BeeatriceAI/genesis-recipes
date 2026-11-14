@@ -29,6 +29,7 @@ Numbers marked MEASURED trace to a file in [`raw/`](raw/). REPORTED numbers have
 - [015 KV offload to RAM and NVMe, and sleep mode](recipes/015-kv-offload-ram-nvme-and-sleep-mode/RECIPE.md) (draft v0.1; REPORTED; staged, production on hold; the 20x is a synthetic replay)
 - [016 Five image models on one card: seconds per image](recipes/016-image-models-seconds-per-image-one-card/RECIPE.md) (draft v0.1; MEASURED against the published job-timing CSV, 253 jobs)
 - [017 Hard length limits need an external check](recipes/017-agent-hard-length-limits-need-external-check/RECIPE.md) (draft v0.1; REPORTED; a field note: 15 runs, one session)
+- [018 GLM-5.3-Flash on two GPUs for one evening](recipes/018-glm-5-3-flash-two-card-window/RECIPE.md) (draft v0.1; MEASURED from a server-log excerpt and five timed jobs: 147.1 GiB download, 47.4 s load, 49 to 53 tokens/s decode on an idle server; in four episodes a ~240k-token conversation and a second request together overran a 262,144-token shared cache and the server ended both requests about 242 s in, with no client limit evidenced; one evening, one quantisation, one engine; not a benchmark)
 Recipes 007 to 017 use transcribed receipts (`raw/receipts.public.json` in each recipe folder) instead of original logs. Their numbers are REPORTED and are not quoted in posts until the log is added; the exception is recipe 016, which is MEASURED against the CSV in `raw/`. Week 3 raw files: [`raw/week3-20261113/`](raw/week3-20261113/README.md).
 
 ## Licence
