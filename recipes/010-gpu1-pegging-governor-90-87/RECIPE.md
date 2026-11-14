@@ -4,6 +4,8 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+
 ## Headline
 
 | What | Number | Run state | Receipt |
@@ -19,7 +21,7 @@ One limitation next to the headline: the two sets were measured on different hou
 
 ## 1. What this recipe is
 
-A policy change, not a code change. The resident image pool (see recipe 011) holds new work when the card reaches a pause line and resumes when it cools to a resume line. At 88 C / 84 C the governor held the card back a median of 19 times per window, and the card spent its time at 78.6% utilisation and 261.5 W of its 300 W budget [G-01 · REPORTED]. The owner ordered the card pegged: pause at 90 C, resume at 87 C. The same workload then held 98.2% utilisation and 300 W, and 13 of 14 windows never paused [G-02 · REPORTED].
+A policy change, not a code change. The resident image pool (see recipe 011) holds new work when the card reaches a pause line and resumes when it cools to a resume line. At 88 C / 84 C the governor held the card back a median of 19 times per window, and the card spent its time at 78.6% utilisation and 261.5 W of its 300 W budget [G-01 · REPORTED]. The lab then chose to peg the card: pause at 90 C, resume at 87 C. A similar fixed-prompt workload then held 98.2% utilisation and 300 W, and 13 of 14 windows never paused [G-02 · REPORTED].
 
 The stop line stays at 91 C. The hardware protections (92 C maximum operating point, slowdown at margin -2 C, shutdown at -5 C) are not touched, and neither are the stock 300 W power limit and stock clocks [G-04 · REPORTED].
 
@@ -77,14 +79,14 @@ CPU temperature peaked at 84.1 C in the 90/87 windows, under the 85 C test line.
 ## 8. What did not work or does not follow
 
 - The earlier 88/84 line was not wrong: it was a conservative choice, and its cost was measurable. Every pause is a few seconds of idle silicon, repeated a median of 19 times per window [G-01 · REPORTED].
-- Raising the line did not raise the ceiling above the ungoverned number: the gain is that the governor mostly stops engaging, not that the card got faster [G-05 · REPORTED].
+- The first 14 windows at 90 / 87 C stayed near the earlier ungoverned figure of 61.2, so the gain there is that the governor mostly stopped engaging [G-05 · REPORTED]. The later 48 windows reached 63.7 with another model resident on the card; the cause is UNKNOWN [G-08 · REPORTED]. The 1.18x is a ratio of two medians from unlike sets of windows, nothing more.
 - The 435-window set pools windows run under earlier pool settings; the harness file does not record the worker count per window, so the 88/84 set is a median of a mixed bag and the comparison is conservative in no known direction [G-01 · REPORTED].
 
 ## 9. Not measured
 
 Image quality (identical seeds were not compared between lines); a continuous run longer than about four and a half minutes; the other card's temperature and throughput while this one runs at 300 W; ambient temperature; component wear; any line above 90 C [G-06 · NOT RUN].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Pick a resident-worker workload and a pause/resume pair; log temperature, board power, utilisation, SM clock and throttle bits every 2 s per card by identifier.
 2. Run 30 windows at your current line, then 14 at 90 C / 87 C, back to back, starting each window below 77 C.
@@ -101,7 +103,7 @@ Recipe text CC BY 4.0, code MIT. Model credit: Black Forest Labs (FLUX.2-klein-4
 - 2026-1106 v1: initial write-up from the soak harness file and the policy change (14 windows).
 - 2026-1110 v2: the file grew to 66 windows at 90/87 C over 8.6 hours (G-07 to G-09). The pause count stays at 2 in total. A later set of 48 windows with another model resident on the card measured a higher median (63.7); the cause is UNKNOWN. v1 numbers are unchanged. The synthetic windows have since stopped, so no further windows are expected.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
