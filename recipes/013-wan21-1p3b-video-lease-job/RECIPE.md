@@ -4,6 +4,8 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
+
 ## Headline
 
 | What | Number | Run state | Receipt |
@@ -49,7 +51,7 @@ On SIGTERM the job keeps a clip that is within 4 s of completing and abandons ot
 
 - The runner is the upstream Wan loader with an SDPA attention patch (no FlashAttention). The 14B entry in the lab's runner is an uncommitted local patch and is not part of this recipe.
 - Start the runner as the job's own child, with the lease proof passed by environment, instead of calling the lab's media service: the service answers HTTP 429 "lease busy" when another job holds the lock, which parked a request for 10 s [V-10 · REPORTED].
-- Do not trust the runner's own memory figure (13 GB): it under-reports the real peak by 4 to 5x [V-07 · REPORTED].
+- Do not trust the runner's own memory figure (13 GB): it under-reports the real peak (by 1.1x to 1.5x at 21 frames, about 4.6x at 41 frames) [V-07 · REPORTED].
 - The width and height labels are swapped in the runner: asking 832x480 gives a portrait clip [V-06 · REPORTED].
 
 ## 6. Results and how they were measured
@@ -80,7 +82,7 @@ Sharing the card: a blocking waiter on the lock file gets the card in about 1.4 
 
 - Calling the media service from a job that already holds the lock: refused with HTTP 429 until the job stops holding the lock [V-10 · REPORTED].
 - A client-side stop for the 14B run: the service cannot cancel one in-flight call; its 88 C stand-down is the sole way to end it, and the clip in flight is lost [V-05 · REPORTED].
-- Using the runner's memory report for admission: 4 to 5x too low [V-07 · REPORTED].
+- Using the runner's memory report for admission: too low (up to about 4.6x at 41 frames) [V-07 · REPORTED].
 - 81-frame clips (the model's native length): the runner does not expose them.
 
 ## 9. Not measured
