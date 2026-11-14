@@ -1,5 +1,5 @@
 {
- "schema": "genesis.recipe-receipts.v1",
+ "schema": "recipe-receipts.v1",
  "recipe": "Stop recomputing long prompts: KV offload to RAM and NVMe, and sleep mode instead of a kill",
  "version": "2026-1107",
  "times": "UTC",
@@ -20,7 +20,7 @@
   "cooling-limited",
   "n/a"
  ],
- "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
  "receipts": [
   {
    "id": "O-01",
@@ -138,15 +138,6 @@
    "run_state": "n/a",
    "date_utc": "2026-11-10",
    "caveat": "Read from the plan documents and the squad state record of 2026-11-08 (offload held). A promotion would need one restart of the serving engine."
-  },
-  {
-   "id": "O-14",
-   "claim": "Traffic shape the recipe targets",
-   "value": "mean prompt about 72,000 tokens; prefix-cache hit rate in service about 1.3%",
-   "basis": "reported",
-   "run_state": "n/a",
-   "date_utc": "2026-11-07",
-   "caveat": "Quoted from the lab's monitor figures as written in the staging document; the raw monitor series was not re-read for this recipe."
   },
   {
    "id": "O-15",
