@@ -20,7 +20,7 @@ One limitation next to the headline: this is a synthetic replay with idealised r
 
 ## 1. What this recipe is
 
-The lab's prompts are long: a mean near 72,000 tokens, with a prefix-cache hit rate near 1.3% in service [O-14 · REPORTED]. The card therefore recomputed huge prefixes it had already computed, at 300 W, for the whole prefill. vLLM 0.32 can park finished KV blocks in CPU RAM (`--kv-offloading-size`) and, with its tiering spec, on NVMe behind the RAM. When a long prompt comes back, the blocks are copied in instead of recomputed.
+The lab's prompts are long, and a long prompt that comes back is recomputed in full unless its blocks were kept. The in-service prefix-cache hit rate for the period of this recipe is UNKNOWN; recipe 006 measured 97.5% of prompt tokens served from the prefix cache over 2026-11-08 to 2026-11-13. The 20x below comes from a synthetic replay with idealised revisits, with no in-service hit rate behind it. vLLM 0.32 can park finished KV blocks in CPU RAM (`--kv-offloading-size`) and, with its tiering spec, on NVMe behind the RAM. When a long prompt comes back, the blocks are copied in instead of recomputed.
 
 The second half of the recipe is sleep mode: put an engine to sleep (weights to RAM, KV freed) instead of killing it, so a card shared with image jobs can be handed over in under a second and taken back in under a second.
 
@@ -41,7 +41,7 @@ RAM tier, no NVMe: --kv-offloading-size 64                               # GiB o
 RAM + NVMe tier:   --kv-transfer-config '{"kv_connector":"OffloadingConnector","kv_role":"kv_both",
                      "kv_connector_extra_config":{"spec_name":"TieringOffloadingSpec","cpu_bytes_to_use":51539607552,
                      "secondary_tiers":[{"type":"fs","root_dir":"<nvme directory>"}]}}'
-sleep mode:        --enable-sleep-mode, environment VLLM_SERVER_DEV_MODE=1 (loopback, behind your authentication),
+sleep mode:        --enable-sleep-mode, environment VLLM_SERVER_DEV_MODE=1 (this opens unauthenticated control endpoints: loopback only, never on a shared network),
                    POST /sleep?level=1, POST /wake_up, GET /is_sleeping
 ```
 
@@ -114,7 +114,7 @@ A kill-and-boot hand-over costs about 55 s of boot plus a waiting period, and dr
 
 The lab's real revisit rate and working-set size; a second run of each configuration (one run each, no variance); LMCache (not installed, not tried); sleep mode on the second language model; deleting tier files during a load; any long-horizon output-quality evaluation; any serving-card measurement [O-15 · NOT RUN].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Start an engine with the pins above and no tier; replay your own long-prompt sessions twice and record the revisit round time, TTFT, hit rate and GPU energy.
 2. Add the RAM tier, sized to your working set, and repeat. Expect the cold pass to be unchanged.
@@ -133,7 +133,7 @@ Recipe text CC BY 4.0, code MIT. Engine: vLLM, Apache-2.0 (read on its repositor
 
 - 2026-1107 v1: initial write-up from the 2026-11-07 staging runs and the production plan (dry-run).
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
