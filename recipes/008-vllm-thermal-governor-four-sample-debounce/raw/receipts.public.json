@@ -1,5 +1,5 @@
 {
- "schema": "genesis.recipe-receipts.v1",
+ "schema": "recipe-receipts.v1",
  "recipe": "Thermal governor with a four-sample debounce for vLLM",
  "version": "2026-1105",
  "times": "UTC",
@@ -19,7 +19,7 @@
   "cooling-limited",
   "n/a"
  ],
- "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
  "receipts": [
   {
    "id": "T-01",
@@ -118,7 +118,7 @@
    "basis": "measured",
    "run_state": "governed",
    "date_utc": "2026-11-05",
-   "caveat": "So a real hold-and-resume with MTP drafts pending is unknown. The scheduler reports it holds \"several times a day\" in normal serving per an operator note; no counted receipt is attached to that sentence."
+   "caveat": "So a real hold-and-resume with MTP drafts pending is unknown. An operator note (date not recorded) says the scheduler holds several times a day in normal serving: that is REPORTED, with no count behind it, and the Week 3 GPU 0 daily maxima of 80 to 82 C from 2026-11-08 sit under the 90 C pause line."
   },
   {
    "id": "T-12",
