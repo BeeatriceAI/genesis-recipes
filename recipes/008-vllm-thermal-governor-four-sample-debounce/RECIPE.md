@@ -4,7 +4,7 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
-> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
 
 > **Not reproducible yet:** the code this recipe depends on is not published in this repository, and the launch or steps below cannot run as written.
 
@@ -14,7 +14,7 @@ Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read
 |---|---|---|---|
 | Pause / resume lines | 90 C / 86 C, latch at 91 C or 1 C margin | governed | [T-01 · REPORTED] |
 | Debounce | latch after 4 consecutive bad samples (about 1 s); immediate for slowdown, margin -1 C, 92 C | governed | [T-03 · REPORTED] |
-| Injected-sample staging in vLLM 0.32.0 | 7 of 7 cases as designed | governed | [T-04 · REPORTED] |
+| Injected-sample staging in vLLM 0.32.0 | the injected cases as designed (the lab's record counts 7; six are described) | governed | [T-04 · REPORTED] |
 | Unit tests | 37 pass at promotion, 43 after speculative decoding was allowed | n/a | [T-05 · REPORTED] |
 | Live hold under load | not observed: six minutes of 16-stream decode peaked at 89 C | governed, not engaged | [T-11 · REPORTED] |
 
@@ -80,7 +80,7 @@ Real card peak during staging was 83 C; injected samples were synthetic and the 
 - Under six minutes of 16-stream decode at the 300 W limit with MTP, the card rose from 73 C to 86 C in a minute, then sat at 87-88 C (monitor peak 89 C). The 90 C pause line was not reached, so no hold happened and a live hold-and-resume with MTP drafts pending is unknown [T-11 · REPORTED].
 - Test harnesses use their own lines on top: pause at 88 C and resume at 84 C, so the in-engine pause is the backstop [T-12 · REPORTED].
 - The scheduler cannot interrupt a kernel already on the GPU or a blocking NVML call; an external guard is still needed for tests [T-07 · REPORTED].
-- Hardware protections (92 C maximum operating point, slowdown at margin -2 C, shutdown at -5 C) are unchanged and are not part of this software.
+- The card's own hardware protections are unchanged and are not part of this software; their values are not verified against a vendor document and are not published here.
 
 ## 8. What did not work (harness mistakes found while using the governor)
 
