@@ -84,7 +84,7 @@ Not recorded per job. Pause lines changed from 88/84 C to 90/87 C on 2026-11-06,
 
 Image quality or prompt adherence; concurrency (the file does not say how many jobs overlapped); thermal state per job; tokens or steps per second as a separate series; fixed prompts and seeds; cold-disk loads [M-08 · NOT RUN].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Serve each model with its published pipeline in bfloat16 and a fixed prompt and seed list.
 2. Time load, generation and total separately for 20 jobs per size, once cold and once with the model resident.
@@ -101,7 +101,7 @@ Recipe text CC BY 4.0, code MIT. Models are credited to Black Forest Labs, Tongy
 
 - 2026-1108 v1: initial write-up from the job timing export of 2026-11-06 (253 succeeded jobs, 2026-10-30 to 2026-11-07).
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
