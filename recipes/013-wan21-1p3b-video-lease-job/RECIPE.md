@@ -13,7 +13,7 @@ Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read
 | Video per GPU minute, warm | about 3 s | derived | [V-04 · REPORTED] |
 | Larger 14B model, 9 frames | 112.5 s cold, 0.3 s of video per GPU minute | ungoverned, one run | [V-05 · REPORTED] |
 
-One limitation next to the headline: these are short clips from fixed prompts and one seed each. A frame per clip was checked by eye on the production-path run and none on the 22-clip job, so this recipe says nothing about video quality [V-12 · NOT RUN].
+One limitation next to the headline: these are short clips from fixed prompts and one seed each. A frame per clip was checked by image inspection on the production-path run and none on the 22-clip job, so this recipe says nothing about video quality [V-12 · NOT RUN].
 
 ## 1. What this recipe is
 
@@ -87,7 +87,7 @@ Sharing the card: a blocking waiter on the lock file gets the card in about 1.4 
 
 Motion and prompt-adherence quality (no review of the 22 clips beyond file checks), other seeds and resolutions, warm 14B, 21-frame 14B, behaviour at the 88 C stand-down, any co-resident image workload [V-12 · NOT RUN]. These are not a quality evaluation or a long soak.
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Install the pins above and the upstream Wan loader; fetch the 1.3B weights and record the commit id and file hashes.
 2. Render one 21-frame clip with a fixed seed from a card at or below 76 C; the initial call includes about 29 s of load, the next ones should land near 26 s [V-03 · REPORTED].
@@ -105,7 +105,7 @@ Model: Wan 2.1 T2V 1.3B by the Wan team at Alibaba, Apache-2.0 (declared on the 
 
 - 2026-1105 v1: initial write-up from the 22-clip job, the 41-frame job and the production-path run.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
