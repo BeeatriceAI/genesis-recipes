@@ -38,7 +38,7 @@
    "basis": "measured",
    "run_state": "governed",
    "date_utc": "2026-11-07",
-   "caveat": "One run per round. Engine start took 103-122 s because the buffer is allocated and pinned. The shared-memory filesystem caps a RAM tier near 117 GiB."
+   "caveat": "One run per round. Engine start took 103-122 s because the buffer is allocated and pinned. The shared-memory filesystem (half of RAM, 126 GiB) caps a RAM tier: 128 and 180 GiB refused to start, 112 GiB worked."
   },
   {
    "id": "O-03",
