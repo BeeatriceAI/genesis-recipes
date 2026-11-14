@@ -4,7 +4,7 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
-> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
 
 ## Headline
 
@@ -28,7 +28,7 @@ The finding that mattered: model loading dominated a one-shot job (see recipe 00
 - Workstation: Digital Storm Aventum Pro with two NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition cards (97,887 MiB each, compute capability 12.0, no NVLink). The image pool owns the lab's second card; the other serves language models.
 - Power limit stock 300 W, clocks stock, no clock cap. In the governed windows the average board power was 263.6 W (peak 308 W) and the average SM clock 1,761 MHz [I-08 · REPORTED].
 - Driver 570 (open kernel module), CUDA 12.9 wheels; torch 2.11.0+cu129, diffusers 0.42.1, Python 3.12.
-- Memory: one worker is about 20.3 GiB on the card (peak allocated 17.3 GiB), card baseline 1.7 GiB; four workers use 82.8 GiB; the sixth ran out of memory at load [I-09 · REPORTED].
+- Memory: one worker is about 20.3 GiB on the card (peak allocated 17.3 GiB), card baseline 1.7 GiB; four workers use 82.8 GiB; a six-worker start ran out of memory at load (five is arithmetic, not a run) [I-09 · REPORTED].
 
 ## 3. Model
 
@@ -83,7 +83,7 @@ The live bursts counted jobs whose final state landed in the window; monitor sam
 ## 8. What did not work
 
 - Adding workers beyond one: no throughput, higher latency and memory [I-03 · REPORTED].
-- Batching 2, 4 or 8 images: slower than batch 1 and 1.2x-2.4x the memory [I-03 · REPORTED].
+- Batching 2, 4 or 8 images: no better than batch 1 (59.6, 56.7 and 57.1 against 61.2 images/min) and 1.2x-2.4x the memory [I-03 · REPORTED].
 - Six workers: out of memory at load; five is about 103 GiB by arithmetic [I-09 · REPORTED].
 - The 50-step model alone ungoverned: stopped inside 40 s at the 88 C line, an incomplete run, never a pass [I-10 · REPORTED].
 - CUDA MPS: +6-9%, within what a thermal-state change could explain [I-11 · REPORTED].
