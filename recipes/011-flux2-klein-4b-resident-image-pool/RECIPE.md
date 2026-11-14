@@ -1,8 +1,10 @@
-# Recipe 011: Resident image pool on a 300 W workstation card: flux2-klein-4b, 61 images/min peak, about 50 sustained
+# Recipe 011: A resident image pool for flux2-klein-4b on one workstation card
 
 **Status: DRAFT v0.1, built in public from the studio's staged recipe 2026-1105 v1; IN SERVICE on the lab's media card; numbers from lab runs and live bursts.** Times are UTC.
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
+
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
 
 ## Headline
 
@@ -13,7 +15,7 @@ Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read
 | Live bursts through the production API | 737 images in 883.5 s (50.1/min); 807 in 955.7 s (50.7/min); 0 failures | governed | [I-05 · REPORTED] |
 | 94 four-minute windows over about 14 h | median 51.2 images/min, range 48.5-54.2, GPU peak 89 C | cooling-limited | [I-06 · REPORTED] |
 
-Read 61 as a peak you get for half a minute on a cool card. Plan on about 50 images a minute. The limiter is the thermal governor on a 300 W part, not the model loader, the queue or memory [I-03 · REPORTED] [I-04 · REPORTED].
+Read 61 as a peak you get for half a minute on a cool card. The 50 images a minute below belong to the 88 C / 84 C pause lines only; recipe 010 reports a higher rate after those lines were raised to 90 C / 87 C. At the 88 / 84 lines the limiter was the thermal governor on a 300 W part, not the model loader, the queue or memory [I-03 · REPORTED] [I-04 · REPORTED].
 
 ## 1. What this recipe is
 
@@ -24,7 +26,7 @@ The finding that mattered: model loading dominated a one-shot job (see recipe 00
 ## 2. Hardware and software pins
 
 - Workstation: Digital Storm Aventum Pro with two NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition cards (97,887 MiB each, compute capability 12.0, no NVLink). The image pool owns the lab's second card; the other serves language models.
-- Power limit stock 300 W (card range 250-325 W), clocks stock, no clock cap. In the governed windows the average board power was 263.6 W (peak 308 W) and the average SM clock 1,761 MHz [I-08 · REPORTED].
+- Power limit stock 300 W, clocks stock, no clock cap. In the governed windows the average board power was 263.6 W (peak 308 W) and the average SM clock 1,761 MHz [I-08 · REPORTED].
 - Driver 570 (open kernel module), CUDA 12.9 wheels; torch 2.11.0+cu129, diffusers 0.42.1, Python 3.12.
 - Memory: one worker is about 20.3 GiB on the card (peak allocated 17.3 GiB), card baseline 1.7 GiB; four workers use 82.8 GiB; the sixth ran out of memory at load [I-09 · REPORTED].
 
@@ -91,7 +93,7 @@ The live bursts counted jobs whose final state landed in the window; monitor sam
 
 Image quality (outputs were spot-checked, not scored, and no comparison between pool and one-shot outputs was made); runs longer than about 16 minutes of continuous live burst; cold-disk model load; torch.compile, fp8 or NVFP4 transformer variants; the effect on the other card's latency [I-14 · NOT RUN].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Install the pins above; load the model once and render a single 1024x1024, 4-step image with a fixed seed; time load and render separately and compare with [I-12 · REPORTED] and with recipe 003.
 2. Keep that process alive and render 30 s of images back to back from a card at or below 74 C; compare with [I-02 · REPORTED].
@@ -110,7 +112,7 @@ Model: FLUX.2-klein-4B by Black Forest Labs, Apache-2.0 (declared on the model c
 - 2026-1105 v1: initial write-up from the lab report, the live burst receipt and 94 governed windows.
 - 2026-1106 note: the pause and resume lines in section 4 (88 C / 84 C) were later raised to 90 C / 87 C; see recipe 010. The numbers in this recipe were measured at 88/84 and stay as they are.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
