@@ -1,0 +1,133 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Wan 2.1 1.3B video on a Max-Q card via a lease-holding job",
+ "version": "2026-1105",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "V-01",
+   "claim": "Wan 2.1 T2V 1.3B, 21 frames (1.31 s at 16 fps), 480x832, 30 steps, warm",
+   "value": "median 26.0 s per clip over 22 clips (range 24.9 to 53.1 s; the 53.1 s clip carried the model load); mean 27.0 s",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Run by a lease-holding job under an external pacing script (pause 88 C, resume 84 C); no pause occurred. 22 rendered, 0 failed, 0 abandoned in 862 s of job wall time. Sub-second spread is not significant: one prompt list, fixed seeds."
+  },
+  {
+   "id": "V-02",
+   "claim": "Same model, 41 frames (2.56 s, the runner maximum)",
+   "value": "77.3 s and 51.7 s for two clips; mean 64.5 s",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Two clips, no more. GPU peak 86 to 87 C, within 4 to 5 C of the pause line."
+  },
+  {
+   "id": "V-03",
+   "claim": "Warm production-path timing from a separate run",
+   "value": "26.6 to 27.2 s for 21 frames, 52.8 s for 41 frames, 56.1 s with model load (about 29 s)",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Through the media service rather than the job. GPU start 68 to 72 C, peak 80 to 83 C (21 frames) and 86 C (41 frames). Seed fixed."
+  },
+  {
+   "id": "V-04",
+   "claim": "Video produced per GPU minute",
+   "value": "about 3 s of video per GPU minute warm (1.3B)",
+   "basis": "derived",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "From V-03: 1.31 s in 26.6 to 27.2 s; 2.56 s in 52.8 s."
+  },
+  {
+   "id": "V-05",
+   "claim": "Wan 2.1 T2V 14B for comparison",
+   "value": "9 frames (0.56 s) in 112.5 s including load; 0.3 s of video per GPU minute; GPU peak 85 C; whole-card memory 68.9 GB",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "One cold run. CPU temperature touched 85.25 C for one sample and the in-flight request could not be cancelled, so this is a completed clip with a guardrail excursion, not a clean pass. Warm 14B was not measured."
+  },
+  {
+   "id": "V-06",
+   "claim": "Clip format limits of the runner",
+   "value": "480x832 (the width/height label is swapped: asking 832x480 gives portrait), 16 fps, 30 steps fixed, frames = 4 x duration + 1, duration 2 to 10 so at most 41 frames",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "The model natively makes 81 frames; this runner does not expose that."
+  },
+  {
+   "id": "V-07",
+   "claim": "Memory use",
+   "value": "14.9 to 20.0 GB whole-card for 21 frames; 60.3 GB for the 41-frame clip",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Whole-card memory.used includes about 1.9 GB of desktop. The runner reports 13 GB, which under-reports by 4 to 5x."
+  },
+  {
+   "id": "V-08",
+   "claim": "Lease hand-off cost",
+   "value": "a blocking waiter on the lock file gets the card in about 1.4 s; the displaced job lost 344 s and 42 s of work in two hand-overs",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "The displaced job restarted from the beginning of its run (it does not resume mid-run)."
+  },
+  {
+   "id": "V-09",
+   "claim": "Attempts on the 41-frame job",
+   "value": "6 attempts, 5 interrupted by hand-overs, 1 complete",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "The job skips clips it already has (same prompt id, frame count, seed), so interruptions cost little."
+  },
+  {
+   "id": "V-10",
+   "claim": "Admission service refused a clip while the lease was held elsewhere",
+   "value": "HTTP 429 \"lease busy\" with Retry-After 10",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "This is why the job starts its own runner under the lease instead of calling the service."
+  },
+  {
+   "id": "V-11",
+   "claim": "Model and licence",
+   "value": "Wan 2.1 T2V 1.3B, Apache-2.0; commit id not recorded (a checksum manifest exists, a commit id does not)",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Revision gap: the pull was by repository name; fix by recording the commit id before publishing a pin."
+  },
+  {
+   "id": "V-12",
+   "claim": "Not measured",
+   "value": "motion quality review (one frame per clip checked for the 5 clips of the production-path run, none for the 22), other seeds, other resolutions, 81-frame clips, 14B warm",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "These are short clips from fixed prompts and a visual spot check, not a video quality evaluation."
+  }
+ ]
+}
