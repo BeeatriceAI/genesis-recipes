@@ -1,0 +1,142 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Thermal governor with a four-sample debounce for vLLM",
+ "version": "2026-1105",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "T-01",
+   "claim": "Software pacing lines of the engine scheduler",
+   "value": "pause at 90 C, resume at 86 C, latch at 91 C or thermal margin 1 C or less; poll every 0.25 s; at most 120 s per pause episode",
+   "basis": "observed-config",
+   "run_state": "governed",
+   "date_utc": "2026-10-30",
+   "caveat": "Operating guardrails chosen by the owner, not manufacturer limits. The card's own protections are untouched: 92 C maximum operating point, slowdown at margin -2 C, shutdown at margin -5 C."
+  },
+  {
+   "id": "T-02",
+   "claim": "The incident behind the debounce",
+   "value": "a single sample (88 C, margin 1.0 C, out of line with its neighbours) latched the guard, killed the engine and dropped the in-flight requests",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-03",
+   "caveat": "Temperature and margin are two separate NVML calls, so one glitchy pair can look like an emergency. One incident; no count of earlier false latches."
+  },
+  {
+   "id": "T-03",
+   "claim": "Debounce rule",
+   "value": "latch after 4 consecutive bad samples (about 1 s at the poll rate); immediate latch for thermal slowdown, margin -1 C or less, or 92 C and above; minimum hold of 2 s once paused; never resume above the resume line",
+   "basis": "observed-config",
+   "run_state": "governed",
+   "date_utc": "2026-11-03",
+   "caveat": "Cost: a real 91 C condition needs about 0.75 to 1 s to latch."
+  },
+  {
+   "id": "T-04",
+   "claim": "Staging in real vLLM 0.32.0 with injected samples",
+   "value": "7 of 7 injected cases behaved as designed: lone bad sample no latch; scattered bad no latch; three bad then good no latch; minimum hold measured 2.053 s; four in a row latched with HTTP 500 and failed health within 1 s; thermal slowdown latched at once and the engine exited within 1 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-04",
+   "caveat": "Injected samples were synthetic; real card peak 83 C. Immediate latches at margin -1 and 92 C were covered by unit tests, not by the engine run. A 9B model at 8192 context, not the 262,144-token profile."
+  },
+  {
+   "id": "T-05",
+   "claim": "Unit tests",
+   "value": "37 pass at promotion; 43 pass after speculative-decoding support was added",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "CPU tests with a fake clock and sensor. They do not prove live recovery from every fault or an absolute temperature ceiling."
+  },
+  {
+   "id": "T-06",
+   "claim": "Hold mechanism",
+   "value": "during a hold the scheduler zeroes the per-step token budget, so the base scheduler schedules nothing; no KV allocation, no preemption, pending draft tokens untouched",
+   "basis": "inference",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Read from the vLLM 0.32.0 scheduler, engine core and model runner code, plus the unit test; async scheduling and overlapping batches are refused because draft bookkeeping across steps was not inspected. The module is pinned to that exact vLLM version."
+  },
+  {
+   "id": "T-07",
+   "claim": "Fail-visible behaviour",
+   "value": "a latched fault raises inside the engine so health fails and the supervisor restarts it; there is no silent resume after a timeout",
+   "basis": "observed-config",
+   "run_state": "governed",
+   "date_utc": "2026-11-04",
+   "caveat": "It cannot interrupt a kernel already on the GPU or a blocking NVML call; an external guard is still needed for tests."
+  },
+  {
+   "id": "T-08",
+   "claim": "Harness mistake 1: stopping a run because the other card was hot",
+   "value": "a staging run was cut at 85 s when the other card reached 90 C under a consumer's load; the harness treated it like its own stop line",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Fixed so the other card stops a test at 91 C after 4 consecutive 1 Hz samples, or at once on margin 1 C or less, slowdown or 92 C."
+  },
+  {
+   "id": "T-09",
+   "claim": "Harness mistake 2: a pause that did not pause",
+   "value": "sending the stop signal to a process group missed the worker (it runs in its own session): 98.7% utilisation and 297 W during 77 \"paused\" samples",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Fix: signal the whole process tree; verified live: utilisation 100% to 4%, power 300 W to 116 W, 88 C to 83 C within about four seconds of a stop."
+  },
+  {
+   "id": "T-10",
+   "claim": "Harness mistake 3: a status check that matched the wrong text",
+   "value": "the initial launch aborted after 2 s because \"Not Active\" contained the substring the check looked for",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-04",
+   "caveat": "No engine ran."
+  },
+  {
+   "id": "T-11",
+   "claim": "Does the pause line work under load?",
+   "value": "not observed on the 262,144-token profile: six minutes of 16-stream decode at the 300 W limit plateaued at 87 to 88 C (monitor peak 89 C) and never reached 90 C",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "So a real hold-and-resume with MTP drafts pending is unknown. The scheduler reports it holds \"several times a day\" in normal serving per an operator note; no counted receipt is attached to that sentence."
+  },
+  {
+   "id": "T-12",
+   "claim": "Different layers, different lines",
+   "value": "in-engine scheduler 90 C / 86 C; external test harness 88 C pause / 84 C resume; image pool 88 C / 84 C; own-work stop 91 C everywhere",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Lines differ by layer on purpose: the external harness acts earlier so the in-engine pause is the backstop."
+  },
+  {
+   "id": "T-13",
+   "claim": "Not shown",
+   "value": "safe operation \"at 90 C\"; behaviour at other ambient temperatures; hold-and-resume under real load with drafts; a long-run count of pauses",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "The lines are guardrails the owner chose; this recipe does not claim they are safe limits."
+  }
+ ]
+}
