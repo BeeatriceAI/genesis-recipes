@@ -4,4 +4,7 @@
 - compaction-records-20261107.csv: 54 rows (2026-10-29 to 2026-11-07) from the agent's session database: timestamp_et, session_masked, message_seq, mode (native or deterministic), seconds, summary_chars, status (46 completed, 8 failed). No content, no prompts. Driver export; the database is private.
 - faceless/FACELESS-CLEAN-SET.csv: 26 faceless images (no people) with model, seed, verdict (CLEAN, CLEAN-BEST, CLEAN-OK, REJECT), stray-text note, approval status. One AI reviewer (a Claude Code session). faceless/FACELESS-QC-20261107.md: the AI reviewer's notes. The images are not published.
 - opencode-step-times-split-20261107.csv: see README-split.md.
-- SHA256SUMS.txt: sha256 of every data file in this folder (LF line endings; check with `sha256sum -c SHA256SUMS.txt` from inside raw/). Source: job JSON receipts and the session database on a studio workstation (private); the image cache mixes earlier campaigns with our test waves.
+- SHA256SUMS.txt: sha256 of every data file in this folder (CSV files use CRLF line endings, so clone with `git config core.autocrlf false`; check with `sha256sum -c SHA256SUMS.txt` from inside raw/). Source: job JSON receipts and the session database on a studio workstation (private); the image cache mixes earlier campaigns with our test waves.
+
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
