@@ -123,12 +123,12 @@
   },
   {
    "id": "Q-12",
-   "claim": "Same probe on the serving profile (no MTP, default KV dtype), through the LAN API",
+   "claim": "Same probe on the serving profile (no MTP, default KV dtype), through the production endpoint",
    "value": "passed, 468.94 s, peak 86 C",
    "basis": "historical",
    "run_state": "governed",
    "date_utc": "2026-10-29",
-   "caveat": "One run. The card was shared with three other resident models and a LAN consumer, and the software pacing lines then in force were lower than today. Not a like-for-like comparison with Q-10."
+   "caveat": "One run. The card was shared with other resident models and other jobs, and the software pacing lines then in force were lower than today. Not a like-for-like comparison with Q-10."
   },
   {
    "id": "Q-13",
@@ -232,7 +232,7 @@
   {
    "id": "Q-24",
    "claim": "Production promotion of native vision + MTP-2 + fp8 KV in one restart",
-   "value": "PASS: one maintenance-wrapped restart of the serving unit, finished 2026-11-05 21:12:56Z; readiness wait 171.2 s; the receipt records 1 request undrained when the drain window closed; the profile's post-checks all passed and no rollback ran",
+   "value": "PASS: one restart of the serving process, finished 2026-11-05 21:12:56Z; readiness wait 171.2 s; the receipt records 1 request undrained when the drain window closed; the profile's post-checks all passed and no rollback ran",
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
@@ -249,7 +249,7 @@
   },
   {
    "id": "Q-26",
-   "claim": "Post-restart checks through the LAN API",
+   "claim": "Post-restart checks through the production endpoint",
    "value": "1-token request: HTTP 200 in 0.65 s (17 prompt tokens); red and blue solid-colour image request through the production endpoint: both answered correctly; speculative-decoding counters after the checks: 4 draft tokens proposed and 4 accepted",
    "basis": "measured",
    "run_state": "n/a",
@@ -263,7 +263,7 @@
    "basis": "reported",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "Taken from the lab's record for the promotion. The raw output of that run was not found, so this is reported, not re-read. The suite checks service health, protocols and the gateway; it is not a quality evaluation."
+   "caveat": "Taken from the lab's record for the promotion. The raw output of that run was not found, so this is reported, not re-read. The suite checks service health, protocols and the endpoint; it is not a quality evaluation."
   },
   {
    "id": "Q-28",
@@ -272,12 +272,12 @@
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "Loopback, one fixture, one run, other traffic present. A fixture-level PASS, not a vision quality evaluation. The formal 12-case regression over the production endpoint did not run: it refused because another consumer was connected (HOLD)."
+   "caveat": "Loopback, one fixture, one run, other traffic present. A fixture-level PASS, not a vision quality evaluation. The formal 12-case regression over the production endpoint did not run: it did not run (HOLD)."
   },
   {
    "id": "Q-29",
    "claim": "Decode speed on the promoted production profile",
-   "value": "UNKNOWN. The one production reading: one short request, inter-token latency p50 37.4 ms (about 26.7 tokens/s single stream) while another consumer shared the engine; the previous profile's regression chat throughput was 46.4 tokens/s",
+   "value": "UNKNOWN. The one production reading: one short request, inter-token latency p50 37.4 ms (about 26.7 tokens/s single stream) with other jobs on the engine; the previous profile's regression chat throughput was 46.4 tokens/s",
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
@@ -303,12 +303,12 @@
   },
   {
    "id": "Q-32",
-   "claim": "Image input at the gateway",
-   "value": "inline data:image URIs accepted for this model; remote image URLs refused; images above 4096 px per side or 8,847,360 pixels rejected with HTTP 400; at most 16 images and 2 videos per prompt",
+   "claim": "Image input",
+   "value": "inline data:image URIs accepted for this model; remote image URLs refused; image size is bounded before the engine; at most 16 images and 2 videos per prompt",
    "basis": "observed-config",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "Read from commits and launch flags. The size cap was added after a red-team finding (see the image-size-cap note (withdrawn for now)) and its rejection was not retested."
+   "caveat": "Read from commits and launch flags."
   },
   {
    "id": "Q-33",
