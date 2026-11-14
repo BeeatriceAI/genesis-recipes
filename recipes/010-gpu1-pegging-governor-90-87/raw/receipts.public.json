@@ -1,0 +1,106 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Pegging a 300 W card: moving the pause line from 88/84 C to 90/87 C on a resident image pool",
+ "version": "2026-1110",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "G-01",
+   "claim": "Soak windows under the 88 C pause / 84 C resume lines (windows finished before the policy change)",
+   "value": "435 windows: median 51.0 images/min (range 44.0-56.7); median 19 pauses and 43.1 s paused per window, 8,314 pauses in total; median GPU utilisation 78.6%, median average board power 261.5 W, median average SM clock 1,763 MHz; peak 90 C in at least one window, median window peak 89 C; every window labelled complete but cooling-governed",
+   "basis": "measured",
+   "run_state": "cooling-limited",
+   "date_utc": "2026-11-06",
+   "caveat": "The harness file does not record the worker count or the hour per window, and the set spans 2026-11-04 to 2026-11-06 under earlier pool settings. Ambient temperature was not recorded. A median of a mixed set."
+  },
+  {
+   "id": "G-02",
+   "claim": "Soak windows under the 90 C pause / 87 C resume lines (windows finished after the policy change)",
+   "value": "14 windows between 18:15Z and 19:15Z: median 60.1 images/min (range 59.0-61.7); 13 windows complete with 0 pauses, 1 window with a single 2.05 s pause at 90 C; median GPU utilisation 98.2%, median average board power 300.0 W, median average SM clock 1,664 MHz; peak 89 C in 13 windows and 90 C in one; CPU peak 84.1 C; p50 latency 1.00 s, p95 1.02 s; throttle-reason bits seen: none and the software power cap",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-06",
+   "caveat": "14 windows in one hour on one day; ambient not recorded; the pause line was reached once. Window spacing is about 4.5 minutes, so nothing here speaks to hours."
+  },
+  {
+   "id": "G-03",
+   "claim": "Ratio of the two medians",
+   "value": "about 1.18x (60.1 / 51.0 images/min)",
+   "basis": "derived",
+   "run_state": "n/a",
+   "date_utc": "2026-11-06",
+   "caveat": "Not a controlled A/B: different hours and days, mixed earlier windows, room temperature unrecorded. State it as a ratio of two medians, nothing more."
+  },
+  {
+   "id": "G-04",
+   "claim": "The policy change",
+   "value": "chain governor pause 88 -> 90 C, resume 84 -> 87 C, admit light/medium 86 -> 88 C, hot 84 -> 86 C; image pool hold 90 C, resume 87 C, admit below 85 C; stop line stays 91 C; configuration check ceiling for the pause line raised from 88 to 90 C; the pause test now injects 90.5 C",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-06",
+   "caveat": "Read from the committed configuration and code diff. The hardware maximum (92 C), slowdown (margin -2 C) and shutdown (margin -5 C) points, the 300 W limit and the clocks are unchanged."
+  },
+  {
+   "id": "G-05",
+   "claim": "Earlier ungoverned single-worker ceiling on a cool card",
+   "value": "61.2 images/min (0.98 s per image), 30-36 s windows",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "A peak from short windows on a cool start; the same figure as the image-pool recipe's [I-02]. Window length differs from the 4.5-minute windows above."
+  },
+  {
+   "id": "G-06",
+   "claim": "What this recipe does not show",
+   "value": "continuous multi-hour behaviour at 90 C, a hotter room, the other card at its power limit, component wear, any line above 90 C, image quality at either line",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-06",
+   "caveat": "Listed so nobody reads the gain as a general statement. 90 C is an owner-chosen software guardrail, not a manufacturer figure. v2 adds 66 windows over 8.6 hours (G-09), which narrows but does not close the hours question."
+  },
+  {
+   "id": "G-07",
+   "claim": "Extended set, same lines, before another model became resident on the card: windows finished 18:15Z to 21:02Z on 2026-11-06 (includes the 14 of G-02)",
+   "value": "18 windows: median 60.2 images/min (range 59.0-61.7); 1 pause in total (one window, at 90 C); median utilisation 98.2%, median average board power 300.0 W, median average SM clock 1,664 MHz; peak 90 C in one window, 89 C in the rest; median peak VRAM use 22.7 GiB",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Same harness and caveats as G-02, four windows longer. Ambient temperature not recorded."
+  },
+  {
+   "id": "G-08",
+   "claim": "Extended set after a 9B-class language model became resident on the same card (VRAM peak rose to about 44 GiB): windows finished 22:29Z on 2026-11-06 to 02:49Z on 2026-11-07",
+   "value": "48 windows: median 63.7 images/min (range 61.0-64.5); 1 pause in total (one window, at 90 C); median utilisation 97.9%, median average board power 300.0 W, median average SM clock 1,623 MHz; peak 90 C in one window, 89 C in the rest",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Higher than the earlier windows and higher than the 61.2 ungoverned peak. The cause is UNKNOWN: the resident model, the hour and the room all changed, and the harness file does not record the worker settings. Do not read 63.7 as an effect of the second resident model."
+  },
+  {
+   "id": "G-09",
+   "claim": "Whole post-change set",
+   "value": "66 windows over 8.6 hours of wall time (about 5 hours of window time, five gaps longer than 10 minutes): 2 pauses in total (4.3 s paused), both single pauses at 90 C; 64 windows complete with no pause; peak 89 C in 64 windows, 90 C in two; CPU peak 84.1 C; worst p95 latency 1.03 s; throttle-reason bits seen: none and the software power cap",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "The synthetic windows stopped after 02:49Z on 2026-11-07 (the lab replaced them with real work), so there is no longer a running set. Still not a multi-hour continuous run, and not a four-hour paced run."
+  }
+ ]
+}
