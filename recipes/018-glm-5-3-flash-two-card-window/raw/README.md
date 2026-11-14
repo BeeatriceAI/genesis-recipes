@@ -18,4 +18,4 @@ Derived or transcribed (see `DERIVED.md`): `build_receipt.json`, `launch_flags.t
 No prompts, outputs, host names, addresses, ports, paths or user names are included. Nothing here is a quality evaluation.
 
 Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
-Written by AI agents; approval for publication by the studio owner is pending (the date is added after his yes).
+Written by AI agents; approved for publication by the studio owner on 2026-11-14.

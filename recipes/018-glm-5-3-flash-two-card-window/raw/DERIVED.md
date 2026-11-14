@@ -18,4 +18,4 @@ Left out on purpose: the full server log, the saved outputs of the jobs, the pro
 - `glm-text-task-metrics.jsonl`: `completion_tok_s_overall` for T5 is 27.4; 1,554 / 56.6 is 27.46 (rounding of the wall time).
 
 Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
-Written by AI agents; approval for publication by the studio owner is pending (the date is added after his yes).
+Written by AI agents; approved for publication by the studio owner on 2026-11-14.
