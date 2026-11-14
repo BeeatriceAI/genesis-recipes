@@ -1,0 +1,151 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "NVFP4 on SM120 with vLLM 0.32.0 and CUDA 12.9: what works with driver 570",
+ "version": "2026-1105",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "N-01",
+   "claim": "Which vLLM runs on driver 570",
+   "value": "vLLM 0.32.0 built for CUDA 12.9 runs; vLLM 0.33.0 does not (wheels are built for CUDA 13.0 alone and need torch 2.14)",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "torch 2.14.0+cu130 refused to initialise on driver 570 (\"driver too old\"). The 0.33.0 release notes state that CUDA 12.9 wheels are dropped. A driver of 580 or newer was not tried."
+  },
+  {
+   "id": "N-02",
+   "claim": "Driver and toolkit",
+   "value": "open kernel module driver 570 reports CUDA 12.8; the CUDA 12.9 wheels run through minor-version compatibility",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Per the vendor compatibility guide minor-version compatibility stays inside one major CUDA release; the 12.8 system compiler matters (N-05)."
+  },
+  {
+   "id": "N-03",
+   "claim": "Capability check of NVFP4 linear kernels on the card (compute capability 12.0)",
+   "value": "supported: b12x, FlashInfer b12x, FlashInfer CUTLASS, CUTLASS, cuDNN, TensorRT-LLM, Marlin; not supported: CuTe DSL (needs sm_10x)",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "A capability check, no more; not a correctness or speed result."
+  },
+  {
+   "id": "N-04",
+   "claim": "Default attention backend on this card and driver",
+   "value": "FlashAttention-2 PTX fails (\"unsupported toolchain\"); Triton attention works; the vision tower also needs the language-model-only flag",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "The serving profile already pins Triton attention."
+  },
+  {
+   "id": "N-05",
+   "claim": "Two workarounds for NVFP4 with FlashInfer on the 12.8 system compiler",
+   "value": "(a) set the architecture list to 12.0f so FlashInfer uses its ahead-of-time sm120f kernels; (b) turn the FlashInfer autotune warm-up off",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Without (b) the initial start held 92 GiB for 3.7 minutes and exited with rc=1 after 225 s; with it, start-up took 25 s."
+  },
+  {
+   "id": "N-06",
+   "claim": "NVFP4 decode on the card: nvidia/Qwen3-8B-NVFP4, default linear backend",
+   "value": "130.4 / 436.9 / 487.8 tokens/s aggregate at 1 / 4 / 16 streams; start-up 54 s; 5.98 GiB weights",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Short context (8192), 30% memory fraction, at most 4 sequences in flight, 256 tokens per request, 2 / 8 / 16 requests, one run. The 16-stream figure is therefore queue-limited by the 4-sequence cap."
+  },
+  {
+   "id": "N-07",
+   "claim": "Same, b12x linear backend",
+   "value": "173.6 / 476.9 / 615.9 tokens/s; start-up 42 s",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "About +33% at one stream and +26% at 16 against N-06; one run each, so a repeat is needed before calling it settled."
+  },
+  {
+   "id": "N-08",
+   "claim": "Same, CUTLASS linear backend",
+   "value": "122.3 / 401.5 / 431.5 tokens/s; start-up 36 s",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Slowest of the three."
+  },
+  {
+   "id": "N-09",
+   "claim": "Five-case answer-format fixture on the NVFP4 8B model",
+   "value": "4 of 5 cases pass; the miss is the same arithmetic case in both backends (reply \"1234 + 8765 = 9999\", numerically correct but not in the expected format)",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "A smoke test of the stack, not a quality evaluation. No BF16 or FP8 comparison of the same 8B model was run, so no accuracy-loss claim follows."
+  },
+  {
+   "id": "N-10",
+   "claim": "Why the 8B model, not the 27B one",
+   "value": "the official 27B NVFP4 checkpoint (publisher: Apache-2.0, 21.95 GB) was not downloaded in this run",
+   "basis": "publisher",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "The publisher card claims accuracy within about 1.5 points of BF16 on six tests and says it was tested on a datacentre part, not on this card. None of that is verified here."
+  },
+  {
+   "id": "N-11",
+   "claim": "Local NVFP4 quantisation of the 27B with NVIDIA Model Optimizer 0.48.0 (8 calibration samples)",
+   "value": "failed 3 times with \"Triton Error: device kernel image is invalid\" in a PyTorch-native kernel during the calibration forward pass; a fourth attempt failed on a launcher path error",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Peak card memory 54 GB before the failure; 15 to 23 s each. Cause not isolated (Triton build for this card in the PyTorch 2.13 / CUDA 12.9 stack is the suspect). No NVFP4 27B checkpoint was produced."
+  },
+  {
+   "id": "N-12",
+   "claim": "27B FP8 with MTP-1 in a smoke run on the same stack",
+   "value": "72.2 tokens/s against 43.3 plain on a maximally predictable counting prompt (129 of 129 drafts accepted)",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "An upper bound, not an expected gain; see the Qwen recipe for the real figures."
+  },
+  {
+   "id": "N-13",
+   "claim": "Not tested",
+   "value": "NVFP4 mixture-of-experts models; NVFP4 KV cache; long context; the 27B model; accuracy against a higher-precision baseline; driver 580 or newer",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Community reports of broken NVFP4 MoE on this architecture exist; they were not checked here and this recipe says nothing about them."
+  },
+  {
+   "id": "N-14",
+   "claim": "Pinned software of the environment",
+   "value": "vLLM 0.32.0+cu129, torch 2.13.0+cu129, transformers 5.19.0, FlashInfer 0.7.0.post1 (plus cubin and sm120f ahead-of-time cache), b12x 1.5.1, Triton 3.7.1, Python 3.12",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "From the environment lock file."
+  }
+ ]
+}
