@@ -37,7 +37,7 @@
    "basis": "measured",
    "run_state": "harness-paced",
    "date_utc": "2026-11-05",
-   "caveat": "Two clips, no more. GPU peak 86 to 87 C, within 4 to 5 C of the pause line."
+   "caveat": "Two clips, no more. GPU peak 86 to 87 C, 1 to 2 C under the pause line (86 to 87 C against 88 C)."
   },
   {
    "id": "V-03",
@@ -82,7 +82,7 @@
    "basis": "measured",
    "run_state": "ungoverned",
    "date_utc": "2026-11-04",
-   "caveat": "Whole-card memory.used includes about 1.9 GB of desktop. The runner reports 13 GB, which under-reports by 4 to 5x."
+   "caveat": "Whole-card memory.used includes about 1.9 GB of desktop. The runner reports 13 GB, which is 1.1x to 1.5x below the whole-card figure at 21 frames and about 4.6x below it at 41 frames (60.3 GB)."
   },
   {
    "id": "V-08",
