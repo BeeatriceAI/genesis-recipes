@@ -4,6 +4,10 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+
+> **Not reproducible yet:** the code this recipe depends on is not published in this repository, and the launch or steps below cannot run as written.
+
 ## Headline
 
 | What | Number | Run state | Receipt |
@@ -47,7 +51,7 @@ every scheduler step (poll NVML at most every 0.25 s):
 status JSON every second and on every transition: held, reason, latched fault, lines, bad_streak, pause_count, total pause seconds, peak, last sample
 ```
 
-All lines are environment variables with conservative built-in defaults (84 / 80 / 87 C and 5 C margin); the serving profile passes 90 / 86 / 91 C and 1 C from a policy file. The constructor rejects inconsistent lines (resume at least 2 C under pause, stop at most 91 C, between 5 and 300 s maximum pause, 1 to 8 confirmation samples, 0 to 10 s minimum hold). Launch flags: `--scheduler-cls genesis_thermal_scheduler.ThermalScheduler --no-async-scheduling`, with the module on `PYTHONPATH` [T-01 · REPORTED] [T-03 · REPORTED].
+All lines are environment variables with conservative built-in defaults (84 / 80 / 87 C and 5 C margin); the serving profile passes 90 / 86 / 91 C and 1 C from a policy file. The constructor rejects inconsistent lines (resume at least 2 C under pause, stop at most 91 C, between 5 and 300 s maximum pause, 1 to 8 confirmation samples, 0 to 10 s minimum hold). Launch flags: `--scheduler-cls <thermal scheduler module>.ThermalScheduler --no-async-scheduling`, with the module on `PYTHONPATH` [T-01 · REPORTED] [T-03 · REPORTED].
 
 ## 5. Patches and workarounds
 
@@ -89,7 +93,7 @@ Real card peak during staging was 83 C; injected samples were synthetic and the 
 
 Safe operation at 90 C; behaviour at another ambient temperature; a hold-and-resume under real load with drafts pending; a long-run pause count with a receipt behind it [T-13 · NOT RUN] [T-11 · REPORTED].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Install vLLM 0.32.0; start any small model with the stock scheduler to confirm the card works.
 2. Write the module from the pseudo-code in section 4 (the public copy will be published after sanitising), pin it to the exact vLLM version, and add a status file.
@@ -105,7 +109,7 @@ The module is lab code subclassing vLLM's scheduler. code MIT, text CC BY 4.0. v
 
 - 2026-1105 v1: initial write-up from the debounce staging receipt, the speculative-decoding update and the harness incidents.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
