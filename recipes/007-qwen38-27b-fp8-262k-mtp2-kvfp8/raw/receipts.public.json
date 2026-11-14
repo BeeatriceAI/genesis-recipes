@@ -1,0 +1,323 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Qwen3.8-27B-FP8 on one RTX PRO 6000 Max-Q: 262,144 context, native vision, MTP-2 + fp8 KV, 1,024-token prefill batches, thermal scheduler (v2, promoted)",
+ "version": "2026-1106",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run",
+  "reported"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "Q-01",
+   "claim": "KV cache pool, staged profile (MTP-2 + fp8 KV, 51% memory fraction, scheduler on) [STAGING, language-model-only]",
+   "value": "536,203 tokens (2.05x of 262,144)",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "Warm compile cache. The same flags measured 469,178 tokens with a cold compile cache (Q-02). Single boot each; the pool after a production restart is not yet read."
+  },
+  {
+   "id": "Q-02",
+   "claim": "KV cache pool, same flags, cold compile cache [STAGING, language-model-only]",
+   "value": "469,178 tokens",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Peak activation during profiling was 3.75 GiB cold against 1.36-1.40 GiB warm; the pool size depends on which one the engine sees."
+  },
+  {
+   "id": "Q-03",
+   "claim": "KV cache pool of the current serving profile (51%, default KV dtype, no MTP)",
+   "value": "319,800 tokens (1.22x of 262,144)",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Value carried by the staging harness as the reference for the serving profile; not re-measured in this run."
+  },
+  {
+   "id": "Q-04",
+   "claim": "Decode throughput of the staged profile at 1 / 4 / 16 concurrent streams [STAGING, language-model-only]",
+   "value": "88.5 / 312.1 / 911.0 tokens/s aggregate (89.0 / 78.8 / 61.1 per stream median)",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "Method: 256 output tokens per request, temperature 0, short prompts, 2 / 8 / 16 requests, loopback client, one run. The 16-stream sample lasted 4.5 s. A sample, not a load test. 0 errors."
+  },
+  {
+   "id": "Q-05",
+   "claim": "Decode throughput of the same model with no MTP and default KV dtype (reference, two boots)",
+   "value": "boot 1: 42.8 / 120.5 / 453.2; boot 2: 43.9 / 123.8 / 608.4 tokens/s aggregate",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Same method as Q-04, but 70% memory fraction and no in-engine scheduler (an external script paced the card). The spread at 16 streams (453 to 608 between two boots) is the noise to keep in mind for every 16-stream figure here."
+  },
+  {
+   "id": "Q-06",
+   "claim": "Decode speed-up of the staged profile against the reference",
+   "value": "about 2.0x at 1 stream, about 2.6x at 4, 1.5x to 2.0x at 16",
+   "basis": "derived",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Ratio of Q-04 to Q-05 (mean of the two boots at 1 and 4 streams). The two runs differ in memory fraction and scheduler, so read it as an order of magnitude, not a controlled A/B."
+  },
+  {
+   "id": "Q-07",
+   "claim": "MTP draft acceptance (2 draft tokens) [STAGING, language-model-only]",
+   "value": "0.800 over the whole staging run (6,002 drafted, 4,803 accepted); 0.760 over a 6-minute 16-stream load; 0.917 on a block of short answers",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "Acceptance depends on the text being generated; short, predictable answers accept more."
+  },
+  {
+   "id": "Q-08",
+   "claim": "Speculative depth: 1 draft token versus 2 (MTP alone, no fp8 KV)",
+   "value": "MTP-1: 67.5 / 258.7 / 841.9 tokens/s, acceptance 0.875; MTP-2: 84.2 / 297.1 / 871.4, acceptance 0.797",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "One run each at 70% memory fraction; 16-stream numbers differ by less than the boot-to-boot spread in Q-05."
+  },
+  {
+   "id": "Q-09",
+   "claim": "fp8 KV cache alone (no MTP)",
+   "value": "KV pool 1,120,891 vs 571,950 tokens at the same 70% fraction (1.96x); decode 43.4 / 138.9 / 371.3 tokens/s",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "The decode rate does not improve; the gain is memory. The checkpoint ships no KV scales, so fp8 attention runs with scale 1.0 (Q-19)."
+  },
+  {
+   "id": "Q-10",
+   "claim": "258,886-token three-position retrieval, staged profile, cold [STAGING, language-model-only]",
+   "value": "passed (3 of 3 phrases), 346.75 s, 66 output tokens",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Includes 87 external pauses of 1 to 2 s each (the test harness stops the engine at 88 C and resumes at 84 C); pause time inside this probe was not separated (the whole run had 111 pauses, 136.6 s). A prompt with the same builder and phrases as the serving-profile probe in Q-12. GPU peak 88 C."
+  },
+  {
+   "id": "Q-11",
+   "claim": "Same probe, scheduler class removed, otherwise the same flags",
+   "value": "passed, 305.74 s",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "35 external pauses. The difference to Q-10 is the number of pauses, not the scheduler (which held 0 times)."
+  },
+  {
+   "id": "Q-12",
+   "claim": "Same probe on the serving profile (no MTP, default KV dtype), through the LAN API",
+   "value": "passed, 468.94 s, peak 86 C",
+   "basis": "historical",
+   "run_state": "governed",
+   "date_utc": "2026-10-29",
+   "caveat": "One run. The card was shared with three other resident models and a LAN consumer, and the software pacing lines then in force were lower than today. Not a like-for-like comparison with Q-10."
+  },
+  {
+   "id": "Q-13",
+   "claim": "About 200,000-token cold probe, staged profile [STAGING, language-model-only]",
+   "value": "passed, 191.79 s (24 pauses) and 168.44 s (6 pauses) in two runs; 199,888 prompt tokens",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Distinct header and phrases so no prefix-cache hit. Pause counts differ between the runs."
+  },
+  {
+   "id": "Q-14",
+   "claim": "Cold prefill with fp8 KV against default KV at 160,045 prompt tokens",
+   "value": "cold 125.88 s (fp8 KV) vs 169.59 s (default); identical-prompt repeat 0.55 s vs 0.63 s",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "One run each, 80% memory fraction, no scheduler class, no MTP. The builder aimed at about 110,000 tokens; the server-reported prompt_tokens (160,045) is what is quoted. A prefix-caching flag changed nothing (it is already on). Two distinct concurrent prompts: 196.56 s vs 234.94 s wall."
+  },
+  {
+   "id": "Q-15",
+   "claim": "Average prompt-processing rate on cold long prompts",
+   "value": "747 tokens/s (258,886 in 346.75 s), 847 (in 305.74 s), 1,042 (199,888 in 191.79 s), 1,187 (in 168.44 s), 944 (160,045 in 169.59 s, default KV), 1,271 (in 125.88 s, fp8 KV)",
+   "basis": "derived",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Prompt tokens divided by total wall time of one request, including 66 output tokens and any external pauses. It is a wall-clock average, not an isolated prefill kernel rate, and it falls with prompt length."
+  },
+  {
+   "id": "Q-16",
+   "claim": "Twelve-case regression fixture (format, arithmetic, tool call, long-context needle, limits) [STAGING, language-model-only]",
+   "value": "11 of 12 pass at 3 samples; the miss is one arithmetic case that the serving profile fails the same way",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "A basic fixture, not a quality evaluation. Direct probes on the six arithmetic prompts gave identical answers on the serving profile and the staged profile, so the miss belongs to the checkpoint. Tool-call fixture 3 of 3."
+  },
+  {
+   "id": "Q-17",
+   "claim": "Six-minute sustained 16-stream decode at the 300 W power limit [STAGING, language-model-only]",
+   "value": "1,373 requests, 350,436 output tokens, 0 errors; 810 to 1,100 tokens/s per 10-second bucket; mean about 973 tokens/s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "Mean is derived (350,436 tokens / 360 s). GPU temperature rose from 73 C to 86 C within the opening minute, then sat at 87 to 88 C (monitor peak 89 C). The 90 C pause line was never reached, so the in-engine scheduler never held."
+  },
+  {
+   "id": "Q-18",
+   "claim": "Scheduler hold with MTP drafts in flight, live",
+   "value": "not observed",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Covered by a CPU unit test (zero-budget hold keeps two drafts and resumes with exactly 1 + 2 tokens) and by reading the vLLM 0.32.0 scheduler code; the live case is unknown because the card did not reach the pause line."
+  },
+  {
+   "id": "Q-19",
+   "claim": "Engine log warning about fp8 attention scales",
+   "value": "KV scale 1.0, uncalibrated q_scale and prob_scale",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "The checkpoint ships no k/v scales. The fixtures pass, but they do not evaluate fp8 attention quality; no perplexity or long-context quality comparison was run."
+  },
+  {
+   "id": "Q-20",
+   "claim": "Weights and engine memory",
+   "value": "model 27.99 GiB with the MTP head (27.55 GiB without); ready in 42 s with a warm compile cache; 132 s on a cold start",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Boot times are from the engine log; cold start includes kernel compilation."
+  },
+  {
+   "id": "Q-21",
+   "claim": "Linear backend switch for the fp8 weights (b12x kernel)",
+   "value": "no gain: 44.1 / 119.4 / 515.9 tokens/s, 126 s start-up, pool 572,719 tokens",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Inside the boot-to-boot noise of Q-05."
+  },
+  {
+   "id": "Q-22",
+   "claim": "Status of the profile when v1 was written (superseded by Q-24)",
+   "value": "v1 of this recipe: verdict recorded as go; not yet applied to the serving card",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Historical. The profile was promoted on 2026-11-05 at 21:12Z; see Q-24."
+  },
+  {
+   "id": "Q-23",
+   "claim": "GPU temperatures reached while staging",
+   "value": "staging card peak 88 C during probes, 86 C during regression and decode; the other card peaked 89 C under another job",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Harness pauses at 88 C / resume 84 C (external); the initial staging run was cut at 85 s because the other card reached 90 C, which the older harness treated as a stop (T-08)."
+  },
+  {
+   "id": "Q-24",
+   "claim": "Production promotion of native vision + MTP-2 + fp8 KV in one restart",
+   "value": "PASS: one maintenance-wrapped restart of the serving unit, finished 2026-11-05 21:12:56Z; readiness wait 171.2 s; the receipt records 1 request undrained when the drain window closed; the profile's post-checks all passed and no rollback ran",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "One promotion, one restart. The drain was bounded at 120 s and did not complete: one in-flight request was undrained. Downtime seen by clients was not measured separately."
+  },
+  {
+   "id": "Q-25",
+   "claim": "KV cache pool after the production restart",
+   "value": "464,709 tokens (1.77x of 262,144), up from 319,800 on the previous serving profile (+45%)",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-05",
+   "caveat": "Printed by the promotion script after the restart. It matches the staged number (464,709). The earlier staged MTP-only figure of 536,203 (Q-01) is higher because the vision encoder's profiling takes memory."
+  },
+  {
+   "id": "Q-26",
+   "claim": "Post-restart checks through the LAN API",
+   "value": "1-token request: HTTP 200 in 0.65 s (17 prompt tokens); red and blue solid-colour image request through the LAN gateway: both answered correctly; speculative-decoding counters after the checks: 4 draft tokens proposed and 4 accepted",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Three tiny requests. They show vision and MTP are live; they are not a speed or accuracy measurement."
+  },
+  {
+   "id": "Q-27",
+   "claim": "Post-restart check suite of the lab's health tooling",
+   "value": "31 of 31 checks passed",
+   "basis": "reported",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Taken from the lab's record for the promotion. The raw output of that run was not found, so this is reported, not re-read. The suite checks service health, protocols and the gateway; it is not a quality evaluation."
+  },
+  {
+   "id": "Q-28",
+   "claim": "Vision fixture on the promoted production profile",
+   "value": "an error-screenshot fixture: HTTP 200 in 6.08 s; the error code, host name and port were transcribed correctly. A 1x1-pixel blue control image was answered with the word 'I', which is not a pass",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Loopback, one fixture, one run, other traffic present. A fixture-level PASS, not a vision quality evaluation. The formal 12-case regression over the LAN gateway did not run: it refused because another consumer was connected (HOLD)."
+  },
+  {
+   "id": "Q-29",
+   "claim": "Decode speed on the promoted production profile",
+   "value": "UNKNOWN. The one production reading: one short request, inter-token latency p50 37.4 ms (about 26.7 tokens/s single stream) while another consumer shared the engine; the previous profile's regression chat throughput was 46.4 tokens/s",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "INCONCLUSIVE, not a verdict. Confounds: shared engine, just 5 tokens generated, speculative-decoding cost. It is listed so that nobody quotes the staged 88-93 tokens/s as a production number. A clean-window re-baseline is open."
+  },
+  {
+   "id": "Q-30",
+   "claim": "Staged combined profile (vision + MTP-2 + fp8 KV, scheduler on) on the second card, before promotion",
+   "value": "boot 90 s; decode 92.5 / 329.9 / 930.9 tokens/s aggregate at 1 / 4 / 16 streams; MTP acceptance 0.792; 258,886-token retrieval PASS in 324.8 s; image fixtures 6/6 and concurrency 4 and 16 with drafts 12/12 and 32/32 correct; 12-case fixture 11 of 12; peak 88 C",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Staging card, harness pauses at 88 C (63 in the long probe), short samples, one run. These are the closest available numbers for the promoted flags, and they are staging numbers, not production numbers."
+  },
+  {
+   "id": "Q-31",
+   "claim": "258,886-token retrieval on the promoted production profile",
+   "value": "not run",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-06",
+   "caveat": "The follow-up probe through the LAN gateway had not been run when this was written. The last production figure is the old profile's 468.94 s (Q-12)."
+  },
+  {
+   "id": "Q-32",
+   "claim": "Image input at the gateway",
+   "value": "inline data:image URIs accepted for this model; remote image URLs refused; images above 4096 px per side or 8,847,360 pixels rejected with HTTP 400; at most 16 images and 2 videos per prompt",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Read from commits and launch flags. The size cap was added after a red-team finding (see recipe 2026-1106-vision-oversize-image-latency-cap) and its rejection was not retested."
+  },
+  {
+   "id": "Q-33",
+   "claim": "Vision variants staged before the combined profile",
+   "value": "vision alone (no MTP, default KV): KV pool 279,056 tokens, 12.7% under the serving floor of 303,810, FAIL; vision with a 1,048,576-pixel cap: 305,194; vision with encoder profiling skipped: 305,194 (unprofiled); vision + MTP-2 + fp8 KV: 464,709 (PASS, +45%)",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Staging card, warm compile cache, one boot each. The encoder-cache profiling takes about 26K tokens of KV. The pixel-capped variant would have limited images to about 1 megapixel, which is why the combined profile was chosen."
+  }
+ ]
+}
