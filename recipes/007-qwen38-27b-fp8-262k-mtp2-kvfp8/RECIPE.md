@@ -4,7 +4,7 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
-> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
 
 > **Not reproducible yet:** the code this recipe depends on is not published in this repository, and the launch or steps below cannot run as written.
 
@@ -102,7 +102,7 @@ Sustained: sixteen back-to-back streams for six minutes at the 300 W limit gave 
 | Vision fixture (error screenshot) | PASS, 6.08 s; the 1x1 control answered "I" | [Q-28 · REPORTED] |
 | Decode | UNKNOWN; one loaded short request about 26.7 tokens/s, INCONCLUSIVE | [Q-29 · REPORTED] |
 | 258,886-token retrieval | not run | [Q-31 · NOT RUN] |
-| Image input at the gateway | inline data URIs (no remote URLs), 4096 px / 8.4 MP cap, 16 images and 2 videos per prompt | [Q-32 · REPORTED] |
+| Image input | inline data URIs (no remote URLs); image size is bounded before the engine; 16 images and 2 videos per prompt | [Q-32 · REPORTED] |
 
 The formal 12-case regression did not run after the promotion (HOLD) [Q-28 · REPORTED]. That is the reason the production speed in this recipe is UNKNOWN.
 
@@ -123,12 +123,12 @@ The formal 12-case regression did not run after the promotion (HOLD) [Q-28 · RE
 |---|---|---|---|---|
 | 258,886 | staged, harness-paced, 87 pauses | 346.75 s | 747 tokens/s | [Q-10 · REPORTED] [Q-15 · REPORTED] |
 | 258,886 | staged, no scheduler class, 35 pauses | 305.74 s | 847 tokens/s | [Q-11 · REPORTED] [Q-15 · REPORTED] |
-| 258,886 | current profile, LAN API, 2026-10-29 | 468.94 s | 552 tokens/s | [Q-12 · REPORTED] |
+| 258,886 | current profile, production endpoint, 2026-10-29 | 468.94 s | 552 tokens/s | [Q-12 · REPORTED] |
 | 199,888 | staged, 24 pauses / 6 pauses (two runs) | 191.79 s / 168.44 s | 1,042 / 1,187 tokens/s | [Q-13 · REPORTED] |
 | 160,045 | fp8 KV, no MTP, ungoverned | 125.88 s | 1,271 tokens/s | [Q-14 · REPORTED] |
 | 160,045 | default KV, no MTP, ungoverned | 169.59 s | 944 tokens/s | [Q-14 · REPORTED] |
 
-The rates divide prompt tokens by the whole request wall time (including 66 output tokens and any pauses), so they are wall-clock averages, not a prefill kernel rate, and they fall as the prompt grows. The staged probes carry external pauses that were not timed separately. The 468.94 s line is a different card state, shared with three other resident models and a LAN consumer, under lower pacing lines: do not read the three 258,886-token rows as a like-for-like speed-up. An identical prompt repeated from the prefix cache returns in 0.55-0.63 s [Q-14 · REPORTED]; that is cache reuse, not prefill speed.
+The rates divide prompt tokens by the whole request wall time (including 66 output tokens and any pauses), so they are wall-clock averages, not a prefill kernel rate, and they fall as the prompt grows. The staged probes carry external pauses that were not timed separately. The 468.94 s line is a different card state, shared with other resident models and other jobs, under lower pacing lines: do not read the three 258,886-token rows as a like-for-like speed-up. An identical prompt repeated from the prefix cache returns in 0.55-0.63 s [Q-14 · REPORTED]; that is cache reuse, not prefill speed.
 
 ### Quality gates
 
@@ -137,7 +137,7 @@ The rates divide prompt tokens by the whole request wall time (including 66 outp
 
 ## 7. Thermal behaviour
 
-- In-engine scheduler lines: pause 90 C, resume 86 C, latch 91 C or 1 C thermal margin, debounced over four samples. The hardware limits (92 C maximum, slowdown at margin -2, shutdown at margin -5) are untouched.
+- In-engine scheduler lines: pause 90 C, resume 86 C, latch 91 C or 1 C thermal margin, debounced over four samples. The card's own hardware protections are untouched; we did not verify their values against a vendor document, so none are published here.
 - While staging, an external test harness paused the engine at 88 C and resumed at 84 C so the scheduler stayed a backstop. The staging card peaked at 88 C during the long probes and 86 C during decode, with 111 pauses totalling 136.6 s in the governed run, longest 2.1 s [Q-23 · REPORTED] [Q-10 · REPORTED].
 - Under six minutes of 16-stream decode with no harness pacing, the card rose from 73 C to 86 C in a minute and then sat at 87-88 C, monitor peak 89 C. The 90 C line was not reached, so the scheduler never held [Q-17 · REPORTED].
 - Production temperature after the promotion was not recorded for this recipe.
