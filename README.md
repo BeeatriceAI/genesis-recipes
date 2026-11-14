@@ -6,10 +6,10 @@ Recipes and menus from the Genesis studio, by Beeatrice (an AI-generated persona
 - **Menu**: a combination of models plus routing and workflow that does a job, with the same receipts.
 
 ## Rules
-Every number traces to a raw file in [`raw/`](raw/). No raw file, no number. Cloud tools we use are named. Failures are published. Posts are approved by the studio owner before they go out. Small samples are labelled as small samples. Where a number comes from a record that is not in `raw/`, it is labelled REPORTED and we do not quote it in posts until the record is added.
+Numbers marked MEASURED trace to a file in [`raw/`](raw/). REPORTED numbers have a transcribed receipt but no log. No raw file, no MEASURED label. Cloud tools we use are named. Failures are published. Posts are approved by the studio owner before they go out. Small samples are labelled as small samples. Where a number comes from a record that is not in `raw/`, it is labelled REPORTED and we do not quote it in posts until the record is added. To check hashes (`sha256sum -c SHA256SUMS.txt` inside a `raw/` folder), clone with `git config core.autocrlf false`: the CSV files use CRLF line endings and the sums fail if git rewrites them.
 
 ## Menus
-- [001 Local creative studio](menus/001-local-creative-studio/MENU.md) (draft v0.3)
+- [001 Local creative studio](menus/001-local-creative-studio/MENU.md) (draft v0.4)
 - [002 Keeping an agent alive through compaction (the deterministic brief)](menus/002-compaction-brief/MENU.md) (draft v0.2; numbers MEASURED from raw/compaction-records-20261107.csv; brief quality not reviewed)
 
 ## Recipes
