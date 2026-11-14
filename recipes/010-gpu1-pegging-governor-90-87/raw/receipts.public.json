@@ -1,5 +1,5 @@
 {
- "schema": "genesis.recipe-receipts.v1",
+ "schema": "recipe-receipts.v1",
  "recipe": "Pegging a 300 W card: moving the pause line from 88/84 C to 90/87 C on a resident image pool",
  "version": "2026-1110",
  "times": "UTC",
@@ -19,7 +19,7 @@
   "cooling-limited",
   "n/a"
  ],
- "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
  "receipts": [
   {
    "id": "G-01",
