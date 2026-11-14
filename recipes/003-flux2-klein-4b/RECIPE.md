@@ -2,10 +2,10 @@
 
 **Status: DRAFT v0.1, built in public.** A *recipe* is one model's exact setup plus measured numbers. The numbers come from our own job log, not from a controlled test: every succeeded job for this model in our image cache (earlier campaigns included), one observer, one machine. Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = said by an operator or a tool, not verified by us; **UNKNOWN** / **NEEDS-DATA** = we do not have it.
 
-*Beeatrice is an AI-generated persona. This recipe and its numbers are made with AI tools and reviewed by a human before release. Cloud tools we use elsewhere are named in [Menu 001](../../menus/001-local-creative-studio/MENU.md).*
+*Beeatrice is an AI-generated persona. This recipe and its numbers are made with AI tools; approved for publication by the studio owner on 2026-11-13. Cloud tools we use elsewhere are named in [Menu 001](../../menus/001-local-creative-studio/MENU.md).*
 
 ## The job
-Fast draft images at 1024x1024 or 1024x1536 from a text prompt (a 4-step distilled model; a reference image is optional). A draft tool, not a quality tool: see our checks below.
+Fast draft images at 1024x1024 or 1024x1536 from a text prompt (a 4-step distilled model; a reference image is optional). We judged only 2 images for quality, so we make no quality claim: see our checks below.
 
 ## Setup (what we know)
 | Item | Value | Label |
@@ -16,7 +16,7 @@ Fast draft images at 1024x1024 or 1024x1536 from a text prompt (a 4-step distill
 | Precision | bfloat16 | MEASURED (`dtype` column) |
 | Reference image | optional | SOURCED / MEASURED (`reference_supplied` is false for every job in the log) |
 | Allowed sizes | 1024x1024, 1024x1536, 1536x1024 | SOURCED |
-| Hardware | two NVIDIA RTX PRO 6000 Blackwell Max-Q 96 GB GPUs and an AMD Threadripper PRO 9975WX, from the purchase invoice; not measured by us; the operator reports one GPU runs the image models | SOURCED (invoice) / REPORTED |
+| Hardware | two NVIDIA RTX PRO 6000 Blackwell Max-Q 96 GB GPUs and an AMD Threadripper PRO 9975WX, from the vendor spec sheet; not measured by us; the operator reports one GPU runs the image models | SOURCED (vendor spec sheet) / REPORTED |
 | Submit rule | one image submit in flight at a time, with an idempotency key; a missing response is reconciled by job id, never blindly retried | SOURCED (a rule) |
 | Sampler, guidance scale, seed handling, VRAM use, driver/CUDA/serving versions, quantization other than the dtype above | | **NEEDS-DATA** (not in any file we hold) |
 
@@ -31,9 +31,9 @@ Source: [`raw/image-job-timings-20261106.csv`](raw/image-job-timings-20261106.cs
 
 We did **not** measure: VRAM or power draw, behaviour with several jobs at once, or interference with the text model on the same machine.
 
-## What we saw in our own quality checks (small samples, one reviewer, nothing certified)
+## What we saw in our own quality checks (small samples, one AI reviewer (a Claude Code session), nothing certified)
 - In our small character tests (2 images judged on a small preview) it was low on detail and off-brief. Speed is not quality. (Source: our wave QC note; not in this repository: **NEEDS-DATA** before quoting a rate.)
-- Faceless images (no people): **8 of 10** clean; the 2 rejected had garbled lettering and a small logo. One reviewer, one batch, two seeds (42 and 7). Counts are computed from our verdict column in [`raw/faceless/FACELESS-CLEAN-SET.csv`](raw/faceless/FACELESS-CLEAN-SET.csv); notes in [the public QC note](../001-qwen-image-2512/raw/faceless/FACELESS-QC-20261107.md) (**MEASURED** counts, one reviewer's verdicts). Images are not published.
+- Faceless images (no people): **8 of 10** clean; the 2 rejected had garbled lettering and a small logo. One AI reviewer (a Claude Code session), one batch, two seeds (42 and 7). Counts are computed from our verdict column in [`raw/faceless/FACELESS-CLEAN-SET.csv`](raw/faceless/FACELESS-CLEAN-SET.csv); notes in [the public QC note](../001-qwen-image-2512/raw/faceless/FACELESS-QC-20261107.md) (**MEASURED** counts, one AI reviewer (a Claude Code session)'s verdicts). Images are not published.
 - These are observations, not a ranking of models.
 
 ## How to reproduce the table
@@ -41,7 +41,7 @@ Download `raw/image-job-timings-20261106.csv`, keep rows where `model` is the mo
 
 ## Limits and open questions
 - Not a controlled benchmark: several campaigns, different days and prompts.
-- Quality statements rest on small samples and one reviewer.
+- Quality statements rest on small samples and one AI reviewer (a Claude Code session).
 - The image models share a machine with a text model; we have not measured how they affect each other.
 - The licence text itself has not been read by us.
 
@@ -51,4 +51,5 @@ Download `raw/image-job-timings-20261106.csv`, keep rows where `model` is the mo
 ## Licence
 Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see [`LICENSE-DOCS.md`](../../LICENSE-DOCS.md). Third-party models have their own licences; check each before commercial use.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
