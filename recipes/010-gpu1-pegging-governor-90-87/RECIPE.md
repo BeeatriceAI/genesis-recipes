@@ -4,7 +4,7 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
-> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures in this recipe are guardrails this lab chose for its own cooling and room. They were not checked against a vendor limit, depend on your cooling and ambient temperature, and may void a warranty. Do not copy them; use your vendor's documented limits.
 
 ## Headline
 
@@ -23,12 +23,12 @@ One limitation next to the headline: the two sets were measured on different hou
 
 A policy change, not a code change. The resident image pool (see recipe 011) holds new work when the card reaches a pause line and resumes when it cools to a resume line. At 88 C / 84 C the governor held the card back a median of 19 times per window, and the card spent its time at 78.6% utilisation and 261.5 W of its 300 W budget [G-01 · REPORTED]. The lab then chose to peg the card: pause at 90 C, resume at 87 C. A similar fixed-prompt workload then held 98.2% utilisation and 300 W, and 13 of 14 windows never paused [G-02 · REPORTED].
 
-The stop line stays at 91 C. The hardware protections (92 C maximum operating point, slowdown at margin -2 C, shutdown at -5 C) are not touched, and neither are the stock 300 W power limit and stock clocks [G-04 · REPORTED].
+The stop line stays at 91 C. The card's own hardware protections (values not verified against a vendor document, so not published here) are not touched, and neither are the stock 300 W power limit and stock clocks [G-04 · REPORTED].
 
 ## 2. Hardware and software pins
 
 - Workstation: Digital Storm Aventum Pro, two NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition cards (97,887 MiB each, no NVLink). The image pool owns the lab's second card; the other serves language models.
-- Power limit stock 300 W, clocks stock, no clock cap. Average SM clock fell from a median 1,763 MHz in the 88/84 windows to 1,664 MHz in the 90/87 windows: the card held a higher temperature at lower clocks, with the power cap doing the limiting [G-01 · REPORTED] [G-02 · REPORTED].
+- Power limit stock 300 W, clocks stock, no clock cap. Average SM clock fell from a median 1,763 MHz in the 88/84 windows to 1,664 MHz in the 90/87 windows: the card held a higher temperature at lower clocks, with, in our reading (INFERENCE), the power cap doing the limiting [G-01 · REPORTED] [G-02 · REPORTED].
 - Driver 570 (open kernel module), CUDA 12.9 wheels, torch 2.11.0+cu129, diffusers 0.42.1, Python 3.12.
 
 ## 3. Model and workload
