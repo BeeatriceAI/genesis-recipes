@@ -11,7 +11,7 @@ A long-running AI agent session fills its context window. "Compaction" replaces 
 `raw/compaction-records-20261107.csv`: 54 rows from 2026-10-29 to 2026-11-07, one per compaction recorded in our agent's session database: timestamp (ET), masked session id, message sequence number, mode (native or deterministic), seconds, summary length in characters, and status (46 completed, 8 failed). It holds no conversation content and no prompts. It is our driver's export; the database itself is private. sha256 in `raw/SHA256SUMS.txt`.
 
 ## The failure (Nov 4)
-**SOURCED** (our status log): a compaction summary hit the 8,192-token output cap, then the context reached 262,145 tokens against a limit of 262,144, and the agent stalled. The raw file shows what compaction cost in our main session (one long session, masked id S-31533aec):
+**SOURCED** (our status log): a compaction summary hit the 8,192-token output cap, then the context reached 262,145 tokens against a limit of 262,144, and the agent stalled. The raw file shows what compaction cost in our main session (one long session):
 - Compactions per day Nov 1 to 5 in that session: **1, 2, 2, 7, 8** (**MEASURED**; Nov 4 includes two failed rows at 14:47 and 14:56 ET, 539.0 s and 291.3 s, 0 characters, followed by a completed one at 15:03, 434.4 s, 25,963 characters; we have not matched these rows to the stall itself). Counting every session, the per-day counts are 1, 2, 2, 8 and 10.
 - Completed native compactions in that session on Nov 1 to 5: 18, median **370 s**, range 287.4 s to 1,679.1 s, median summary length about 17,984 characters (**MEASURED**). The longest is Nov 5, 19:24 ET: **1,679.1 s (28.0 minutes)**.
 - Earlier, on Oct 29 to 31, completed native compactions ran from 6.9 s to 359.9 s with summaries of about 1,200 to 15,600 characters (**MEASURED**; they got slower and longer as the session grew).
@@ -23,7 +23,7 @@ A long-running AI agent session fills its context window. "Compaction" replaces 
 | Fix 2 (Nov 4) | A V2 compaction hook that keeps summaries to about 5.4k characters | SOURCED (a pinned patch) |
 | Fix 3 (Nov 6, 15:37) | A deterministic hook ("mode A"): the brief is built from files by a script, **without calling the model**; if the hook fails the native compaction runs as a fallback | SOURCED (a pinned patch) |
 | Why fix 3 | Before fix 3, a native compaction on Nov 6 (14:58 ET) took **945.2 s** and wrote **14,501 characters** (**MEASURED**). Our driver's reading is that the model obeyed the built-in "you MUST use this format" instruction over our added note, so we changed the mechanism instead of the wording. That is the driver's explanation, not something we proved | REPORTED (driver analysis; hypothesis) |
-Config changes to the agent are made through hash-pinned patch folders with old and new hashes and a re-pin step; hand edits break the pin chain. **SOURCED.**
+Config changes to the agent are pinned by hash. **SOURCED.**
 
 ## Deterministic runs so far (MEASURED, all from the raw file)
 Six runs, all in the same session, 02:41 to 11:47 ET on Nov 7 (about nine hours):
