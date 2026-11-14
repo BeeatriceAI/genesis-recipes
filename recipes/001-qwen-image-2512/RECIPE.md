@@ -2,7 +2,7 @@
 
 **Status: DRAFT v0.2, built in public.** A *recipe* is one model's exact setup plus measured numbers. The numbers below come from our own job log, not from a controlled test: every succeeded job in our image cache (earlier campaigns included), one observer, one machine. Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = said by an operator or a tool, not verified by us; **UNKNOWN** / **NEEDS-DATA** = we do not have it.
 
-*Beeatrice is an AI-generated persona. This recipe and its numbers are made with AI tools and reviewed by a human before release. Cloud tools we use elsewhere are named in [Menu 001](../../menus/001-local-creative-studio/MENU.md).*
+*Beeatrice is an AI-generated persona. This recipe and its numbers are made with AI tools; approved for publication by the studio owner on 2026-11-13. Cloud tools we use elsewhere are named in [Menu 001](../../menus/001-local-creative-studio/MENU.md).*
 
 ## The job
 Turn a text prompt into one still image at 1024x1024, 1024x1536 or 1536x1024 on a local image model. Text only: this model does not take a reference image.
@@ -16,7 +16,7 @@ Turn a text prompt into one still image at 1024x1024, 1024x1536 or 1536x1024 on 
 | Precision | bfloat16 | MEASURED (`dtype` column) |
 | Reference image | unsupported | SOURCED |
 | Allowed sizes | 1024x1024, 1024x1536, 1536x1024 | SOURCED |
-| Hardware | two NVIDIA RTX PRO 6000 Blackwell Max-Q 96 GB GPUs and an AMD Threadripper PRO 9975WX, from the purchase invoice; not measured by us. The operator reports one GPU runs the image models | SOURCED (invoice) / REPORTED |
+| Hardware | two NVIDIA RTX PRO 6000 Blackwell Max-Q 96 GB GPUs and an AMD Threadripper PRO 9975WX, from the vendor spec sheet; not measured by us. The operator reports one GPU runs the image models | SOURCED (vendor spec sheet) / REPORTED |
 | Submit rule | one image submit in flight at a time, with an idempotency key; a missing response is reconciled by job id, never blindly retried | SOURCED (a rule, not a measured limit) |
 | Sampler, guidance scale, seed handling, VRAM use, GPU driver, CUDA and serving-stack versions, quantization other than the dtype above | | **NEEDS-DATA** (not in any file we hold; the operator would have to supply them) |
 
@@ -29,9 +29,9 @@ Source: [`raw/image-job-timings-20261106.csv`](raw/image-job-timings-20261106.cs
 | 1536x1024 | 8 | 65.0 s (64.2-65.6) | 90.6 s (89.4-93.8) |
 We did **not** measure: tokens per second (not applicable), VRAM or power draw, behaviour with several jobs at once, or how the image jobs slow down when the text model shares the machine.
 
-## What we saw in our own quality checks (small samples, one reviewer, nothing certified)
+## What we saw in our own quality checks (small samples, one AI reviewer (a Claude Code session), nothing certified)
 - **Age drift went both ways in our character tests.** In an early test (wave 1) a text-only face from this model read soft and youthful, "could read under 25", with a top-knot bun; in a later test (wave 3) the text-only faces read about 40 to 45, one with a bun. A bun appeared in some images. These are the reviewer's by-eye reads on small samples, for a character whose stated age is an adult; age direction matters, so every image is checked by hand. (Sources: our wave QC notes, which are not in this repository: **NEEDS-DATA** before anyone quotes a rate.)
-- **Faceless images (no people): clean in 10 of 10.** In our faceless batch this model produced 10 images (5 cover directions plus the "138 lightning" cover run in a later retry, and 4 textures) and the reviewer found no stray text, logos or faces in any of them. For comparison, across all three models 21 of 26 faceless images were clean: FLUX.2 klein 8 of 10 and Z-Image 3 of 6; the 5 rejected images had garbled lettering or logos, and a small cartoon face icon appeared twice. One reviewer, one batch, two seeds (42 and 7). Counts are computed from our verdict column in [`raw/faceless/FACELESS-CLEAN-SET.csv`](raw/faceless/FACELESS-CLEAN-SET.csv); the reviewer's notes are in [`raw/faceless/FACELESS-QC-20261107.md`](raw/faceless/FACELESS-QC-20261107.md) (**MEASURED** counts, one reviewer's verdicts). The images themselves are not published (pending human approval).
+- **Faceless images (no people): clean in 10 of 10.** In our faceless batch this model produced 10 images (5 cover directions plus the "138 lightning" cover run in a later retry, and 4 textures) and the reviewer found no stray text, logos or faces in any of them. For comparison, across all three models 21 of 26 faceless images were clean: FLUX.2 klein 8 of 10 and Z-Image 3 of 6; the 5 rejected images had garbled lettering or logos, and a small cartoon face icon appeared twice. One AI reviewer (a Claude Code session), one batch, two seeds (42 and 7). Counts are computed from our verdict column in [`raw/faceless/FACELESS-CLEAN-SET.csv`](raw/faceless/FACELESS-CLEAN-SET.csv); the AI reviewer's notes are in [`raw/faceless/FACELESS-QC-20261107.md`](raw/faceless/FACELESS-QC-20261107.md) (**MEASURED** counts, one AI reviewer (a Claude Code session)'s verdicts). The images themselves are not published (pending human approval).
 - These are observations, not a ranking of models.
 
 ## How to reproduce the table
@@ -47,7 +47,7 @@ The snippet shows the lower middle value for an even count; the table averages t
 ## Limits and open questions
 - Not a controlled benchmark: jobs come from several campaigns on different days and prompts.
 - The image models share a machine with a text model; we have not measured how they affect each other.
-- Quality statements rest on small samples and one reviewer.
+- Quality statements rest on small samples and one AI reviewer (a Claude Code session).
 - The licence text itself has not been read by us.
 
 ## Files
@@ -56,4 +56,5 @@ The snippet shows the lower middle value for an even count; the table averages t
 ## Licence
 Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code snippets: MIT; see [`LICENSE-DOCS.md`](../../LICENSE-DOCS.md). Third-party models have their own licences; check each before commercial use.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
