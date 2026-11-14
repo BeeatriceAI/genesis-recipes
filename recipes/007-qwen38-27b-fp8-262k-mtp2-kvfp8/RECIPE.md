@@ -4,15 +4,19 @@
 
 Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read from a named record; **REPORTED** = from a record that is not in `raw/` (here the number is transcribed in `raw/receipts.public.json`, with its basis, run state, date and caveat, but the log behind it is not published, so it is not quoted in posts); **INFERENCE** = our reading; **NOT RUN** = not done; **UNKNOWN** / **NEEDS-DATA** = we do not have it. Each number carries its entry id and label in square brackets.
 
+> **Warning: one lab's settings, not a recommendation.** The temperatures, pause lines and power figures below are guardrails this lab chose for its own cooling and room. They depend on your cooling and ambient temperature, may void a warranty, and were not checked against any vendor limit. Do not copy them; use your vendor's documented limits.
+
+> **Not reproducible yet:** the code this recipe depends on is not published in this repository, and the launch or steps below cannot run as written.
+
 ## Headline
 
-Read with recipe 006: it holds the per-request decode speed measured on the serving card from live counters (19.1 tokens/s median, ESTIMATE, not throughput). The STAGING figures below are short harness-paced runs on a different card and are not comparable with it. This recipe says production speed UNKNOWN because it has no clean-window run, and recipe 006 does not change that.
+Read with recipe 006: it holds the per-request decode speed measured on the serving card from live counters (19.1 tokens/s median, ESTIMATE, not throughput). The STAGING figures below are short harness-paced runs on a different card and are not comparable with it. Per recipe 006 the per-request decode median on the primary server was 19.1 tokens/s over 2026-11-08 to 2026-11-13, but which serving profile that process ran is UNKNOWN, so this recipe's production speed stays UNKNOWN (no clean-window run).
 
 | What | Number | Run state | Receipt |
 |---|---|---|---|
 | Promotion of vision + MTP-2 + fp8 KV in one restart | PASS, ready after 171.2 s; 1 request undrained; no rollback | n/a | [Q-24 · REPORTED] |
 | KV cache pool on the serving card after the restart | 464,709 tokens (1.77x of 262,144), up from 319,800 | governed | [Q-25 · REPORTED] [Q-03 · REPORTED] |
-| Post-restart: 1-token probe, red/blue image through the LAN gateway, MTP counters live | PASS, 0.65 s for the probe | n/a | [Q-26 · REPORTED] |
+| Post-restart: 1-token probe, red/blue image through the production endpoint, MTP counters live | PASS, 0.65 s for the probe | n/a | [Q-26 · REPORTED] |
 | Lab post-restart check suite | 31 of 31 (reported from the lab record; raw output not found) | n/a | [Q-27 · REPORTED] |
 | Vision fixture on production (error screenshot) | PASS, 6.08 s | n/a | [Q-28 · REPORTED] |
 | Decode speed on production | UNKNOWN. One loaded short request: about 26.7 tokens/s, INCONCLUSIVE | n/a | [Q-29 · REPORTED] |
@@ -32,7 +36,7 @@ Status: staged on the lab's second card with the same flags and memory fraction 
 ## 2. Hardware and software pins
 
 - Workstation: Digital Storm Aventum Pro. Two NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition cards (97,887 MiB visible each, compute capability 12.0, no NVLink), AMD Threadripper PRO 9975WX, about 251 GiB RAM, Ubuntu 24.04.
-- Power and clocks: stock. The power limit is the card default of 300 W (range allowed by the card 250-325 W) and was not changed; clocks are stock. There is no artificial clock cap in this recipe.
+- Power and clocks: stock. The power limit is the card default of 300 W and was not changed; clocks are stock. There is no artificial clock cap in this recipe.
 - Driver 570 (open kernel module); CUDA 12.9 wheels run through minor-version compatibility.
 - vLLM 0.32.0+cu129 (release wheel, unpatched), torch 2.13.0+cu129, transformers 5.19.0, FlashInfer 0.7.0.post1 with the sm120f ahead-of-time cache, Triton 3.7.1, Python 3.12.
 - Attention backend: Triton (`--attention-backend TRITON_ATTN`). The default FlashAttention-2 path fails on this card and driver ("unsupported toolchain").
@@ -45,17 +49,15 @@ Status: staged on the lab's second card with the same flags and memory fraction 
 ## 4. Launch
 
 ```
-PYTHONPATH=<dir containing genesis_thermal_scheduler.py> \
-GENESIS_THERMAL_PAUSE_C=90 GENESIS_THERMAL_RESUME_C=86 GENESIS_THERMAL_MAX_PAUSE_S=120 \
-GENESIS_THERMAL_STOP_C=91 GENESIS_THERMAL_STOP_MARGIN_C=1 \
-GENESIS_THERMAL_CONFIRM_SAMPLES=4 GENESIS_THERMAL_MIN_HOLD_S=2 \
-GENESIS_THERMAL_GPU_UUID=<uuid of the card> GENESIS_THERMAL_STATUS=<status json path> \
+# thermal pause settings (lab guardrails, see the warning at the top): pause 90 C, resume 86 C, hard stop 91 C, 1 C margin,
+# 120 s maximum pause, 4 confirmation samples, 2 s minimum hold; the card is selected by its UUID
+PYTHONPATH=<dir containing the thermal scheduler module> <thermal pause settings as environment variables> \
 python -m vllm.entrypoints.cli.main serve Qwen/Qwen3.8-27B-FP8 --revision 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a \
   --served-model-name <name> --tensor-parallel-size 1 --attention-backend TRITON_ATTN \
   --max-model-len 262144 --max-num-seqs 64 --gpu-memory-utilization 0.51 --max-num-batched-tokens 1024 \
   --limit-mm-per-prompt '{"image":16,"video":2}' --mm-encoder-attn-backend TORCH_SDPA --enable-auto-tool-choice --tool-call-parser qwen3_coder --reasoning-parser qwen3 \
   --default-chat-template-kwargs '{"enable_thinking":false}' \
-  --scheduler-cls genesis_thermal_scheduler.ThermalScheduler --no-async-scheduling \
+  --scheduler-cls <thermal scheduler module>.ThermalScheduler --no-async-scheduling \
   --speculative-config '{"method":"mtp","num_speculative_tokens":2}' --kv-cache-dtype fp8
 ```
 
@@ -64,7 +66,7 @@ Bind to loopback and put authentication in front of it. v2 removes `--language-m
 ## 5. Patches and workarounds
 
 - vLLM source patches: 0. The engine is the release wheel.
-- One added module, `genesis_thermal_scheduler.py` (about 290 lines), loaded with `--scheduler-cls`. It subclasses the vLLM scheduler and sets the token budget to zero while the card is hot (see the recipe 008 for the design). Two guards remain: it refuses async scheduling and more than one in-flight batch.
+- One added module, the thermal scheduler (about 290 lines), loaded with `--scheduler-cls`. It subclasses the vLLM scheduler and sets the token budget to zero while the card is hot (see the recipe 008 for the design). Two guards remain: it refuses async scheduling and more than one in-flight batch.
 - The module refused speculative decoding until this staging work lifted that guard after reading the vLLM 0.32.0 scheduler code [Q-18 · NOT RUN]. The unit tests include a zero-budget hold with two drafts in flight.
 - Publication gap: the lab's copy of the module allow-lists two card identifiers; the public copy must read the identifier from the environment instead. Not yet done, so this recipe is not yet a one-command reproduction (draft reproduction steps).
 
@@ -95,14 +97,14 @@ Sustained: sixteen back-to-back streams for six minutes at the 300 W limit gave 
 |---|---|---|
 | Restart | PASS, readiness 171.2 s, 1 request undrained when the 120 s drain window closed | [Q-24 · REPORTED] |
 | KV pool | 464,709 tokens (1.77x at full context), previously 319,800 | [Q-25 · REPORTED] |
-| 1-token probe; red and blue image through the LAN gateway; draft counters | PASS; 0.65 s; 4 drafted, 4 accepted | [Q-26 · REPORTED] |
+| 1-token probe; red and blue image through the production endpoint; draft counters | PASS; 0.65 s; 4 drafted, 4 accepted | [Q-26 · REPORTED] |
 | Lab post-restart suite | 31 of 31, reported | [Q-27 · REPORTED] |
 | Vision fixture (error screenshot) | PASS, 6.08 s; the 1x1 control answered "I" | [Q-28 · REPORTED] |
 | Decode | UNKNOWN; one loaded short request about 26.7 tokens/s, INCONCLUSIVE | [Q-29 · REPORTED] |
 | 258,886-token retrieval | not run | [Q-31 · NOT RUN] |
 | Image input at the gateway | inline data URIs (no remote URLs), 4096 px / 8.4 MP cap, 16 images and 2 videos per prompt | [Q-32 · REPORTED] |
 
-The formal 12-case regression over the LAN gateway did not run after the promotion: the harness refused to start because another consumer was connected, and sent zero requests (HOLD) [Q-28 · REPORTED]. That is the harness working as designed. It is also the reason the production speed is UNKNOWN.
+The formal 12-case regression did not run after the promotion (HOLD) [Q-28 · REPORTED]. That is the reason the production speed in this recipe is UNKNOWN.
 
 ### Memory
 
@@ -154,9 +156,9 @@ The rates divide prompt tokens by the whole request wall time (including 66 outp
 
 ## 9. Not measured
 
-Long-run (hours) stability; output quality of fp8 attention; vision output quality beyond fixtures; throughput through the LAN gateway after promotion (UNKNOWN, a clean-window re-baseline is open [Q-29 · REPORTED]); the 258,886-token probe on the promoted production profile [Q-31 · NOT RUN]; hold-and-resume with drafts; 32-stream or higher concurrency with this profile; any comparison on a cooler or hotter room. The pauses cost time: the long probes would finish sooner on a card that never paused, and by how much was not measured.
+Long-run (hours) stability; output quality of fp8 attention; vision output quality beyond fixtures; throughput on the production endpoint after promotion (UNKNOWN, a clean-window re-baseline is open [Q-29 · REPORTED]); the 258,886-token probe on the promoted production profile [Q-31 · NOT RUN]; hold-and-resume with drafts; 32-stream or higher concurrency with this profile; any comparison on a cooler or hotter room. The pauses cost time: the long probes would finish sooner on a card that never paused, and by how much was not measured.
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 0. Read the v1 file for the language-model-only variant if you do not want vision; its flags differ by the two vision options.
 1. Install the unpatched vLLM 0.32.0 CUDA 12.9 wheel in a fresh environment with the pins above; confirm the card is visible and Triton attention starts a small model.
@@ -176,7 +178,7 @@ Model: Apache-2.0 (Qwen; read on the model card on 2026-11-06). Engine: vLLM, Ap
 - 2026-1105 v1: initial write-up from the lab's staging receipts. Status STAGED.
 - 2026-1106 v2: the profile was promoted on 2026-11-05 (21:12Z) with native vision added to the flags. Production receipts added (Q-24 to Q-33): restart, KV pool 464,709, post-restart checks, vision fixture. Speed stays labelled STAGING; production decode is UNKNOWN. Launch command changed: `--language-model-only` removed, `--limit-mm-per-prompt` and `--mm-encoder-attn-backend TORCH_SDPA` added. No v1 number was withdrawn; v1 numbers are relabelled STAGING.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
