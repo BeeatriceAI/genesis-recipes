@@ -1,0 +1,133 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "LongCat Avatar presenter + SeedVR2 on one card",
+ "version": "2026-1105",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "P-01",
+   "claim": "Talking-presenter stage (LongCat-Video-Avatar-1.5, 8-step distilled, bf16, 480p), 15 s of speech",
+   "value": "15.0 s clip, 375 frames at 832x480, 25 fps; 707.3 s wall = 593 s active + 111 s paused (53 pauses of 2 to 4 s); GPU peak 89 C; 70,596 MiB whole-card; 300.6 W",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Five 80-frame continuation segments; pauses are an external pacer at 88 C / resume 84 C, so about 18% of the wall time is cooling. One run, one synthetic still, one 15-second voice-over, ambient as of the day."
+  },
+  {
+   "id": "P-02",
+   "claim": "Super-resolution stage (SeedVR2-7B), 832x480 to 1264x720",
+   "value": "404.7 s wall for 375 frames in and 375 out (10 chunks); GPU peak 83 C; 79,478 MiB whole-card; 0 s paused",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "Chunks sized to the 41-frame budget; the 33 GB fp32 checkpoint load is about 40 s of the wall time (inference from telemetry)."
+  },
+  {
+   "id": "P-03",
+   "claim": "Card time per second of finished video",
+   "value": "about 36 GPU-seconds (presenter) + 27 GPU-seconds (upscaler), roughly an hour of card time per minute of presenter video",
+   "basis": "derived",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "593 s / 16.52 s generated video; 399 s / 15 s. Paced by cooling at the day's ambient; not a sustained-rate claim. A 60-second piece would be about an hour of one card."
+  },
+  {
+   "id": "P-04",
+   "claim": "Whole pipeline for the 15-second piece",
+   "value": "GPU stages 1,111.8 s (18.5 min); final file 1920x1080, 25 fps, -17.0 LUFS; assembly 1.6 s",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "The presenter layer has 720p-class detail, upscaled 1.52x to 1080p by resize; the 1080p-class upscaler path exists and was not measured."
+  },
+  {
+   "id": "P-05",
+   "claim": "Visual gate on extracted frames",
+   "value": "identity stable across all four segment joins (12 join frames); no visible seam; luma step at nine upscaler joins at most 0.89 against 3.34 between ordinary frames; lip motion plausible on four spot checks",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "One reviewer, working from stills. Nobody has watched it with sound yet; lip-sync accuracy was not scored. Artifacts seen: a pink cast on the lips in wide-open frames, slightly over-sharpened skin and hair, hands entering at the bottom edge in the last two seconds."
+  },
+  {
+   "id": "P-06",
+   "claim": "Earlier smoke test of the presenter model: retracted pace figure",
+   "value": "a stated 9.8 s per video-second (68 s active + 157 s paused) was wrong; the worker kept running during the \"paused\" samples (98.7% utilisation, 297 W)",
+   "basis": "measured",
+   "run_state": "harness-paced",
+   "date_utc": "2026-11-05",
+   "caveat": "The pause signal reached the launcher but not the worker, because the launcher starts the worker in its own session. Corrected: about 33 s per video-second at 640x608, matching P-03. The fix is to signal the whole process tree."
+  },
+  {
+   "id": "P-07",
+   "claim": "Upscaler smoke test: 41 frames, 480x832 to 720x1264",
+   "value": "91.9 s wall cold (about 40 s checkpoint load), one denoise step of 3.76 s, 74.9 GB whole-card, 80 C, 301 W",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Single run; a visual spot check, nothing more (a wave crest slightly over-sharpened, which the authors warn about for generated inputs)."
+  },
+  {
+   "id": "P-08",
+   "claim": "Workarounds needed on this stack (SM120, CUDA 12.9 wheels, driver 570)",
+   "value": "3 shims (attention to PyTorch SDPA, RMSNorm replacement, video I/O via PyAV) plus a one-line patched copy of the upscaler script; the presenter demo needs an official base-component directory next to the avatar weights",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "The SDPA and norm shims are not the original FlashAttention or apex kernels, so numerics differ slightly from the reference stack. Quality was spot-checked, not measured."
+  },
+  {
+   "id": "P-09",
+   "claim": "Fixed seed",
+   "value": "the presenter demo fixes its seed at 42; the command-line seed does not reach it",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Identical inputs give the same result; a retake with another seed needs a wrapper."
+  },
+  {
+   "id": "P-10",
+   "claim": "Revisions and licences",
+   "value": "LongCat-Video-Avatar-1.5 @ 92016c71d5d318d0f5d84e4db30015a571484ab6, MIT; LongCat-Video base @ 03b55529b1d1d4045f5fbe14d65c8c6e8116b278, MIT; SeedVR2-7B @ eb0c4281d41ba3767d4f14370f0e37e9e9180c16, Apache-2.0",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Licences as stated on the model cards at download; the pipeline also uses a speech-separation model, a transcription model and a voice-synthesis model whose licences are not covered by this recipe."
+  },
+  {
+   "id": "P-11",
+   "claim": "Hand-offs to share the card",
+   "value": "3 per run (voice clean-up, presenter, upscaler); the other job on the card yielded each time in about a second",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "The card is exclusively leased; each stage takes it, waits for no other compute owner, runs, and releases."
+  },
+  {
+   "id": "P-12",
+   "claim": "Not measured",
+   "value": "pieces longer than about 17 s (identity drift over many segments), vertical 9:16 output, higher presenter resolution, INT8 variant, 1080p-class upscaling, listening test",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "These are the next items before this is routine."
+  }
+ ]
+}
