@@ -1,0 +1,142 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Resident image pool on a 300 W workstation card: flux2-klein-4b, 61 images/min peak, about 50 sustained",
+ "version": "2026-1105",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "I-02",
+   "claim": "One resident worker, no reload",
+   "value": "0.98 s per image; 61.2 images/min steady (62.0 counted in the window)",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "30 to 36 second windows from a cool start (GPU at or below 74 C), one prompt, fixed seeds, 4 steps, 1024x1024. This is a peak, not a sustained rate: the card reaches 88 C within about 45 to 60 s at the 300 W limit."
+  },
+  {
+   "id": "I-03",
+   "claim": "More workers or batching on top of one resident worker",
+   "value": "flat: 59 to 62 images/min for 1, 2, 3, 4 workers; batch 2 / 4 / 8 gives 59.6 / 56.7 / 57.1",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Same short windows as I-02. One worker already uses 93 to 100% of the card at the power limit; extra workers add latency and memory, not throughput."
+  },
+  {
+   "id": "I-04",
+   "claim": "One resident worker with the thermal governor on (hold 88 C, resume 84 C, stop 91 C)",
+   "value": "54.7 images/min over 180 s, duty about 91%, 14 pauses",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-04",
+   "caveat": "Equilibrium at 87 to 88 C. One window, one prompt."
+  },
+  {
+   "id": "I-05",
+   "claim": "Live bursts through the production image API, resident pool, 2 slots for this model",
+   "value": "737 images in 883.5 s (50.1/min) and 807 images in 955.7 s (50.7/min); highest 900 s window 761 images; 0 failures",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-04",
+   "caveat": "Counts are jobs whose final state landed in the window, per-minute counts range 40 to 52. 8 jobs in burst 1 were cancelled on purpose. Another card was serving a different workload at its 300 W limit at the same time; the effect of one card on the other was not measured. Quality was spot-checked, not scored."
+  },
+  {
+   "id": "I-06",
+   "claim": "Series of short governed windows through the same harness",
+   "value": "94 windows, median 51.2 images/min (range 48.5 to 54.2); GPU peak 89 C; 1,645 governor pauses in total",
+   "basis": "measured",
+   "run_state": "cooling-limited",
+   "date_utc": "2026-11-05",
+   "caveat": "Windows of about four minutes, interleaved with other jobs over about 14 hours of wall time (48 hand-overs to other jobs). Every window is labelled \"complete but cooling-governed\", so these are paced numbers, not a stress-test pass. Images were not kept. This is not a long soak."
+  },
+  {
+   "id": "I-07",
+   "claim": "Per-image latency in the governed windows",
+   "value": "median of per-window p50 0.97 s; median of per-window p95 2.88 s",
+   "basis": "measured",
+   "run_state": "cooling-limited",
+   "date_utc": "2026-11-05",
+   "caveat": "The p95 is dominated by pauses at the 88 C hold."
+  },
+  {
+   "id": "I-08",
+   "claim": "Power and clocks in the governed windows",
+   "value": "median average board power 263.6 W, maximum 308.3 W; median average SM clock 1,761 MHz",
+   "basis": "measured",
+   "run_state": "cooling-limited",
+   "date_utc": "2026-11-05",
+   "caveat": "Power limit left at the stock 300 W and clocks stock. The sole throttle-reason values seen were 0x0 and 0x4 (software power cap); no thermal-slowdown bit appeared in these windows."
+  },
+  {
+   "id": "I-09",
+   "claim": "Memory per resident worker",
+   "value": "about 20.3 GiB per flux2-klein-4b worker, about 26 GiB for the 50-step model; card baseline 1.7 GiB; 4 workers = 82.8 GiB; 6 workers ran out of memory at load",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "5 workers is arithmetic (about 103 GiB), not a run."
+  },
+  {
+   "id": "I-10",
+   "claim": "Mixed pool: 2 workers of the 4-step model plus 1 of the 50-step model",
+   "value": "4-step jobs kept a 3.1 s latency while a 36 s image rendered beside them",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-04",
+   "caveat": "A 100 s window. The recorded pause duration of this run is wrong (computed after the long job finished); throughput and latencies are valid."
+  },
+  {
+   "id": "I-11",
+   "claim": "CUDA MPS on the card",
+   "value": "+6 to +9% in three A/B pairs; not adopted",
+   "basis": "measured",
+   "run_state": "ungoverned",
+   "date_utc": "2026-11-04",
+   "caveat": "Three pairs, no more; inside what a thermal state change could explain."
+  },
+  {
+   "id": "I-12",
+   "claim": "Cold start of the pool after idle",
+   "value": "about 14 s for the initial image; pool unloads after 120 s idle",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Warm page cache. A cold-disk load was not measured."
+  },
+  {
+   "id": "I-13",
+   "claim": "Model and licence",
+   "value": "FLUX.2-klein-4B, revision e7b7dc27f91deacad38e78976d1f2b499d76a294, Apache-2.0",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-04",
+   "caveat": "Licence as declared on the model card, read 2026-11-06. The licence text itself and trademark terms were not reviewed by a lawyer."
+  },
+  {
+   "id": "I-14",
+   "claim": "Not measured",
+   "value": "image quality scores; runs longer than about 16 minutes of continuous burst; effect on the other card; torch.compile, fp8 or NVFP4 transformer; cold disk",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-05",
+   "caveat": "Listed so nobody reads their absence as a pass."
+  }
+ ]
+}
