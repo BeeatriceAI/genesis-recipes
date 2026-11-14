@@ -1,4 +1,4 @@
-# Recipe 017: A local 27B model said its post was 268 characters. It was 304. Hard limits need an external check.
+# Recipe 017: Hard length limits need an external check: a local 27B model miscounted its own post
 
 **Status: DRAFT v0.1, built in public from the studio's staged recipe 2026-1108 v1; FIELD NOTE FROM 15 RUNS; ONE SESSION, NO BASELINE.** Times are UTC.
 
@@ -12,6 +12,8 @@ Labels: **MEASURED** = computed from a raw file in this repo; **SOURCED** = read
 | 120-word summary, 3 runs | 2 of 3 correct; one run wrote 138 words | n/a | [L-02 · REPORTED] |
 | Classification, copy-and-hash, rule extraction, 9 runs | 9 of 9 correct | n/a | [L-03 · REPORTED] |
 | All 15 runs | 11 of 15 correct by manual grading; median 45.5 s to final reply (19.7-170.8 s); 0 tool errors | n/a | [L-03 · REPORTED] [L-04 · REPORTED] |
+
+Counting caveat: the character counts above include the post's label line, and the gap between the claimed and the counted length (25 to 37 characters) is about the size of a label line. We did not recount the post body alone, so the finding is that the claimed count did not match our count, not that the model was wrong by exactly that much.
 
 One limitation next to the headline: this is one agent session on one day, 3 runs per task, graded by one person, with no baseline run of another model, so it shows a failure mode and does not rank anything [L-05 · REPORTED] [L-06 · NOT RUN].
 
@@ -72,11 +74,11 @@ Not measured.
 
 Tokens per second; a before and after of any change; another model on the same tasks; whether an external count-and-retry loop fixes T4 (it should, and it was not run); behaviour on other limits such as line counts; the engine's other load during the window [L-06 · NOT RUN].
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Write the five tasks as fixed prompts with fixed inputs.
 2. Run each three times in random order with the session idle between runs; take the time from the session record.
-3. Grade by reading every reply. Count characters and words with a tool, not by eye.
+3. Grade by reading every reply. Count characters and words with a tool, not by image inspection.
 4. Publish the claimed and the actual count side by side.
 
 Draft reproduction steps: the task prompts and inputs are not published.
@@ -89,7 +91,7 @@ Recipe text CC BY 4.0. Model: Qwen3.8-27B-FP8, Apache-2.0 (model card, 2026-11-0
 
 - 2026-1108 v1: initial write-up from the 15-run export of 2026-11-07 and its manual grades.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
