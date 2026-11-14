@@ -48,7 +48,7 @@ python -m vllm.entrypoints.cli.main serve nvidia/Qwen3-8B-NVFP4 --revision ccd10
 
 1. `FLASHINFER_CUDA_ARCH_LIST=12.0f`: FlashInfer asks the system compiler for its version and rejects SM12.x below 12.9; this tells it to use the ahead-of-time sm120f kernels in the wheel [N-05 · REPORTED].
 2. `--no-enable-flashinfer-autotune`: with the default 8192-token buckets the autotune warm-up grew to 92 GiB, ran for 3.7 minutes and the start exited with rc=1 after 225 s; with the flag, start-up took 25 s [N-05 · REPORTED].
-3. `--attention-backend TRITON_ATTN`: the default FlashAttention-2 path fails on this card and driver ("unsupported toolchain"); the vision tower needs `--language-model-only` for the same reason [N-04 · REPORTED].
+3. `--attention-backend TRITON_ATTN`: the default FlashAttention-2 path fails on this card and driver ("unsupported toolchain"); the vision tower needed `--language-model-only` for the same reason as of 2026-11-04; recipe 007 (version 2) later fixed it with `--mm-encoder-attn-backend TORCH_SDPA` and runs vision [N-04 · REPORTED].
 4. Pin torch 2.13.0+cu129 and torchcodec 0.16.0+cu129: an unpinned resolver picked a CUDA 13 build of torchcodec that cannot load.
 5. vLLM source patches: 0.
 
@@ -74,7 +74,7 @@ Short runs; the card stayed under 75 C in the initial start attempt and the smok
 
 ## 8. What did not work
 
-- vLLM 0.33.0 and later: the release wheels are built for CUDA 13.0 alone and need torch 2.14; torch 2.14.0+cu130 refuses to initialise on driver 570 ("driver too old"). A driver of 580 or newer is needed, which means a root install and a reboot; we have not done it and we do not claim that it works [N-01 · REPORTED].
+- vLLM 0.33.0: the release wheels are built for CUDA 13.0 alone and need torch 2.14; torch 2.14.0+cu130 refuses to initialise on driver 570 ("driver too old"). A driver of 580 or newer is needed, which means a root install and a reboot; we have not done it and we do not claim that it works [N-01 · REPORTED].
 - NVFP4 start without the autotune flag: 92 GiB held, rc=1 [N-05 · REPORTED].
 - Local NVFP4 quantisation of the 27B model with Model Optimizer 0.48.0 and 8 calibration samples: three attempts died in the calibration forward pass with "Triton Error [CUDA]: device kernel image is invalid" raised from a PyTorch-native kernel, 15-23 s in, with 54 GB in use; a fourth attempt failed on a launcher path error (the script imports its siblings by directory, and isolated mode removes that directory from the path). No NVFP4 checkpoint was produced and the cause of the Triton error is not isolated [N-11 · REPORTED].
 - The CUTLASS linear backend: slowest of the three [N-08 · REPORTED].
@@ -83,7 +83,7 @@ Short runs; the card stayed under 75 C in the initial start attempt and the smok
 
 NVFP4 mixture-of-experts models (community reports of broken kernels on this architecture exist; not checked here), the NVFP4 KV cache, long context, the 27B model, accuracy against a higher-precision baseline, and driver 580 or newer [N-13 · NOT RUN]. Repeats of the backend comparison.
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Confirm driver 570 and torch.cuda sees the card with compute capability 12.0.
 2. Install the vLLM 0.32.0 CUDA 12.9 wheel and the pins above; install b12x 1.5.1.
@@ -100,7 +100,7 @@ Model: Qwen3-8B-NVFP4 by NVIDIA (derived from Qwen3-8B), Apache-2.0 (declared on
 
 - 2026-1105 v1: initial write-up from the dense-8B smoke tests, the three backend runs and the failed quantisation attempts.
 
-Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; where a licence line below says "check upstream" we have not verified it. Reproduction steps marked draft are drafts: the code behind them is not published here.
+Text and data: CC BY 4.0 (attribute "Beeatrice (AI persona) / Genesis studio"); code: MIT; see `LICENSE-DOCS.md`. Third-party models have their own licences; check each before commercial use. Reproduction steps marked draft are drafts: the code behind them is not published here.
 
-Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools and reviewed by a human before release.
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
