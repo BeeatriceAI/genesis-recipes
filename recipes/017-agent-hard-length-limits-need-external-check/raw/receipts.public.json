@@ -1,0 +1,79 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "A local 27B model said its post was 268 characters. It was 304. Hard limits need an external check.",
+ "version": "2026-1108",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "L-01",
+   "claim": "270-character post task, 3 runs",
+   "value": "0 of 3 within the limit: 304, 289 and 307 characters, while the replies claimed 268, 264 and 270",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "One session, 3 runs, graded by one person who counted the characters of the post including its label line."
+  },
+  {
+   "id": "L-02",
+   "claim": "120-word summary task, 3 runs",
+   "value": "2 of 3 correct; one summary had 138 words against the limit of 120 (the three sourced numbers were right)",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "One session, 3 runs."
+  },
+  {
+   "id": "L-03",
+   "claim": "Other tasks and overall correctness",
+   "value": "classification of 24 rows, copy-and-hash of three files and rule extraction with a queue check: 9 of 9 correct; overall 11 of 15 correct by manual grading; 0 tool errors",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "Manual grades alone. The export's automatic correctness column is unreliable and is not quoted."
+  },
+  {
+   "id": "L-04",
+   "claim": "Time to final reply, all 15 runs",
+   "value": "median 45.5 s, range 19.7-170.8 s; per-task medians 74.0, 56.0, 47.1, 31.7 and 43.9 s; tool time 0 s in every run",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "Taken from the session record after a slowdown of unknown cause had ended; shared engine; the widest spread is the 24-row classification (19.7-170.8 s), so single runs say little."
+  },
+  {
+   "id": "L-05",
+   "claim": "Conditions",
+   "value": "one agent session on one day; the model shared with other consumers (their load during the window UNKNOWN); no same-day baseline of another model or of the slow state; the protocol's pass rule needs a baseline comparison, so the result is not a PASS",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-07",
+   "caveat": "The raw export's automatic correctness column measured whole replies including commentary and disagrees with the manual grades for T2 and T4."
+  },
+  {
+   "id": "L-06",
+   "claim": "What this recipe does not show",
+   "value": "tokens per second; before and after any change; another model on the same tasks; whether an external count-and-retry loop fixes the length failures; other limit types; engine load during the window",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "Listed so a failure mode is not read as a ranking."
+  }
+ ]
+}
