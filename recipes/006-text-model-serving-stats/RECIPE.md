@@ -26,15 +26,15 @@ A record of what one local text-model server did under the studio's real traffic
 
 ## 2. Where it ran
 
-Hardware (named with the owner's approval of 2026-11-13):
+Hardware:
 
 - Workstation: Digital Storm Aventum Pro.
-- GPUs: 2x NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97,887 MiB each, no NVLink. Power limit stock (300 W), clocks stock.
+- GPUs: 2x NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition, 97,887 MiB each, no NVLink. Power limit stock (300 W; one-minute samples were transiently above it), clocks stock.
 - CPU: AMD Threadripper PRO 9975WX. RAM: about 251 GiB. OS: Ubuntu 24.04, driver 570 (open kernel module).
-- GPU 0 is the card the text-model server runs on; GPU 1 carries image, video and other windows. These specifications come from the lab's hardware notes, not from the raw files below; the raw files say just GPU 0 and GPU 1.
+- GPU 0 is the card the text-model server runs on; GPU 1 carries image, video and other windows. Other work that ran on GPU 0 during these hours is not recorded. These specifications come from the lab's hardware notes, not from the raw files below; the raw files say just GPU 0 and GPU 1.
 
 - The server is the studio's primary text-model server on GPU 0. Its serving profile and engine version for this process are not recorded in the files, so they are UNKNOWN.
-- The process start was 2026-11-08 18:19 ET (22:19 UTC). Counters are cumulative from then; the minute-monitor files start on 2026-11-12 00:00 UTC [am/qwen_primary_hourly.csv].
+- The process start was 2026-11-08 18:19 ET (23:19 UTC; US daylight time had ended on 2026-11-01). Counters are cumulative from then; the minute-monitor files start on 2026-11-12 00:00 UTC [am/qwen_primary_hourly.csv].
 - GPU 1 in the temperature table ran the image, video and other windows [pm/gpu_hourly.csv].
 
 ## 3. Model
@@ -71,11 +71,13 @@ Latency (all ESTIMATE).
 
 Per-request decode speed is 19.1 tokens/s at the median and 12.2 tokens/s for the slowest decile, computed from the time per output token [am/qwen_primary_live_summary.derived.json]. The afternoon read, with the morning requests included, gives 3.06 s and 6.39 s for TTFT, 12.5 s and 45.9 s end to end, and 18.8 and 12.1 tokens/s [pm/qwen_primary_live_summary.json].
 
-Windows. Overnight (22:00 to 07:30 ET) over 1,371 requests the TTFT was 3.65 s p50 and 7.06 s p90, and end to end 14.0 s and 54.1 s [am/qwen_primary_latency_percentiles.csv]. The monitor's whole-history figure (TTFT p50 2.92 s, p90 6.52 s, end to end 12.2 s and 48.4 s, over 4,499 requests since 2026-11-12 00:00 UTC; same file) differs from the cumulative scrape (2.99 s and 6.35 s over 13,651 requests since 2026-11-08). The two cover different sets of requests (13,651 against 4,499). Whether that alone explains the difference is UNKNOWN; the files do not allow the causes to be separated.
+Windows. Overnight (22:00 to 07:30 ET, 03:00 to 12:30 UTC) over 1,371 requests the TTFT was 3.65 s p50 and 7.06 s p90, and end to end 14.0 s and 54.1 s [am/qwen_primary_latency_percentiles.csv]. The monitor's whole-history figure (TTFT p50 2.92 s, p90 6.52 s, end to end 12.2 s and 48.4 s, over 4,499 requests since 2026-11-12 00:00 UTC; same file) differs from the cumulative scrape (2.99 s and 6.35 s over 13,651 requests since 2026-11-08). The two cover different sets of requests (13,651 against 4,499). Whether that alone explains the difference is UNKNOWN; the files do not allow the causes to be separated.
 
 Over 37 hourly rows the median was 119 requests an hour (55 to 341), with a median hourly cache-hit rate of 0.977; the lowest hour, 0.692, had 341 requests and few prompt tokens [am/qwen_primary_hourly.csv].
 
 Load, a separate measure. The server averaged 12.1 generated tokens per wall second since start, 13.5 over the last 24 hours and 34.1 in its busiest hour [pm/qwen_primary_live_summary.json; pm/qwen_primary_windows.json; pm/qwen_primary_hourly.csv]. Idle time is inside those averages, so they describe how busy the server was and not how fast it can go. Peak running requests were 3, peak waiting 1 and peak KV cache usage 0.338, with 0 preemptions [am/qwen_primary_hourly.csv].
+
+Two notes on the raw file. (1) Why decode speed is computed from time per output token: our reading (INFERENCE) is that with speculative decoding several tokens can arrive in one step, so the inter-token histogram in the same file (p50 0.157 s, which would read as 6.4 tokens/s) measures gaps between arrivals, not the speed a client sees per token; recipe 007 quotes a different inter-token p50 (37.4 ms) from a different short read. We use time per output token for the per-request figure. (2) The cumulative summary has a counter named external_kv_transfer that reads 1,257,600 prompt tokens (0.07% of the total). We do not know what supplied those tokens: UNKNOWN.
 
 ## 7. Thermal behaviour
 
@@ -90,7 +92,7 @@ Over the same history GPU 0 reached 81 C and GPU 1 82 C as hourly maxima, with 0
 
 Per-client attribution; dollar cost; the replica and the small model as time series; embedding and reranker metrics; hourly queue-wait, inter-token and decode percentiles; network bytes; output quality; behaviour at full load; the serving profile of this exact process.
 
-## 10. Reproduction steps (draft, one machine)
+## 10. Reproduction steps (draft: not reproducible until the code is published)
 
 1. Scrape the metrics endpoint of a vLLM server twice and keep both texts.
 2. Take the cumulative histograms for TTFT, queue time, prefill, decode, end to end and time per output token; interpolate p50 and p90 linearly inside the bucket and call them estimates.
@@ -108,4 +110,5 @@ Licences follow the repository's LICENSE and LICENSE-DOCS.md. Model: Qwen3.8-27B
 - 2026-1113 draft v0.2: added the hardware section; no number changed.
 - 2026-1113 draft v0.1: initial write-up from the morning and afternoon exports of 2026-11-13; raw files and hashes in `raw/`.
 
-Written by AI agents and reviewed by a human before publishing.
+Beeatrice is an AI-generated persona. Her images, words and designs are made with AI tools.
+Written by AI agents; approved for publication by the studio owner on 2026-11-13.
