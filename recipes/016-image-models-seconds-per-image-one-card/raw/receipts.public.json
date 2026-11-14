@@ -1,0 +1,97 @@
+{
+ "schema": "genesis.recipe-receipts.v1",
+ "recipe": "Five image models on one 300 W card: seconds per image, generation against load",
+ "version": "2026-1108",
+ "times": "UTC",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "receipts": [
+  {
+   "id": "M-01",
+   "claim": "FLUX.2-klein-4B image timing",
+   "value": "1024x1024, 4 steps: 10 jobs (2 resident), generation median 1.2 s (1.1-1.3), load median 11.7 s on cold jobs, total median 13.1 s; 1024x1536: 36 jobs (all resident), generation 1.5 s (1.4-3.3), total 2.0 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Medians recomputed from the timing file on 2026-11-10 (checksum matched). Thermal state per job not recorded; pause lines changed from 88/84 C to 90/87 C during the window; mixed campaigns and prompts."
+  },
+  {
+   "id": "M-02",
+   "claim": "Z-Image timing",
+   "value": "1024x1024, 50 steps: 12 jobs (4 resident), generation median 39.7 s (38.9-43.1), load 12.1 s, total 51.8 s; 1024x1536: 24 jobs (all resident), generation 67.0 s (66.3-71.3), total 67.4 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Medians recomputed from the timing file on 2026-11-10 (checksum matched). Thermal state per job not recorded; pause lines changed from 88/84 C to 90/87 C during the window; mixed campaigns and prompts."
+  },
+  {
+   "id": "M-03",
+   "claim": "MOSS-Image-SFT timing",
+   "value": "1024x1024, 50 steps: 8 jobs, generation median 31.3 s (30.9-33.6), load 21.3 s, total 52.7 s; 1024x1536: 32 jobs, generation 50.2 s (49.1-52.1), load 21.3 s, total 71.8 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Medians recomputed from the timing file on 2026-11-10 (checksum matched). Thermal state per job not recorded; pause lines changed from 88/84 C to 90/87 C during the window; mixed campaigns and prompts."
+  },
+  {
+   "id": "M-04",
+   "claim": "Qwen-Image-2512 timing",
+   "value": "1024x1024, 50 steps: 19 jobs, generation median 42.2 s (40.9-45.2), load 25.0 s, total 68.7 s; 1024x1536: 60 jobs, generation 64.8 s (64.2-68.9), load 25.0 s, total 90.3 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Medians recomputed from the timing file on 2026-11-10 (checksum matched). Thermal state per job not recorded; pause lines changed from 88/84 C to 90/87 C during the window; mixed campaigns and prompts."
+  },
+  {
+   "id": "M-05",
+   "claim": "Qwen-Image-Edit-2511 timing (reference image required)",
+   "value": "1024x1024, 40 steps: 21 jobs, generation median 97.8 s (94.3-100.5), load 20.1 s, total 118.0 s; 1024x1536: 8 jobs, generation 120.7 s, total 140.9 s; 1536x1024: 14 jobs, generation 127.1 s, total 147.3 s",
+   "basis": "measured",
+   "run_state": "governed",
+   "date_utc": "2026-11-10",
+   "caveat": "Medians recomputed from the timing file on 2026-11-10 (checksum matched). Thermal state per job not recorded; pause lines changed from 88/84 C to 90/87 C during the window; mixed campaigns and prompts. An edit workload; not comparable with the text-to-image rows."
+  },
+  {
+   "id": "M-06",
+   "claim": "Job parameters and model pins",
+   "value": "bfloat16 for every job; steps 4, 40, 50 as listed; allowed sizes 1024x1024, 1024x1536, 1536x1024; full revision recorded for FLUX.2-klein-4B alone",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "Revisions of the other four were given as short ids in the source and are not reproduced here: pin UNKNOWN. Licences read on the model cards on 2026-11-10."
+  },
+  {
+   "id": "M-07",
+   "claim": "The dataset",
+   "value": "253 succeeded jobs from 2026-10-30 to 2026-11-07 (268 in the file; 15 jobs of a model without a verified sample are left out); 66 of the 268 used a resident worker; no prompts, images or output hashes in the file",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "A cache of jobs from several campaigns and test waves, exported on one client; the file does not record seeds, thermal state or concurrency."
+  },
+  {
+   "id": "M-08",
+   "claim": "What this recipe does not show",
+   "value": "image quality or prompt adherence; concurrency; thermal state per job; fixed prompts and seeds; cold-disk loads",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-10",
+   "caveat": "Listed so a throughput table is not read as a quality ranking."
+  }
+ ]
+}
