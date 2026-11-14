@@ -1,5 +1,5 @@
 {
- "schema": "genesis.recipe-receipts.v1",
+ "schema": "recipe-receipts.v1",
  "recipe": "Qwen3.8-27B-FP8 on one RTX PRO 6000 Max-Q: 262,144 context, native vision, MTP-2 + fp8 KV, 1,024-token prefill batches, thermal scheduler (v2, promoted)",
  "version": "2026-1106",
  "times": "UTC",
@@ -20,7 +20,7 @@
   "cooling-limited",
   "n/a"
  ],
- "note": "Fields starting with an underscore are private and removed by check_recipes.py before anything is published.",
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
  "receipts": [
   {
    "id": "Q-01",
@@ -250,7 +250,7 @@
   {
    "id": "Q-26",
    "claim": "Post-restart checks through the LAN API",
-   "value": "1-token request: HTTP 200 in 0.65 s (17 prompt tokens); red and blue solid-colour image request through the LAN gateway: both answered correctly; speculative-decoding counters after the checks: 4 draft tokens proposed and 4 accepted",
+   "value": "1-token request: HTTP 200 in 0.65 s (17 prompt tokens); red and blue solid-colour image request through the production endpoint: both answered correctly; speculative-decoding counters after the checks: 4 draft tokens proposed and 4 accepted",
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
@@ -272,7 +272,7 @@
    "basis": "measured",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "Loopback, one fixture, one run, other traffic present. A fixture-level PASS, not a vision quality evaluation. The formal 12-case regression over the LAN gateway did not run: it refused because another consumer was connected (HOLD)."
+   "caveat": "Loopback, one fixture, one run, other traffic present. A fixture-level PASS, not a vision quality evaluation. The formal 12-case regression over the production endpoint did not run: it refused because another consumer was connected (HOLD)."
   },
   {
    "id": "Q-29",
@@ -299,7 +299,7 @@
    "basis": "not-run",
    "run_state": "n/a",
    "date_utc": "2026-11-06",
-   "caveat": "The follow-up probe through the LAN gateway had not been run when this was written. The last production figure is the old profile's 468.94 s (Q-12)."
+   "caveat": "The follow-up probe through the production endpoint had not been run when this was written. The last production figure is the old profile's 468.94 s (Q-12)."
   },
   {
    "id": "Q-32",
@@ -308,12 +308,12 @@
    "basis": "observed-config",
    "run_state": "n/a",
    "date_utc": "2026-11-05",
-   "caveat": "Read from commits and launch flags. The size cap was added after a red-team finding (see recipe 2026-1106-vision-oversize-image-latency-cap) and its rejection was not retested."
+   "caveat": "Read from commits and launch flags. The size cap was added after a red-team finding (see the image-size-cap note (withdrawn for now)) and its rejection was not retested."
   },
   {
    "id": "Q-33",
    "claim": "Vision variants staged before the combined profile",
-   "value": "vision alone (no MTP, default KV): KV pool 279,056 tokens, 12.7% under the serving floor of 303,810, FAIL; vision with a 1,048,576-pixel cap: 305,194; vision with encoder profiling skipped: 305,194 (unprofiled); vision + MTP-2 + fp8 KV: 464,709 (PASS, +45%)",
+   "value": "vision alone (no MTP, default KV): KV pool 279,056 tokens, 8.1% under the serving floor of 303,810 (12.7% under the earlier 319,800 pool), FAIL; vision with a 1,048,576-pixel cap: 305,194; vision with encoder profiling skipped: 305,194 (unprofiled); vision + MTP-2 + fp8 KV: 464,709 (PASS, +45%)",
    "basis": "measured",
    "run_state": "harness-paced",
    "date_utc": "2026-11-05",
