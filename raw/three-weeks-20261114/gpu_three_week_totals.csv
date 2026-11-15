@@ -1,0 +1,15 @@
+figure,scope,value,unit,formula
+busy_hours,"GPU 0, 2026-10-29 to 2026-11-15 UTC",293.5,hours,sum(minutes_util_ge_50)/60 = 17608/60
+mean_utilisation,"GPU 0, same span",70.2,percent,sum(mean_util_pct*samples)/sum(samples)
+energy_from_power_samples,"GPU 0, same span",63.8,kWh,sum(energy_kwh); each sample counted as one minute
+busy_hours_per_recorded_day,"GPU 0, same span",18.0,hours per day,(sum(minutes_util_ge_50)/60) / (sum(samples)/1440) = 293.5 / 16.3
+busy_hours_per_day_mean,"GPU 0, 2026-11-07 to 2026-11-14 UTC only (8 days)",21.7,hours per day,sum(minutes_util_ge_50)/60/8 = 10393/60/8
+busy_hours,"GPU 1, 2026-10-29 to 2026-11-15 UTC",154.8,hours,sum(minutes_util_ge_50)/60 = 9290/60
+mean_utilisation,"GPU 1, same span",44.5,percent,sum(mean_util_pct*samples)/sum(samples)
+energy_from_power_samples,"GPU 1, same span",57.7,kWh,sum(energy_kwh); each sample counted as one minute
+busy_hours_per_recorded_day,"GPU 1, same span",9.5,hours per day,(sum(minutes_util_ge_50)/60) / (sum(samples)/1440) = 154.8 / 16.3
+busy_hours_per_day_mean,"GPU 1, 2026-11-07 to 2026-11-14 UTC only (8 days)",14.2,hours per day,sum(minutes_util_ge_50)/60/8 = 6827/60/8
+busy_hours,"both GPUs, 2026-10-29 to 2026-11-15 UTC",448.3,GPU-hours,sum over both GPUs = 26898/60
+energy_from_power_samples,"both GPUs, same span",121.6,kWh,sum of the unrounded daily values of both GPUs
+recorded_gpu_hours,"both GPUs, same span",784.1,GPU-hours,sum(samples)/60 = 47048/60
+busy_share_of_recorded_time,"both GPUs, same span",57.2,percent,26898 busy minutes / 47048 recorded minutes
