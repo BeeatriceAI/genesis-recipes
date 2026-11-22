@@ -1,0 +1,151 @@
+{
+ "schema": "recipe-receipts.v1",
+ "recipe": "Week 4 receipts for the Genesis in review article",
+ "version": "2026-1121",
+ "times": "ET unless stated",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Every entry is a transcription made by the studio. Entry ids match the F-ids in the article's fact table. An entry without a published raw file is REPORTED, whatever its basis says: it is not quoted in short posts, only in the article, where it is labelled as reported from our own records.",
+ "receipts": [
+  {
+   "id": "F09",
+   "claim": "Lint of one campaign sheet for required elements",
+   "value": "58 post blocks checked; 21 blocks missing a required element: 7 LinkedIn drafts with no hashtags, 7 TikTok captions with no hashtags, 7 Instagram posts with no alt text",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "The tool's own output on one sheet that is not published. The full report is in recipes/020-required-elements-gate-and-lint-omission-blindness/raw/lint-report.public.json (one field redacted)."
+  },
+  {
+   "id": "F10",
+   "claim": "A reader's pass over 26 rendered merchandise images",
+   "value": "21 PASS, 5 FIX, 0 FAIL, and none print-ready: the images were 1,024 px, which is 3.4 in at 300 PPI (1024 / 300 = 3.41), and none carried the brand wordmark",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "One AI reader; the images and the reader's file are not published. The pixel arithmetic is derived."
+  },
+  {
+   "id": "F11",
+   "claim": "Browser governor: review history and first trial",
+   "value": "Red squad 15's review of the policy patch returned GO (squads 12 to 14 had said NO-GO on earlier revisions) with no blockers (6 medium findings). The first live trial on 2026-11-20 refused every field name: the policy entry listed 'extract' as an allowed action but had no list of fields that could be read. Open, close, journal and run-cap worked, so the trial was a partial pass. A proposed fix (at least one readable field per origin that allows extraction, plus an end-to-end field-read drill) was a proposal and had not been applied when this was written",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "Our internal squad board and a retro; the policy file and the code are not published."
+  },
+  {
+   "id": "F12",
+   "claim": "Permission repair on a private local vault",
+   "value": "A repair command left every file in the vault with no entry that applied to it, so no account, including the owner, could read any file. The first check confirmed forbidden groups were absent but never opened a file. The check now also requires an effective owner entry and a successful read of a sampled file. Tests for the new check passed (5)",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "No path, file count, content or purpose of the vault is given."
+  },
+  {
+   "id": "F13",
+   "claim": "Which source to trust for 'is it live'",
+   "value": "A single was reported 'not live' from an anonymous artist-page embed that showed no releases; the artists' dashboard and the track embed showed it live since 2026-11-19. Check order adopted: dashboard releases page, then track embed, then artist embed",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "The order is written in a retro; no workflow file carries it yet."
+  },
+  {
+   "id": "F14",
+   "claim": "Image-to-video conditioning input and output check",
+   "value": "A reader found the conditioning still was a two-panel composite; two models both animated it as a split screen. After the input was fixed to a single panel, one model kept identity but opened the mouth at 0.5 s and held it open and talking for roughly 90 percent of the clip (reader estimate, not a frame count)",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Two readers' notes, small sample (one clip per case); the clips are not published."
+  },
+  {
+   "id": "F15",
+   "claim": "Lip-sync timing on raw generated singing clips",
+   "value": "130 raw front-facing singing clips measured: median offset -8 ms, standard deviation 269 ms, so no single global offset exists. Per clip: 24 in sync as generated, 22 fixable by a one-number slide, 14 uncertain, 68 not fixable by shifting, 2 not judged (46 of 130, 35 percent, usable without new generation). In the earlier cut, a readable face showed in 7 of 56 sampled frames",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "One song, one tool chain; the measuring tool is our own and its thresholds were tuned on the same material (see recipe 019). Clips and the per-clip file are not published."
+  },
+  {
+   "id": "F16",
+   "claim": "Review history of one patch to a job queue",
+   "value": "Five red-squad reviews: NO-GO on the general close path four times, then GO on the fifth (revision r5); the applied revision r6 contained only the fixes that squad asked for and was not reviewed by a sixth squad; applied 2026-11-19 at 19:16:30 ET",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-19",
+   "caveat": "Squad board entries; squads 3 and 4 gave GO for the eight named jobs while the general path stayed NO-GO."
+  },
+  {
+   "id": "F17",
+   "claim": "Stop rule and tracker cut",
+   "value": "Rule adopted 2026-11-20: at most three red-squad rounds per tool, then cut the feature that carries the open finding. The tracker's money path was cut in its 19th build and is built switched off by default; a seven-day shadow run comes next (not yet started when recorded)",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "Decision records; the tracker is not published."
+  },
+  {
+   "id": "F18",
+   "claim": "Citation check of answers from three outside AI assistants",
+   "value": "106 claims checked: 81 verified, 4 wrong inside real papers, 21 unverifiable (14 of them social posts that could not be opened), 0 fabricated. All 60 distinct cited papers exist",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "One checking agent using web search and fetch; the social site returned errors to the fetch tool, which explains most unverifiable items."
+  },
+  {
+   "id": "F19",
+   "claim": "An independent fact read of five draft lab notes",
+   "value": "All five drafts needed fixes (none failed outright). One headline reversed: with 17 database-outage nights removed, the job failed on 0 of 9 nights when run alone and on 7 of 17 nights when two jobs started in the same second",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Small counts; the lab note carries the full table when it is published."
+  },
+  {
+   "id": "F20",
+   "claim": "Context cost of our own agent setup",
+   "value": "The local coding agent lists 265 subagents on every build request: 124,640 bytes, about 31,000 to 36,000 tokens; the always-loaded instruction files are 43,783 bytes, about 11,000 tokens",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Measured by an analysis agent on our configuration; token counts are estimates from byte sizes. The configuration is not published."
+  },
+  {
+   "id": "F21",
+   "claim": "Overlapping trackers and unwired checkers",
+   "value": "Five overlapping trackers (job queue, workflow script, squad board, task tracker file, orchestrator); two checkers for 'done' (claim audit, requirement lint) are built and not wired into the live workflow",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Our own analysis; counts what we use, not what others should."
+  },
+  {
+   "id": "N-01",
+   "claim": "What this folder does not contain",
+   "value": "No Week 4 GPU daily file yet (the public GPU files end on 2026-11-15); no counts from the standing queue's receipts (they look like a retry loop that has stopped; the cause is not traced); no lab-note data (the notes publish on the site on their own dates)",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "To be added when exported, in a new folder, never by editing this one."
+  }
+ ]
+}

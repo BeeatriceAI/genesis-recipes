@@ -1,0 +1,187 @@
+{
+ "file": "[local campaign sheet path redacted; the sheet is not published]",
+ "total_blocks": 58,
+ "blocks_by_platform": {
+  "x": 8,
+  "bluesky": 15,
+  "threads": 7,
+  "facebook": 7,
+  "instagram": 7,
+  "tiktok": 7,
+  "linkedin": 7
+ },
+ "total_block_findings": 21,
+ "findings": [
+  {
+   "day": "Day 1",
+   "platform": "instagram",
+   "line": 154,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 1",
+   "platform": "tiktok",
+   "line": 177,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 1",
+   "platform": "linkedin",
+   "line": 188,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 2",
+   "platform": "instagram",
+   "line": 302,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 2",
+   "platform": "tiktok",
+   "line": 323,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 2",
+   "platform": "linkedin",
+   "line": 334,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 3",
+   "platform": "instagram",
+   "line": 445,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 3",
+   "platform": "tiktok",
+   "line": 469,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 3",
+   "platform": "linkedin",
+   "line": 481,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 4",
+   "platform": "instagram",
+   "line": 596,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 4",
+   "platform": "tiktok",
+   "line": 621,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 4",
+   "platform": "linkedin",
+   "line": 632,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 5",
+   "platform": "instagram",
+   "line": 757,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 5",
+   "platform": "tiktok",
+   "line": 778,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 5",
+   "platform": "linkedin",
+   "line": 790,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 6",
+   "platform": "instagram",
+   "line": 897,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 6",
+   "platform": "tiktok",
+   "line": 918,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 6",
+   "platform": "linkedin",
+   "line": 929,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 7",
+   "platform": "instagram",
+   "line": 1036,
+   "missing": [
+    "alt_text"
+   ]
+  },
+  {
+   "day": "Day 7",
+   "platform": "tiktok",
+   "line": 1060,
+   "missing": [
+    "hashtags"
+   ]
+  },
+  {
+   "day": "Day 7",
+   "platform": "linkedin",
+   "line": 1071,
+   "missing": [
+    "hashtags"
+   ]
+  }
+ ],
+ "tiktok_missing_hashtags": 7,
+ "linkedin_missing_hashtags": 7,
+ "instagram_missing_alt": 7
+}

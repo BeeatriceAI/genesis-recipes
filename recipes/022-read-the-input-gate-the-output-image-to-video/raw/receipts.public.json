@@ -1,0 +1,79 @@
+{
+ "schema": "recipe-receipts.v1",
+ "times": "ET",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
+ "recipe": "Read the input, gate the output: two image-to-video faults from one bake-off start",
+ "version": "2026-1121",
+ "receipts": [
+  {
+   "id": "V-01",
+   "claim": "First two canary clips, one conditioning still",
+   "value": "The conditioning still was a two-panel composite (a front three-quarter view on the left, a turned view on the right, a black divider). Both models animated it as a split-screen video; neither clip was a single-shot close-up. The reader inferred a pipeline fault (crop from a sheet), not a model fault",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "One AI reader, one still, one clip per model; clips not published."
+  },
+  {
+   "id": "V-02",
+   "claim": "Single-panel clip, one model",
+   "value": "Single full-frame close-up, no split screen. Face and accessories held; framing pulled back from 0.5 s to a waist-up medium by 1 s; the mouth was closed only at t=0 and open and talking at 0.5, 1, 2, 3, 4 s and the last frame (roughly 90 percent of the clip, reader's estimate); a sleeveless jacket and an arm tattoo not in the still appeared from 1 s. Reader scores (1 to 5): identity 3, motion 4, mouth-closed 1, cleanliness 4",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "One reader's opinion on one clip, judged from sampled frames; not a frame count."
+  },
+  {
+   "id": "V-03",
+   "claim": "Observed clip formats",
+   "value": "Model A: 1280x704, 24 fps, 121 frames, 5.04 s, no audio stream, hash matched the expected one. Model B: 768x512, 25 fps, 125 frames, 5.00 s, AAC audio 16 kHz mono; no expected hash, so recorded only",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Read by the first reader from the files; the files are not published."
+  },
+  {
+   "id": "V-04",
+   "claim": "Prompt changes and the mouth gate",
+   "value": "Prompt changes (mouth-closed positive text, talking/open-mouth negatives, an outfit line, 2.5 to 3 s clips, 2 to 3 seeds) are untested advice. A mouth-shut gate was in build; a 30-second proof cut passed it, but 9 of its 12 shots were held closed-mouth frames used as placeholders",
+   "basis": "inference",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Does not show that the prompt changes work."
+  },
+  {
+   "id": "V-05",
+   "claim": "Model licences",
+   "value": "Model A: Apache-2.0. Model B: MIT. Both marked YES in the studio's public-use table",
+   "basis": "publisher",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Read from the model cards by the studio; re-check before commercial use."
+  },
+  {
+   "id": "V-06",
+   "claim": "What this recipe does not show",
+   "value": "Repeat seeds; frame-accurate mouth-open time; other characters or lengths; audio-driven sync; speed, memory and heat; a human viewing with sound",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "One still, one clip per case."
+  }
+ ]
+}

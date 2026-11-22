@@ -1,0 +1,79 @@
+{
+ "schema": "recipe-receipts.v1",
+ "times": "ET",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
+ "recipe": "A control that exists but does nothing: an empty allow-list and an inheritance-only permission",
+ "version": "2026-1121",
+ "receipts": [
+  {
+   "id": "G-01",
+   "claim": "Browser governor policy with an allowed action and no readable fields",
+   "value": "Red squad 15 returned GO with no blockers and 6 medium findings (squads 12 to 14 had said NO-GO on earlier versions) (journal writes, path aliases, a scheduled-task rewrite). The first live trial on 2026-11-20 refused every field name: the policy entry listed read and extract as allowed actions but no list of fields that could be read. Open, close, journal and run cap worked (partial pass). The proposed fix (at least one readable field per origin that allows extraction, plus an end-to-end field-read drill) had not been applied when this was written",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "From the studio's squad board and a retro. The policy file and server code are not published."
+  },
+  {
+   "id": "G-02",
+   "claim": "Permission repair on a private local vault",
+   "value": "A repair command applied to a whole tree left every file with no entry that applied to it (file inheritance was already off); no account, including the owner, could read any file. The first verifier checked that the forbidden groups (all users, authenticated users, everyone) were absent and never opened a file",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "No path, file count, content or purpose of the vault is given."
+  },
+  {
+   "id": "G-03",
+   "claim": "The corrected verifier",
+   "value": "Now checks two things: no forbidden principals, and every sampled file has an effective (non-inherited) owner entry; a real read of a vault file is part of the test. 5 tests passed",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Tests and verifier are not published."
+  },
+  {
+   "id": "G-04",
+   "claim": "Software",
+   "value": "Case A: a local browser-control server with a JSON policy file. Case B: Windows file permissions (icacls) and a Python verifier, Python 3.14",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Versions of the server are not recorded here."
+  },
+  {
+   "id": "G-05",
+   "claim": "Claim audit",
+   "value": "A claim audit sweeps a day's notes for words such as 'owner-only', 'private', 'verified' and flags any with no command or test output beside it; a 24-hour sweep returned 40 findings (flags, not confirmed faults); mutation testing killed 13 mutations (12 required) and 29 tests passed (STATUS 2026-11-21 07:25 ET)",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "A first version. An earlier entry (2026-11-21 05:55 ET) was stale on the mutation count; the 07:25 ET entry supersedes it."
+  },
+  {
+   "id": "G-06",
+   "claim": "What this recipe does not show",
+   "value": "How many other policy entries or folders have the same shape; whether other drills would have caught case A; other operating systems; any cost of the fix",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Two cases from one week."
+  }
+ ]
+}

@@ -1,0 +1,88 @@
+{
+ "schema": "recipe-receipts.v1",
+ "times": "ET",
+ "basis_values": [
+  "measured",
+  "derived",
+  "observed-config",
+  "historical",
+  "publisher",
+  "inference",
+  "not-run"
+ ],
+ "run_state_values": [
+  "governed",
+  "harness-paced",
+  "ungoverned",
+  "cooling-limited",
+  "n/a"
+ ],
+ "note": "Every entry is a transcription made by the studio. The basis field is the studio's original wording; read it with the label in the recipe: an entry without a published raw file is REPORTED, whatever its basis says.",
+ "recipe": "Omission blindness: a required-elements gate and lint for campaign copy",
+ "version": "2026-1121",
+ "receipts": [
+  {
+   "id": "E-01",
+   "claim": "Lint of one campaign sheet",
+   "value": "58 post blocks (X 8, Bluesky 15, Threads 7, Facebook 7, Instagram 7, TikTok 7, LinkedIn 7); 21 block-severity findings: TikTok no hashtags x7, LinkedIn no hashtags x7, Instagram no alt text x7",
+   "basis": "measured",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "The tool's own output on one sheet that is not published. The report is in lint-report.public.json beside this file, with one field (the local sheet path) redacted."
+  },
+  {
+   "id": "E-02",
+   "claim": "How the miss passed four stages",
+   "value": "A LinkedIn draft with zero hashtags passed author, reader, approver and poster; a person caught it at the posting step. Each stage checked for defects in the text; none checked that required elements were present",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "From the studio's own retro; the sheet and the retro are not published."
+  },
+  {
+   "id": "E-03",
+   "claim": "The lint's tests and command",
+   "value": "Command shape: python -I -B req_lint_sheet.py --sheet <sheet.md> --report <report.json>. 10 tests passed, including 3 mutation kills",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Test file and script are not published."
+  },
+  {
+   "id": "E-04",
+   "claim": "First run on the real sheet",
+   "value": "The lint had passed 35 of 35 of its tests, but its first run on the real sheet could not parse it (90 UNSPECIFIED results). A second round fixed the parser and reproduced the 21 findings",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "From studio decision records of 2026-11-20 and 2026-11-21."
+  },
+  {
+   "id": "E-05",
+   "claim": "The same class in merchandise review",
+   "value": "A reader passed 21 of 26 rendered images (5 FIX, 0 FAIL) while none was print-ready: 1,024 px is 3.4 in at 300 PPI (1024 / 300 = 3.41), and none carried the brand wordmark",
+   "basis": "historical",
+   "run_state": "n/a",
+   "date_utc": "2026-11-20",
+   "caveat": "One AI reader; images not published. Pixel arithmetic is derived."
+  },
+  {
+   "id": "E-06",
+   "claim": "What is not wired",
+   "value": "The lint is not wired into the live posting step; the poster is told to run the diff before typing, but no hook blocks a post when the lint fails",
+   "basis": "observed-config",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "Read from the retro's 'Remaining gap' paragraph."
+  },
+  {
+   "id": "E-07",
+   "claim": "What this recipe does not show",
+   "value": "How often the omission happens; whether the gate lowers it; the lint's false-positive rate on other sheets",
+   "basis": "not-run",
+   "run_state": "n/a",
+   "date_utc": "2026-11-21",
+   "caveat": "No baseline of misses per 100 blocks exists."
+  }
+ ]
+}
